@@ -1,0 +1,332 @@
+# target_version:
+#   rubocop v0.34.2
+#
+#   https://gist.github.com/onk/38bfbd78899d892e0e83
+
+# 自動生成されるものはチェック対象から除外する
+AllCops:
+  TargetRubyVersion: 2.4
+  Exclude:
+    - "vendor/**/*" # rubocop config/default.yml
+    - "db/schema.rb"
+    - "bin/**/*"
+  DisplayCopNames: true
+
+##################### Style ##################################
+
+# redirect_to xxx and return のイディオムを維持したい
+Style/AndOr:
+  EnforcedStyle: conditionals
+
+# 日本語のコメントを許可する
+Style/AsciiComments:
+  Enabled: false
+
+Style/BlockDelimiters:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+# option 等、明示的にハッシュにした方が分かりやすい場合もある
+Style/BracesAroundHashParameters:
+  Enabled: false
+
+# Style/CollectionMethods 自体は無効になっているのだが、
+#   https://github.com/bbatsov/rubocop/issues/1084
+#   https://github.com/bbatsov/rubocop/issues/1334
+# Performance/Detect がこの設定値を見るので PreferredMethods だけ変更しておく。
+#
+# デフォルト値から変えたのは
+#   find -> detect
+#     ActiveRecord の find と間違えやすいため
+#   reduce -> inject
+#     detect, reject, select と並べたときに韻を踏んでいるため。
+#     collect -> map を維持しているのは文字数が圧倒的に少ないため。
+Style/CollectionMethods:
+  PreferredMethods:
+    inject: "inject"
+    reduce: "inject"
+
+# Hash#has_key? は許可したい
+# Style/DeprecatedHashMethods:
+#   Enabled: false
+
+# ドキュメントの無い public class を許可する
+Style/Documentation:
+  Enabled: false
+
+# !! のイディオムは積極的に使う
+Style/DoubleNegation:
+  Enabled: false
+
+# メソッドチェーンの改行は末尾に . を入れる
+# REPL に貼り付けた際の暴発を防ぐため
+Style/DotPosition:
+  EnforcedStyle: trailing
+
+# 明示的に else で nil を返すのは分かりやすいので許可する
+Style/EmptyElse:
+  EnforcedStyle: empty
+
+# 桁揃えが綺麗にならないことが多いので migration は除外
+Style/ExtraSpacing:
+  # Enabled: false
+  AllowForAlignment: true
+  Exclude:
+    - "db/migrate/*.rb"
+
+# いずれかに揃えるのならば `sprintf` や `format` より String#% が好きです
+Style/FormatString:
+  EnforcedStyle: percent
+
+# if 文の中に 3 行程度のブロックを書くぐらいは許容した方が現実的
+Style/GuardClause:
+  MinBodyLength: 5
+
+# rake タスクの順序の hash は rocket を許可する
+Style/HashSyntax:
+  Exclude:
+    - "**/*.rake"
+    - "Rakefile"
+
+# 複数行の3項演算子を許可する
+Style/MultilineTernaryOperator:
+  Enabled: false
+
+# 条件式の方を意識させたい場合には後置の if/unless を使わない方が分かりやすい
+Style/IfUnlessModifier:
+  Enabled: false
+
+# ({ と hash を開始した場合に ( の位置にインデントさせる
+# そもそも {} が必要ない可能性が高いが Style/BracesAroundHashParameters はチェックしないことにしたので
+Style/IndentHash:
+  EnforcedStyle: consistent
+
+# private/protected は一段深くインデントする
+Style/IndentationConsistency:
+  EnforcedStyle: rails
+
+# scope 等は複数行でも lambda ではなく ->{} で揃えた方が見た目が綺麗
+Style/Lambda:
+  Enabled: false
+
+Style/LambdaCall:
+  EnforcedStyle: braces
+
+# 1_000_000 と区切り文字が 2 個以上必要になる場合のみ _ 区切りを必須にする
+Style/NumericLiterals:
+  MinDigits: 7
+
+# has_ から始まるメソッドは許可する
+Style/PredicateName:
+  NamePrefixBlacklist:
+    - "is_"
+    - "have_"
+  NamePrefix:
+    - "is_"
+    - "have_"
+
+# 特に model 内において、ローカル変数とメソッド呼び出しの区別をつけた方が分かりやすい場合が多い
+Style/RedundantSelf:
+  Enabled: false
+
+# injectなどで使うので
+Style/Semicolon:
+  Enabled: false
+
+# 受け取り側で multiple assignment しろというのを明示
+Style/RedundantReturn:
+  AllowMultipleReturnValues: true
+
+# fail と使い分ける必要ナシ
+Style/SignalException:
+  EnforcedStyle: only_raise
+
+# `||` も align に使うことがあるので追加する
+Style/SpaceAroundOperators:
+  AllowForAlignment: true
+
+# * 式展開したい場合に書き換えるのが面倒
+# * 文章ではダブルクォートよりもシングルクォートの方が頻出する
+# ことから EnforcedStyle: double_quotes 推奨
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+# auto-correct 時に Style/StringLiterals とカニバって無限ループになる (v0.28.0)
+Style/StringLiteralsInInterpolation:
+  Enabled: false
+
+# いくらなんでも inject { |a, e| } は短すぎるので分かりやすい名前をつけたい
+Style/SingleLineBlockParams:
+  Enabled: false
+
+Style/WordArray:
+  Enabled: false
+
+# * migrate
+# * jbuilder
+# * model の association
+# * controller の callback
+# 辺りの桁揃えで引っかかるので全体的にチェックしない
+Style/SpaceBeforeFirstArg:
+  Enabled: false
+
+# 複数行の場合はケツカンマを入れる
+Style/TrailingCommaInLiteral:
+  EnforcedStyleForMultiline: comma
+
+# method_body, line = <<-EOV, __LINE__ + 1
+# みたいなやつのために無効にする
+Style/ParallelAssignment:
+  Enabled: false
+
+# Hashのkey, valueの位置合わせ
+Style/AlignHash:
+  EnforcedColonStyle: table
+  EnforcedHashRocketStyle: table
+
+# メソッド呼び出しの2行目以降のパラメータの
+# インデントを固定する
+Style/AlignParameters:
+  EnforcedStyle: with_fixed_indentation
+
+# case式のwhenのインデントを一段下げる
+Style/CaseIndentation:
+  EnforcedStyle: 'end'
+  IndentOneStep: false
+
+# 1行で書かれたメソッドを許可する
+Style/SingleLineMethods:
+  Enabled: false
+
+# ブロック呼び出しでメソッドと{の間のスペースを許可しない
+# specやformat.json { ... とかで桁合わせしたい場合もあるので無効
+Style/SpaceBeforeBlockBraces:
+  Enabled: false
+  # EnforcedStyle: no_space
+
+# ブロック引数の前のスペースは不要
+Style/SpaceInsideBlockBraces:
+  SpaceBeforeBlockParameters: false
+
+# 文字列中の式展開でスペースをつける
+Style/SpaceInsideStringInterpolation:
+  # EnforcedStyle: space
+  Enabled: false  # どちらでも許可する
+
+# Foo::Bar形式のclass/module宣言を許可する
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+# each_with_objectは嫌いなのです
+Style/EachWithObject:
+  Enabled: false
+
+# specでは == をmatcherで使うので
+Lint/Void:
+  Exclude:
+    - "spec/**/*_spec.rb"
+
+# FactroyGrilのDSLが壊れるので除外
+Style/SymbolProc:
+  Exclude:
+    - "spec/factories/*.rb"
+
+# resuce を後置で使うことを許可する
+Style/RescueModifier:
+  Enabled: false
+
+# かえって読みにくいので
+Style/SymbolArray:
+  Enabled: false
+
+# 可読性のために()つけることがあるので
+Style/TernaryParentheses:
+  Enabled: false
+
+##################### Lint ##################################
+
+# * 同名のメソッドがある場合にローカル変数に `_` を付ける
+# * 一時変数として `_` を付ける
+# というテクニックは頻出する
+Lint/UnderscorePrefixedVariableName:
+  Enabled: false
+
+# 子クラスで実装させるつもりのメソッドで引っかかるので
+Lint/UnusedMethodArgument:
+  Enabled: false
+
+Lint/Void:
+  Exclude:
+    - "spec/**/*.rb"
+
+# modelのscopeとかで使うので
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - "app/models/**/*.rb"
+
+Lint/RescueException:
+  Exclude:
+    - "app/tasks/task.rb"
+
+##################### Metrics ##################################
+
+# 30 まではギリギリ許せる範囲だった
+Metrics/AbcSize:
+  Max: 30
+
+# 6 は強すぎるので緩める
+Metrics/CyclomaticComplexity:
+  Max: 10
+
+# * 警告 120文字
+# * 禁止 160文字
+# のイメージ
+Metrics/LineLength:
+  Max: 160
+  Exclude:
+    - "db/migrate/*.rb"
+
+# クラスは300まで
+Metrics/ClassLength:
+  Max: 300
+
+# メソッドは30 行まで
+Metrics/MethodLength:
+  Max: 30
+  Exclude:
+    - "db/migrate/*.rb"
+
+# 分岐の数。ガード句を多用しているとデフォルト 7 だと厳しい
+Metrics/PerceivedComplexity:
+  Max: 8
+
+# specのexpamleは長くなりがちなので
+Metrics/BlockLength:
+  Exclude:
+    - "spec/**/*.rb"
+    - "config/deploy.rb"
+    - "config/deploy/**/*.rb"
+    - "lib/tasks/**/*.rake"
+  ExcludedMethods:
+    - "class_methods"
+
+##################### Rails ##################################
+Rails:
+  Enabled: true
+
+Rails/ActionFilter:
+  Enabled: false
+
+# わかったうえで無効にしてる
+Rails/TimeZone:
+  Enabled: false
+
+# あえてvalidationをskipしたいこともあるので
+Rails/SkipsModelValidations:
+  Enabled: false
+
+Rails/Exit:
+  Exclude:
+    - "app/tasks/task.rb"
