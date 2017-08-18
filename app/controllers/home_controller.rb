@@ -15,7 +15,6 @@ class HomeController < ApplicationController
     vehicle = params[:vehicle] ||= "普通車"
     sort = params[:sort] ||= "距離"
     res = kousoku_api(from, to, vehicle, sort)
-    debugger
     return if res.key?("NotFound")
     @cond = [
       { name: "出発IC", val: res["From"] },

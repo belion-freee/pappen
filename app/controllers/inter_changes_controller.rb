@@ -4,7 +4,6 @@ class InterChangesController < ApplicationController
   # GET /inter_changes
   # GET /inter_changes.json
   def index
-    debugger
     @inter_changes = InterChange.all
   end
 
