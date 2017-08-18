@@ -4,4 +4,4 @@ This is tutorial projects of ruby on rails
 
 ## Services
 
-This Services is Web App to compare online shopping sites
+This Services is Web App to help your travel
