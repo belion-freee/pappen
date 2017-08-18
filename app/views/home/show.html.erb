@@ -1,0 +1,37 @@
+<p id="notice"><%= notice %></p>
+
+<h1>検索結果</h1>
+
+<% if @res %>
+<table>
+  <% @cond.each do |c| %>
+  <tr>
+    <td>
+      <label><%= c[:name] %></label>
+    </td>
+    <td>
+      <label><%= c[:val] %></label>
+    </td>
+  </tr>
+  <% end %>
+</table>
+
+<% @res.each do |r| %>
+<h3>経路<%= r[:RouteNo].to_i + 1 %></h3>
+<table>
+  <tr>
+    <td>
+      <label>表示されると思った？ 残念！ まだ作ってません!</label>
+    </td>
+  </tr>
+</table>
+<% break #debug code %>
+<% end %>
+<% else %>
+<p>指定の条件でのルートが見つかりませんでした。</p>
+<p>条件を変更して再度検索してください。</p>
+<% end %>
+
+<div>
+  <%= link_to '戻る', :back %>
+</div>
