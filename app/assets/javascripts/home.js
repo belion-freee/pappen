@@ -22,8 +22,7 @@ $(function() {
       },
     }).done(function(data) {
       var options = $.map(data, function(val) {
-        // TODO: make js deploy heroku
-        return '<option value="' + val + '">' + val + '</option>'
+        return `<option value="${val}">${val}</option>`;
       });
       $(csel).empty();
       $(csel).append(options);
