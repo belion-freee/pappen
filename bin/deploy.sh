@@ -1,8 +1,6 @@
 #!/bin/bash
 set -eux
 
-trap finally EXIT
-
 # change branch to release
 git checkout release
 
@@ -20,7 +18,5 @@ git push origin release
 # deploy to heroku
 git push heroku release:master
 
-function finally {
-  # change branch to master
-  git checkout master
-}
+# change branch to master
+trap 'git checkout master' EXIT
