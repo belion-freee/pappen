@@ -18,5 +18,7 @@ git push origin release
 # deploy to heroku
 git push heroku release:master
 
-# change branch to master
-git checkout master
+function finally {
+  # change branch to master
+  git checkout master
+}
