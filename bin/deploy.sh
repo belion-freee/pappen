@@ -1,5 +1,7 @@
 #!/bin/bash
-set -ex
+set -eux
+
+trap finally EXIT
 
 # change branch to release
 git checkout release
