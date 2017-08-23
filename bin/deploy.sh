@@ -5,7 +5,7 @@ set -eux
 git checkout release
 
 # merge master to release branch
-git merge master
+git merge master -m "Merge master to release branch"
 
 # exec cmd before deploy to heroku
 npm run build
