@@ -1,1 +1,1 @@
-relaese: npm run build
+web: bundle exec rails server -p $PORT
