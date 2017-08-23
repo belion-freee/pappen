@@ -1,1 +1,1 @@
-web: npm run build
+relaese: npm run build
