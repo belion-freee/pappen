@@ -1,5 +1,12 @@
 {
   "name": "tutorial",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "babel": "^6.23.0",
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1"
+  },
+  "scripts": {
+    "build": "node_modules/.bin/babel app --presets es2015 -d dist"
+  }
 }
