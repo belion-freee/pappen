@@ -1,3 +1,5 @@
+require "net/http"
+
 module ApplicationHelper
   SUCCESS = Settings.http.success
 
