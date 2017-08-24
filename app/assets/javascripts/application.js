@@ -15,3 +15,4 @@
 //= require jquery
 //= require turbolinks
 //= require_tree .
+"use strict";

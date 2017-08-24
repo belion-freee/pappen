@@ -7,6 +7,6 @@
     "babel-preset-es2015": "^6.24.1"
   },
   "scripts": {
-    "postinstall": "node_modules/.bin/babel app --presets es2015 -d app"
+    "build": "node_modules/.bin/babel app --presets es2015 -d app"
   }
 }
