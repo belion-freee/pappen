@@ -16,4 +16,4 @@ git add .
 git commit -m "Deploying to Heroku"
 
 # deploy to heroku
-git push heroku release:master
+git push heroku release:master --force
