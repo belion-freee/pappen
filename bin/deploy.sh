@@ -2,13 +2,10 @@
 set -ux
 
 # change branch to master
-trap 'git checkout master' EXIT
+trap 'git checkout master && git branch -D release' EXIT
 
 # change branch to release
-git checkout release
-
-# merge master to release branch
-git merge master -m "Merge master to release branch"
+git checkout master && git checkout -b release
 
 # exec cmd before deploy to heroku
 npm run build
