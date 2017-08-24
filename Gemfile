@@ -46,6 +46,8 @@ group :development, :test do
   gem 'selenium-webdriver'
 
   # use pry
+  gem "pry-byebug"
+  gem "pry-doc"
   gem 'pry-rails'
 end
 
