@@ -12,6 +12,7 @@ git merge master -m "Merge master to release branch"
 
 # exec cmd before deploy to heroku
 npm run build
+heroku run rails db:migrate
 
 # push to release branch
 git add .

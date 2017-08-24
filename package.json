@@ -8,8 +8,5 @@
   },
   "scripts": {
     "build": "node_modules/.bin/babel app --presets es2015 -d app"
-  },
-  "devDependencies": {
-    "babel-preset-es2015-without-strict": "0.0.4"
   }
 }
