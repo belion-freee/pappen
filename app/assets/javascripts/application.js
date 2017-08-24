@@ -10,9 +10,7 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-// app/assets/javascripts/cable.js
 //= require rails-ujs
 //= require jquery
 //= require turbolinks
 //= require_tree .
-"use strict";
