@@ -2,13 +2,13 @@
 set -ux
 
 # change branch to master
-trap 'git checkout master' EXIT
+trap 'git checkout master && git branch -D release' EXIT
+
+# change branch to master
+git checkout master
 
 # change branch to release
-git checkout release
-
-# merge master to release branch
-git merge master -m "Merge master to release branch"
+git checkout -b release
 
 # exec cmd before deploy to heroku
 npm run build
@@ -17,7 +17,6 @@ heroku run rails db:migrate
 # push to release branch
 git add .
 git commit -m "Deploying to Heroku"
-git push origin release
 
 # deploy to heroku
 git push heroku release:master
