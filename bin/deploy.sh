@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eux
+set -x
 
 # change branch to master
 trap 'git checkout master' EXIT
