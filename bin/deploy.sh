@@ -17,6 +17,7 @@ npm run build
 git add .
 git commit -m "Deploying to Heroku"
 git push origin release
+wait $!
 
 # deploy to heroku
 git push heroku release:master
