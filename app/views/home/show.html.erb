@@ -1,37 +1,81 @@
 <p id="notice"><%= notice %></p>
-
 <h1>検索結果</h1>
-
 <% if @res %>
-<table>
-  <% @cond.each do |c| %>
-  <tr>
-    <td>
-      <label><%= c[:name] %></label>
-    </td>
-    <td>
-      <label><%= c[:val] %></label>
-    </td>
-  </tr>
+  <table>
+    <% @cond.each do |c| %>
+      <tr>
+        <td>
+          <label><%= c[:name] %></label>
+        </td>
+        <td>
+          <label><%= c[:val] %></label>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+  <% @res.each do |r| %>
+    <% no = r["RouteNo"].to_i + 1 %>
+    <div id="route-<%= no%>"><hr>
+      <h3>経路<%= no %></h3>
+      <p id="quick-result">
+        料金合計: <span class="quick-result" id="route-abst-price-<%= no%>"><%= t_toll(r["Summary"]["TotalToll"]) %></span>
+        距離合計: <span class="quick-result"><%= t_len(r["Summary"]["TotalLength"]) %></span>
+        所要時間合計: <span class="quick-result"><%= t_time(r["Summary"]["TotalTime"]) %></span>
+      </p>
+      <div class="div_center" id="route-abst-special-2"></div>
+      <div id="detail-result-title" title="詳細情報">詳細情報</div>
+      <table id="detail-result-table">
+        <tbody>
+          <tr>
+            <th class="kukan">大区間</th>
+            <th class="sub_kukan">小区間</th>
+            <th class="keiyudoro">道路</th>
+            <th class="kyori">距離と時間</th>
+            <th class="ryokin">値段(円)</th>
+          </tr>
+          <% r["Details"]["Section"].each do |sec| %>
+            <% to_arr(sec["SubSections"]["SubSection"]).each_with_index do |ssec, i| %>
+              <tr>
+                <% if i == 0 %>
+                  <td rowspan="<%= to_arr(sec["SubSections"]["SubSection"]).size %>">
+                    <%= sec["From"] %><br>
+                    ↓<br>
+                    <%= sec["To"] %><br>
+                    <%= t_len(sec["Length"]) %>
+                  </td>
+                <% end %>
+                <td>
+                  <%= ssec["From"] %><br>
+                  ↓<br>
+                  <%= ssec["To"] %>
+                </td>
+                <td><%= ssec["Road"] %></td>
+                <td><%= t_len(ssec["Length"]) %><br>
+                  <%= t_time(ssec["Time"]) %>
+                </td>
+                <% if i == 0 %>
+                  <td rowspan="<%= to_arr(sec["SubSections"]["SubSection"]).size %>" style="padding: 20px;">
+                    <form id="route-price-<%= no %>">
+                      <% to_arr(sec["Tolls"]["Toll"]).each_with_index do |toll, i| %>
+                        <div align="left">
+                          <%= radio_button(:toll, :toll, toll, checked: (sec["Tolls"]["Toll"].size == i + 1)) %>
+                          <%= toll %>
+                        </div>
+                      <% end %>
+                    </form>
+                  </td>
+                <% end %>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   <% end %>
-</table>
-
-<% @res.each do |r| %>
-<h3>経路<%= r[:RouteNo].to_i + 1 %></h3>
-<table>
-  <tr>
-    <td>
-      <label>表示されると思った？ 残念！ まだ作ってません!</label>
-    </td>
-  </tr>
-</table>
-<% break #debug code %>
-<% end %>
 <% else %>
-<p>指定の条件でのルートが見つかりませんでした。</p>
-<p>条件を変更して再度検索してください。</p>
+  <p>指定の条件でのルートが見つかりませんでした。</p>
+  <p>条件を変更して再度検索してください。</p>
 <% end %>
-
 <div>
   <%= link_to '戻る', :back %>
 </div>
