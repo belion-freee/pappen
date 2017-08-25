@@ -10,7 +10,7 @@ module ApplicationHelper
     when :post
       res = Net::HTTP.post_form(URI.parse(uri), URI.parse(params))
     end
-    raise "HTTP response is not success" unless res.code == SUCCESS
+    raise "HTTP response is not success response_code : #{res.code}" unless res.code == SUCCESS
     res
   rescue => e
     logger.error("Failed to connect External API method: #{method} uri: #{uri} params: #{params}")
