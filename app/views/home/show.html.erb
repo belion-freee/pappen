@@ -13,9 +13,15 @@
       </tr>
     <% end %>
   </table>
+  <!-- TODO -->
+  <!-- <ul class="result_tab">
+    <% @res.each_with_index do |r, i| %>
+      <li><a href="#route-<%= i + 1 %>"><%= "ルート#{i + 1}" %></a></li>
+    <% end %>
+  </ul> -->
   <% @res.each do |r| %>
     <% no = r["RouteNo"].to_i + 1 %>
-    <div id="route-<%= no%>"><hr>
+    <div id="route-<%= no %>"  class="result_div"><hr>
       <h3>経路<%= no %></h3>
       <p id="quick-result">
         料金合計: <span class="quick-result" id="route-abst-price-<%= no%>"><%= t_toll(r["Summary"]["TotalToll"]) %></span>
@@ -24,7 +30,7 @@
       </p>
       <div class="div_center" id="route-abst-special-2"></div>
       <div id="detail-result-title" title="詳細情報">詳細情報</div>
-      <table id="detail-result-table">
+      <table>
         <tbody>
           <tr>
             <th class="kukan">大区間</th>

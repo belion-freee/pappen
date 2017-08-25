@@ -9,6 +9,13 @@ $(() => {
     makeOptions('#select_to_prefectures', '#select_to_ic');
   });
 
+  // make options of departure IC
+  $('ul.result_tab li').click(() => {
+    let index = $('ul.result_tab li').index(this);
+    $('.result_body').css('display','none');
+    $('.result_table').eq(index).css('display','block');
+  });
+
   // make ic options by selected prefectures
   const makeOptions = (psel, csel) => {
     $.ajax({
@@ -21,7 +28,7 @@ $(() => {
         "X-CSRF-Token": $("meta[name=csrf-token]").attr("content"),
       },
     }).done((data) => {
-      var options = $.map(data, (val) => {
+      let options = $.map(data, (val) => {
         return `<option value="${val}">${val}</option>`;
       });
       $(csel).empty();
