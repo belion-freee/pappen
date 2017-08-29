@@ -1,0 +1,2 @@
+class Maxim < ApplicationRecord
+end

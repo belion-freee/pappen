@@ -10,12 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170814085807) do
+ActiveRecord::Schema.define(version: 20170828081942) do
 
   create_table "inter_changes", force: :cascade do |t|
     t.string "prefectures"
     t.string "highway"
     t.string "ic"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "maxims", force: :cascade do |t|
+    t.string "category"
+    t.string "remark"
+    t.string "author"
+    t.string "source"
+    t.string "url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

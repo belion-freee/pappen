@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+<h1>Maxims</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Category</th>
+      <th>Remark</th>
+      <th>Author</th>
+      <th>Source</th>
+      <th>Url</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @maxims.each do |maxim| %>
+      <tr>
+        <td><%= maxim.category %></td>
+        <td><%= maxim.remark %></td>
+        <td><%= maxim.author %></td>
+        <td><%= maxim.source %></td>
+        <td><%= maxim.url %></td>
+        <td><%= link_to 'Show', maxim %></td>
+        <td><%= link_to 'Edit', edit_maxim_path(maxim) %></td>
+        <td><%= link_to 'Destroy', maxim, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
+<%= link_to 'New Maxim', new_maxim_path %>

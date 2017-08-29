@@ -11,6 +11,7 @@ p, ol, ul, td {
   font-family: verdana, arial, helvetica, sans-serif;
   font-size: 13px;
   line-height: 18px;
+  text-align: center;
 }
 
 pre {
@@ -48,6 +49,10 @@ div {
 
 #notice {
   color: green;
+}
+
+.error {
+  color: red;
 }
 
 .field_with_errors {

@@ -9,8 +9,7 @@ class InterChangesController < ApplicationController
 
   # GET /inter_changes/1
   # GET /inter_changes/1.json
-  def show
-  end
+  def show; end
 
   # GET /inter_changes/new
   def new
@@ -18,8 +17,7 @@ class InterChangesController < ApplicationController
   end
 
   # GET /inter_changes/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /inter_changes
   # POST /inter_changes.json

@@ -1,0 +1,63 @@
+<p id="notice"><%= notice %></p>
+
+<h1>高速道路検索</h1>
+
+<table>
+  <%= form_tag(controller: :home, action: :show) do %>
+  <tr>
+    <td>
+      <label>出発IC</label>
+    </td>
+    <td>
+      <select id="select_from_prefectures">
+        <%= options_for_select(@res[:prefectures]) %>
+      </select>
+    </td>
+    <td>
+      <select id="select_from_ic" name="from">
+        <option value="">都道府県を選択してください</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <label>到着IC</label>
+    </td>
+    <td>
+      <select id="select_to_prefectures">
+        <%= options_for_select(@res[:prefectures]) %>
+      </select>
+    </td>
+    <td>
+      <select id="select_to_ic" name="to">
+        <option value="">都道府県を選択してください</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <label>自動車</label>
+    </td>
+    <td>
+      <select class="select1" id="select_vehicle" name="vehicle">
+        <%= options_for_select(@res[:vehicle]) %>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <label>ソート</label>
+    </td>
+    <td>
+      <select class="select1" id="select_sort" name="sort">
+        <%= options_for_select(@res[:sort]) %>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <%= submit_tag "検索" %>
+    </td>
+  </tr>
+  <% end %>
+</table>

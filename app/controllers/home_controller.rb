@@ -2,12 +2,23 @@ class HomeController < ApplicationController
   include HomeHelper
 
   def index
-    @res = {
-      prefectures: Settings.prefectures,
-      vehicle:     Settings.vehicle,
-      sort:        Settings.sort,
-    }
+    @notice = "選択したカテゴリーからランダムで名言をツイートします"
+    @res = Settings.maxim.category.invert
   end
+
+  def tweet
+    TwitterHelper::Tweet.new.random_tweet(params[:category])
+  rescue => e
+    @res = e.message
+  end
+
+  # def index
+  #   @res = {
+  #     prefectures: Settings.prefectures,
+  #     vehicle:     Settings.vehicle,
+  #     sort:        Settings.sort,
+  #   }
+  # end
 
   def show
     from = params[:from]

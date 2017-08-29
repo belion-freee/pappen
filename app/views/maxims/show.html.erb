@@ -1,0 +1,23 @@
+<p id="notice"><%= notice %></p>
+<p>
+  <strong>Category:</strong>
+  <%= @maxim.category %>
+</p>
+<p>
+  <strong>Remark:</strong>
+  <%= @maxim.remark %>
+</p>
+<p>
+  <strong>Author:</strong>
+  <%= @maxim.author %>
+</p>
+<p>
+  <strong>Source:</strong>
+  <%= @maxim.source %>
+</p>
+<p>
+  <strong>Url:</strong>
+  <%= @maxim.url %>
+</p>
+<%= link_to 'Edit', edit_maxim_path(@maxim) %> |
+<%= link_to 'Back', maxims_path %>

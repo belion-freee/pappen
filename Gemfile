@@ -28,6 +28,8 @@ gem 'jbuilder', '~> 2.5'
 gem 'settingslogic'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
+# Use jquery as the JavaScript library
+gem 'twitter'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password

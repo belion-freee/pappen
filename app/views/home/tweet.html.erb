@@ -1,0 +1,12 @@
+<h1>実行結果</h1>
+<% unless @res %>
+  <h2>Success!!</h2>
+  <p id="notice">ツイッターに投稿されました！</p>
+<% else %>
+  <h2>Failed!!</h2>
+  <p id="notice">ツイッターへの投稿に失敗しました(;_;)</p>
+  <p class="error"><%= @res %></p>
+<% end %>
+<div>
+  <%= link_to '戻る', :back %>
+</div>

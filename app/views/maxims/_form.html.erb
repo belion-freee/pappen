@@ -1,0 +1,35 @@
+<%= form_with(model: maxim, category: category, local: true) do |form| %>
+  <% if maxim.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(maxim.errors.count, "error") %> prohibited this maxim from being saved:</h2>
+      <ul>
+        <% maxim.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= form.label :category %>
+    <%= form.select :category, category, id: :maxim_category %>
+  </div>
+  <div class="field">
+    <%= form.label :remark %>
+    <%= form.text_field :remark, id: :maxim_remark %>
+  </div>
+  <div class="field">
+    <%= form.label :author %>
+    <%= form.text_field :author, id: :maxim_author %>
+  </div>
+  <div class="field">
+    <%= form.label :source %>
+    <%= form.text_field :source, id: :maxim_source %>
+  </div>
+  <div class="field">
+    <%= form.label :url %>
+    <%= form.text_field :url, id: :maxim_url %>
+  </div>
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
