@@ -5,10 +5,10 @@ defaults: &defaults
     success: '200'
   account:
     twitter:
-      consumer_key: qgqIthjaYksWlnGnq2qnzmoR8
-      consumer_secret: 4jEg9lXeQIaQ2d0a3rj4Fpq1smfIP4A11fvlScPIyUjI8qi3ed
-      access_token: 1409974286-ytqOPo4kx9UJJhJfz2iGNZRG2DUP0sK84tLPd1B
-      access_token_secret: kkx29h4JgwYi9Br08LOY6B2PjoyhSdvlUi5bbSttI9aD4
+      consumer_key: j5Vd0WdhoBFhxLTsMysxj3OQ8
+      consumer_secret: NqwB6tgqvJiRQ2kGrDAFyuTJZ2qTcUr85Dtoxw0Dwfrnp8hxJG
+      access_token: 905725360901316609-yZwg0bkkYRnMMPk8L8FRTSMbWu8NCzf
+      access_token_secret: 	1zcgCJEBGeXdPRhUenPEKUZGiYCkiyGdKwZNoVcegSm1e
   maxim:
     category:
       movie: 映画
