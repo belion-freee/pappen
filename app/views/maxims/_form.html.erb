@@ -1,5 +1,4 @@
 <%= form_for @maxim, :html => { :class => "form-horizontal maxim" } do |f| %>
-
   <% if @maxim.errors.any? %>
     <div id="error_expl" class="panel panel-danger">
       <div class="panel-heading">
@@ -7,56 +6,53 @@
       </div>
       <div class="panel-body">
         <ul>
-        <% @maxim.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
+          <% @maxim.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
         </ul>
       </div>
     </div>
   <% end %>
-
   <div class="form-group">
     <%= f.label :category, :class => 'control-label col-lg-2' %>
-    <div class="col-lg-10">
-      <%= f.text_field :category, :class => 'form-control' %>
+    <div class="col-md-5">
+      <%= f.select :category, @category, class: 'form-control' %>
     </div>
     <%=f.error_span(:category) %>
   </div>
   <div class="form-group">
     <%= f.label :remark, :class => 'control-label col-lg-2' %>
-    <div class="col-lg-10">
+    <div class="col-md-10">
       <%= f.text_field :remark, :class => 'form-control' %>
     </div>
     <%=f.error_span(:remark) %>
   </div>
   <div class="form-group">
     <%= f.label :author, :class => 'control-label col-lg-2' %>
-    <div class="col-lg-10">
+    <div class="col-md-5">
       <%= f.text_field :author, :class => 'form-control' %>
     </div>
     <%=f.error_span(:author) %>
   </div>
   <div class="form-group">
     <%= f.label :source, :class => 'control-label col-lg-2' %>
-    <div class="col-lg-10">
+    <div class="col-md-5">
       <%= f.text_field :source, :class => 'form-control' %>
     </div>
     <%=f.error_span(:source) %>
   </div>
   <div class="form-group">
     <%= f.label :url, :class => 'control-label col-lg-2' %>
-    <div class="col-lg-10">
+    <div class="col-md-5">
       <%= f.text_field :url, :class => 'form-control' %>
     </div>
     <%=f.error_span(:url) %>
   </div>
-
   <div class="form-group">
-    <div class="col-lg-offset-2 col-lg-10">
+    <div class="col-lg-offset-2 col-md-5">
       <%= f.submit nil, :class => 'btn btn-primary' %>
       <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
                 maxims_path, :class => 'btn btn-default' %>
     </div>
   </div>
-
 <% end %>

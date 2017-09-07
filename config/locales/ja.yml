@@ -1,0 +1,28 @@
+ja:
+  time:
+    formats:
+      default: ! '%Y年%m月%d日 %H:%M'
+      short: ! '%Y/%m/%d'
+      long: ! '%Y年%m月%d日(%a) %H時%M分%S秒 %z'
+  breadcrumbs:
+    application:
+      root: "ホーム"
+    pages:
+      pages: "ページ"
+  helpers:
+    actions: "アクション"
+    links:
+      new:       "新規作成"
+      new-maxim: "名言を追加しますか？"
+      edit:      "編集"
+      show:      "詳細"
+      back:      "戻る"
+      destroy:   "削除"
+      cancel:    "キャンセル"
+      confirm:   "本当によろしいですか?"
+      tweet:     "ツイート！"
+    titles:
+      edit: "編集 %{model}"
+      save: "保存 %{model}"
+      new: "新規作成 %{model}"
+      delete: "削除 %{model}"

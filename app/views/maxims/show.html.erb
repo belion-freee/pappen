@@ -2,7 +2,6 @@
 <div class="page-header">
   <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
 </div>
-
 <dl class="dl-horizontal">
   <dt><strong><%= model_class.human_attribute_name(:category) %>:</strong></dt>
   <dd><%= @maxim.category %></dd>
@@ -15,11 +14,10 @@
   <dt><strong><%= model_class.human_attribute_name(:url) %>:</strong></dt>
   <dd><%= @maxim.url %></dd>
 </dl>
-
 <%= link_to t('.back', :default => t("helpers.links.back")),
-              maxims_path, :class => 'btn btn-default'  %>
+              maxims_path, :class => 'btn btn-info'  %>
 <%= link_to t('.edit', :default => t("helpers.links.edit")),
-              edit_maxim_path(@maxim), :class => 'btn btn-default' %>
+              edit_maxim_path(@maxim), :class => 'btn btn-success' %>
 <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
               maxim_path(@maxim),
               :method => 'delete',

@@ -2,6 +2,7 @@
   <h1>Twitter名言Bot</h1>
 </div>
 <p id="notice"><%= @notice %></p>
+<p><%= link_to t('helpers.links.new-maxim'), new_maxim_path, class: 'btn btn-success' %></p>
 <%= form_tag(controller: :home, action: :tweet) do %>
   <table class="table table-striped">
     <tr>
@@ -13,10 +14,9 @@
           <%= options_for_select(@res) %>
         </select>
       </td>
-      <td>
-        <%= submit_tag "Tweet", class: 'btn btn-primary' %>
-      </td>
     </tr>
   </table>
-  <%= link_to "名言追加！", new_maxim_path, class: 'btn btn-lg btn-green400_ftg' %>
+  <div class="text-center">
+    <%= submit_tag t('helpers.links.tweet'), class: 'btn btn-lightblue400_ftg' %>
+  </div>
 <% end %>
