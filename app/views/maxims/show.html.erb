@@ -1,23 +1,27 @@
-<p id="notice"><%= notice %></p>
-<p>
-  <strong>Category:</strong>
-  <%= @maxim.category %>
-</p>
-<p>
-  <strong>Remark:</strong>
-  <%= @maxim.remark %>
-</p>
-<p>
-  <strong>Author:</strong>
-  <%= @maxim.author %>
-</p>
-<p>
-  <strong>Source:</strong>
-  <%= @maxim.source %>
-</p>
-<p>
-  <strong>Url:</strong>
-  <%= @maxim.url %>
-</p>
-<%= link_to 'Edit', edit_maxim_path(@maxim) %> |
-<%= link_to 'Back', maxims_path %>
+<%- model_class = Maxim -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:category) %>:</strong></dt>
+  <dd><%= @maxim.category %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:remark) %>:</strong></dt>
+  <dd><%= @maxim.remark %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:author) %>:</strong></dt>
+  <dd><%= @maxim.author %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:source) %>:</strong></dt>
+  <dd><%= @maxim.source %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:url) %>:</strong></dt>
+  <dd><%= @maxim.url %></dd>
+</dl>
+
+<%= link_to t('.back', :default => t("helpers.links.back")),
+              maxims_path, :class => 'btn btn-default'  %>
+<%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_maxim_path(@maxim), :class => 'btn btn-default' %>
+<%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              maxim_path(@maxim),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>

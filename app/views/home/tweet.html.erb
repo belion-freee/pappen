@@ -1,12 +1,18 @@
-<h1>実行結果</h1>
+<div class="page-header">
+  <h1>実行結果</h1>
+</div>
 <% unless @res %>
-  <h2>Success!!</h2>
-  <p id="notice">ツイッターに投稿されました！</p>
+  <div class="text-success">
+    <h2>Success!!</h2>
+    <p>ツイッターに投稿されました！</p>
+  </div>
 <% else %>
-  <h2>Failed!!</h2>
-  <p id="notice">ツイッターへの投稿に失敗しました(;_;)</p>
-  <p class="error"><%= @res %></p>
+  <div class="text-danger">
+    <h2>Failed!!</h2>
+    <p>ツイッターへの投稿に失敗しました(;_;)</p>
+    <p><%= @res %></p>
+  </div>
 <% end %>
 <div>
-  <%= link_to '戻る', :back %>
+  <%= link_to '戻る', :back, class: 'btn btn-primary' %>
 </div>

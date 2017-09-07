@@ -1,7 +1,9 @@
-<h1>Twitter名言Bot</h1>
+<div class="page-header">
+  <h1>Twitter名言Bot</h1>
+</div>
 <p id="notice"><%= @notice %></p>
-<table>
-  <%= form_tag(controller: :home, action: :tweet) do %>
+<%= form_tag(controller: :home, action: :tweet) do %>
+  <table class="table table-striped">
     <tr>
       <td>
         <label>カテゴリー</label>
@@ -11,11 +13,10 @@
           <%= options_for_select(@res) %>
         </select>
       </td>
-    </tr>
-    <tr>
       <td>
-        <%= submit_tag "Tweet" %>
+        <%= submit_tag "Tweet", class: 'btn btn-primary' %>
       </td>
     </tr>
-  <% end %>
-</table>
+  </table>
+  <%= link_to "名言追加！", new_maxim_path, class: 'btn btn-lg btn-green400_ftg' %>
+<% end %>

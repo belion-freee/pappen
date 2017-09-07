@@ -1,35 +1,62 @@
-<%= form_with(model: maxim, category: category, local: true) do |form| %>
-  <% if maxim.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(maxim.errors.count, "error") %> prohibited this maxim from being saved:</h2>
-      <ul>
-        <% maxim.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
+<%= form_for @maxim, :html => { :class => "form-horizontal maxim" } do |f| %>
+
+  <% if @maxim.errors.any? %>
+    <div id="error_expl" class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= pluralize(@maxim.errors.count, "error") %> prohibited this maxim from being saved:</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+        <% @maxim.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
         <% end %>
-      </ul>
+        </ul>
+      </div>
     </div>
   <% end %>
-  <div class="field">
-    <%= form.label :category %>
-    <%= form.select :category, category, id: :maxim_category %>
+
+  <div class="form-group">
+    <%= f.label :category, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :category, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:category) %>
   </div>
-  <div class="field">
-    <%= form.label :remark %>
-    <%= form.text_field :remark, id: :maxim_remark %>
+  <div class="form-group">
+    <%= f.label :remark, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :remark, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:remark) %>
   </div>
-  <div class="field">
-    <%= form.label :author %>
-    <%= form.text_field :author, id: :maxim_author %>
+  <div class="form-group">
+    <%= f.label :author, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :author, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:author) %>
   </div>
-  <div class="field">
-    <%= form.label :source %>
-    <%= form.text_field :source, id: :maxim_source %>
+  <div class="form-group">
+    <%= f.label :source, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :source, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:source) %>
   </div>
-  <div class="field">
-    <%= form.label :url %>
-    <%= form.text_field :url, id: :maxim_url %>
+  <div class="form-group">
+    <%= f.label :url, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :url, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:url) %>
   </div>
-  <div class="actions">
-    <%= form.submit %>
+
+  <div class="form-group">
+    <div class="col-lg-offset-2 col-lg-10">
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                maxims_path, :class => 'btn btn-default' %>
+    </div>
   </div>
+
 <% end %>

@@ -21,9 +21,8 @@ module TwitterHelper
     private
 
       def format_tweet(maxim)
-        raise "Not found Maxim under those conditions" if maxim.blank?
+        raise "このカテゴリーでの名言が見つかりませんでした！" if maxim.blank?
         tweet = <<-BODY.strip_heredoc
-          〜名言botからの送信〜
           "#{maxim.remark}"
           - #{maxim.author}
         BODY
