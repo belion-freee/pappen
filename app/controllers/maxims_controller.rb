@@ -26,6 +26,7 @@ class MaximsController < ApplicationController
   # POST /maxims.json
   def create
     @maxim = Maxim.new(maxim_params)
+    @category = Settings.maxim.category.invert
 
     respond_to do |format|
       if @maxim.save

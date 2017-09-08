@@ -25,14 +25,12 @@
     <div class="col-md-10">
       <%= f.text_field :remark, :class => 'form-control' %>
     </div>
-    <%=f.error_span(:remark) %>
   </div>
   <div class="form-group">
     <%= f.label :author, :class => 'control-label col-lg-2' %>
     <div class="col-md-5">
       <%= f.text_field :author, :class => 'form-control' %>
     </div>
-    <%=f.error_span(:author) %>
   </div>
   <div class="form-group">
     <%= f.label :source, :class => 'control-label col-lg-2' %>
@@ -50,9 +48,9 @@
   </div>
   <div class="form-group">
     <div class="col-lg-offset-2 col-md-5">
-      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= f.submit t("helpers.links.create"), :class => 'btn btn-primary' %>
       <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-                maxims_path, :class => 'btn btn-default' %>
+                maxims_path, :class => 'btn btn-warning' %>
     </div>
   </div>
 <% end %>

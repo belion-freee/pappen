@@ -15,6 +15,7 @@ defaults: &defaults
       anime: 漫画・アニメ
       novel: 小説
       hero:  偉人
+      joke:  迷言
       other: その他
 
 development:

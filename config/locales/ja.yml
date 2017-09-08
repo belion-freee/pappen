@@ -13,6 +13,7 @@ ja:
     actions: "アクション"
     links:
       new:       "新規作成"
+      create:    "作成"
       new-maxim: "名言を追加しますか？"
       edit:      "編集"
       show:      "詳細"
@@ -26,3 +27,16 @@ ja:
       save: "保存 %{model}"
       new: "新規作成 %{model}"
       delete: "削除 %{model}"
+  activerecord:
+    models:
+      maxim: 名言
+    attributes:
+      maxim:
+        category: カテゴリー
+        remark:   セリフ
+        author:   発言者
+        source:   出典
+  errors:
+    format: "%{attribute}%{message}"
+    messages:
+      blank: "を入力してください"
