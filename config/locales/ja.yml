@@ -29,7 +29,6 @@ ja:
       delete: "削除 %{model}"
   activerecord:
     models:
-      maxim: 名言
     attributes:
       maxim:
         category: カテゴリー
