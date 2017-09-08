@@ -12,6 +12,7 @@ ja:
   helpers:
     actions: "アクション"
     links:
+      root:      "ホーム"
       new:       "新規作成"
       create:    "作成"
       new-maxim: "名言を追加しますか？"

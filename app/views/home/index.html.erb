@@ -5,16 +5,18 @@
 <p><%= link_to t('helpers.links.new-maxim'), new_maxim_path, class: 'btn btn-success' %></p>
 <%= form_tag(controller: :home, action: :tweet) do %>
   <table class="table table-striped">
-    <tr>
-      <td>
-        <label>カテゴリー</label>
-      </td>
-      <td>
-        <select class="select1" id="select_category" name="category">
-          <%= options_for_select(@res) %>
-        </select>
-      </td>
-    </tr>
+    <div class="col-lg-1 col-xs-2">
+      <tr>
+        <td>
+          <label>カテゴリー</label>
+        </td>
+        <td>
+          <select class="select1" id="select_category" name="category">
+            <%= options_for_select(@res) %>
+          </select>
+        </td>
+      </tr>
+    </div>
   </table>
   <div class="text-center">
     <%= submit_tag t('helpers.links.tweet'), class: 'btn btn-lightblue400_ftg' %>

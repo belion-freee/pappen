@@ -8,6 +8,11 @@
     <%= stylesheet_link_tag    'https://cdn.rawgit.com/maechabin/bootstrap-material-button-color/master/dist/cb-materialbtn.0.5.5.min.css' %>
   </head>
   <body>
-    <%= yield %>
+    <div class="container">
+      <div class="row">
+        <p><%= link_to t('helpers.links.root'), root_url, class: 'btn btn-lightblue200_ftg' %></p>
+        <%= yield %>
+      </div>
+    </div>
   </body>
 </html>
