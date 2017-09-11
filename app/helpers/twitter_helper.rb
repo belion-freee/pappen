@@ -26,8 +26,8 @@ module TwitterHelper
           "#{maxim.remark}"
           - #{maxim.author}
         BODY
-        tweet << "出典:#{maxim.source}" if maxim.source
-        tweet << maxim.url if maxim.url
+        tweet << "出典:#{maxim.source}" if maxim.source.present?
+        tweet << maxim.url if maxim.url.present?
         tweet
       end
   end
