@@ -9,7 +9,7 @@ git checkout master && git checkout -b release
 
 # exec cmd before deploy to heroku
 npm run build
-heroku run rails db:migrate
+# heroku run rails db:migrate
 
 # push to release branch
 git add .
