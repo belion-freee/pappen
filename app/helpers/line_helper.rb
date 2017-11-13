@@ -7,7 +7,12 @@ module LineHelper
         config.channel_secret = Settings.account.line.channel_secret
         config.channel_token  = Settings.account.line.channel_token
       end
-      validate_signature?(request)
+      hash = OpenSSL::HMAC.digest(
+        OpenSSL::Digest::SHA256.new,
+        Settings.account.line.channel_secret,
+        request.raw_post
+      )
+      raise "シグネチャが不正です" unless request.headers["X-LINE-ChannelSignature"] == Base64.strict_encode64(hash)
     end
 
     def callback(content)
@@ -22,15 +27,6 @@ module LineHelper
         text: message["text"],
       }
       @client.reply_message(token, res)
-    end
-
-    def validate_signature?(request)
-      hash = OpenSSL::HMAC.digest(
-        OpenSSL::Digest::SHA256.new,
-        Settings.account.line.channel_secret,
-        request.raw_post
-      )
-      raise "シグネチャが不正です" unless request.headers["X-LINE-ChannelSignature"] == Base64.strict_encode64(hash)
     end
   end
 end
