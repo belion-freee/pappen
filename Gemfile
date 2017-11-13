@@ -1,4 +1,4 @@
-ruby '2.4.1'
+ruby '2.4.2'
 source 'https://rubygems.org'
 
 git_source(:github) do |repo_name|
@@ -42,6 +42,8 @@ gem 'execjs'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+
+gem 'line-bot-api'
 
 group :development, :test do
   # Use sqlite3 as the database for Active Record

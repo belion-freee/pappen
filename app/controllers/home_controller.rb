@@ -11,4 +11,12 @@ class HomeController < ApplicationController
   rescue => e
     @res = e.message
   end
+
+  def line
+    logger.info(params)
+    LineHelper::Line.new.callback(params)
+    head :ok
+  rescue => e
+    @res = e.message
+  end
 end
