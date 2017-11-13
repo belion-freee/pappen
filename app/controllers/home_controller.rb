@@ -4,7 +4,6 @@ class HomeController < ApplicationController
   protect_from_forgery except: [:line]
 
   def index
-    debugger
     @notice = "選択したカテゴリーからランダムで名言をツイートします"
     @res = Settings.maxim.category.invert
   end
