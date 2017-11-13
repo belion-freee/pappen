@@ -15,15 +15,15 @@ class HomeController < ApplicationController
   end
 
   def line
-    logger.error("ここまできたよ！")
+    Rails.logger.error("ここまできたよ！")
     line = LineHelper::Line.new
-    logger.error("ここまできたよ！")
+    Rails.logger.error("ここまできたよ！")
     head :bad_request unless line.validate_signature?(request)
-    logger.error("ここまできたよ！")
-    logger.error(params["events"])
-    logger.error(params["events"].first)
+    Rails.logger.error("ここまできたよ！")
+    Rails.logger.error(params["events"])
+    Rails.logger.error(params["events"].first)
     res = line.callback(params["events"].first)
-    logger.error(res)
+    Rails.logger.error(res)
     head :ok
   rescue => e
     raise e

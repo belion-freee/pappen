@@ -3,7 +3,7 @@ require "line/bot"
 module LineHelper
   class Line
     def initialize
-      logger.error("ここまできたよ！")
+      Rails.logger.error("ここまできたよ！")
       @client = Line::Bot::Client.new do |config|
         config.channel_secret = Settings.account.line.channel_secret
         config.channel_token  = Settings.account.line.channel_token
@@ -12,10 +12,10 @@ module LineHelper
 
     def callback(content)
       # line_request = text.
-      logger.error("ここまできたよ！")
-      logger.error(content)
-      logger.error(content["replyToken"])
-      logger.error(content["message"]["text"])
+      Rails.logger.error("ここまできたよ！")
+      Rails.logger.error(content)
+      Rails.logger.error(content["replyToken"])
+      Rails.logger.error(content["message"]["text"])
       res = {
         type: "text",
         text: content["message"]["text"],
@@ -32,9 +32,9 @@ module LineHelper
         http_request_body
       )
       signature_answer = Base64.strict_encode64(hash)
-      logger.error("ここまできたよ！")
-      logger.error(signature_answer)
-      logger.error(signature)
+      Rails.logger.error("ここまできたよ！")
+      Rails.logger.error(signature_answer)
+      Rails.logger.error(signature)
       signature == signature_answer
     end
   end
