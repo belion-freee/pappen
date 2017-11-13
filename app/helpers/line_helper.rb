@@ -1,7 +1,7 @@
 require "line/bot"
 
 module LineHelper
-  class Line
+  class LineBot
     def initialize
       Rails.logger.error("ここまできたよ！")
       @client = Line::Bot::Client.new do |config|

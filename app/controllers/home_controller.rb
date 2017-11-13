@@ -16,7 +16,7 @@ class HomeController < ApplicationController
 
   def line
     Rails.logger.error("ここまできたよ！")
-    line = LineHelper::Line.new
+    line = LineHelper::LineBot.new
     Rails.logger.error("ここまできたよ！")
     head :bad_request unless line.validate_signature?(request)
     Rails.logger.error("ここまできたよ！")
