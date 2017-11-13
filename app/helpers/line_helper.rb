@@ -3,6 +3,7 @@ require "line/bot"
 module LineHelper
   class Line
     def initialize
+      logger.error("ここまできたよ！")
       @client = Line::Bot::Client.new do |config|
         config.channel_secret = Settings.account.line.channel_secret
         config.channel_token  = Settings.account.line.channel_token

@@ -15,6 +15,7 @@ class HomeController < ApplicationController
   end
 
   def line
+    logger.error("ここまできたよ！")
     line = LineHelper::Line.new
     logger.error("ここまできたよ！")
     head :bad_request unless line.validate_signature?(request)
@@ -24,7 +25,7 @@ class HomeController < ApplicationController
     res = line.callback(params["events"].first)
     logger.error(res)
     head :ok
-  rescue => e
-    @res = e.message
+  rescue Error => e
+    raise e
   end
 end
