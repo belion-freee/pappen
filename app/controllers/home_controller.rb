@@ -10,7 +10,7 @@ class HomeController < ApplicationController
 
   def tweet
     TwitterHelper::Tweet.new.random_tweet(params[:category])
-  rescue Ecxeption => e
+  rescue => e
     @res = e.message
   end
 
@@ -25,7 +25,7 @@ class HomeController < ApplicationController
     res = line.callback(params["events"].first)
     logger.error(res)
     head :ok
-  rescue Ecxeption => e
+  rescue => e
     raise e
   end
 end
