@@ -11,10 +11,10 @@ module LineHelper
 
     def callback(content)
       # line_request = text.
-      logger.info("ここまできたよ！")
-      logger.info(content)
-      logger.info(content["replyToken"])
-      logger.info(content["message"]["text"])
+      logger.error("ここまできたよ！")
+      logger.error(content)
+      logger.error(content["replyToken"])
+      logger.error(content["message"]["text"])
       res = {
         type: "text",
         text: content["message"]["text"],
@@ -31,9 +31,9 @@ module LineHelper
         http_request_body
       )
       signature_answer = Base64.strict_encode64(hash)
-      logger.info("ここまできたよ！")
-      logger.info(signature_answer)
-      logger.info(signature)
+      logger.error("ここまできたよ！")
+      logger.error(signature_answer)
+      logger.error(signature)
       signature == signature_answer
     end
   end
