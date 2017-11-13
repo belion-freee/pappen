@@ -11,11 +11,13 @@ module LineHelper
 
     def callback(content)
       # line_request = text.
+      logger.info(content["replyToken"])
+      logger.info(content["message"]["text"])
       res = {
-        type: :text,
-        text: content[:message][:text],
+        type: "text",
+        text: content["message"]["text"],
       }
-      @client.reply_message(content[:replyToken], res)
+      @client.reply_message(content["replyToken"], res)
     end
 
     def validate_signature?(request)
