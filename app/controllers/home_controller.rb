@@ -2,6 +2,7 @@ class HomeController < ApplicationController
   include HomeHelper
 
   def index
+    debugger
     @notice = "選択したカテゴリーからランダムで名言をツイートします"
     @res = Settings.maxim.category.invert
   end
@@ -13,8 +14,9 @@ class HomeController < ApplicationController
   end
 
   def line
-    logger.info(params)
-    LineHelper::Line.new.callback(params)
+    line = LineHelper::Line.new
+    head :bad_request unless line.validate_signature?(request)
+    line.callback(params[:events].first)
     head :ok
   rescue => e
     @res = e.message
