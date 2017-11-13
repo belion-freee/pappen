@@ -11,21 +11,15 @@ class HomeController < ApplicationController
   def tweet
     TwitterHelper::Tweet.new.random_tweet(params[:category])
   rescue => e
+    Rails.logger.error(e)
     @res = e.message
   end
 
   def line
-    Rails.logger.error("ここまできたよ！")
-    line = LineHelper::LineBot.new
-    Rails.logger.error("ここまできたよ！")
-    head :bad_request unless line.validate_signature?(request)
-    Rails.logger.error("ここまできたよ！")
-    Rails.logger.error(params["events"])
-    Rails.logger.error(params["events"].first)
-    res = line.callback(params["events"].first)
-    Rails.logger.error(res)
+    LineHelper::LineBot.new(request).callback(params["events"].first)
     head :ok
   rescue => e
+    Rails.logger.error(e)
     raise e
   end
 end
