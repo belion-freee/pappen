@@ -12,6 +12,8 @@ module LineHelper
         Settings.account.line.channel_secret,
         request.raw_post
       )
+      Rails.logger.info(request.headers["X-LINE-ChannelSignature"])
+      Rails.logger.info(Base64.strict_encode64(hash))
       raise "シグネチャが不正です" unless request.headers["X-LINE-ChannelSignature"] == Base64.strict_encode64(hash)
     end
 
@@ -19,8 +21,8 @@ module LineHelper
       token   = content["replyToken"]
       message = content["message"]["text"]
 
-      Rails.logger.debug(token)
-      Rails.logger.debug(message)
+      Rails.logger.info(token)
+      Rails.logger.info(message)
 
       res = {
         type: "text",
