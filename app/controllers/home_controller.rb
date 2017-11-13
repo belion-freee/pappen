@@ -1,6 +1,8 @@
 class HomeController < ApplicationController
   include HomeHelper
 
+  protect_from_forgery except: [:line]
+
   def index
     debugger
     @notice = "選択したカテゴリーからランダムで名言をツイートします"
