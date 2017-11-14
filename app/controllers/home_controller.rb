@@ -16,7 +16,7 @@ class HomeController < ApplicationController
   end
 
   def line
-    LineHelper::LineBot.new(request).callback(params["events"].first)
+    LineHelper::LineBot.new(request, params["events"].first).callback
     head :ok
   rescue => e
     Rails.logger.error(e)

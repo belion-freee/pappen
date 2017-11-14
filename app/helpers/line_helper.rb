@@ -2,28 +2,64 @@ require "line/bot"
 
 module LineHelper
   class LineBot
-    def initialize(request)
+    attr_accessor :client, :reply_token, :reqest_msg
+
+    def initialize(request, content)
       @client = Line::Bot::Client.new do |config|
         config.channel_secret = Settings.account.line.channel_secret
         config.channel_token  = Settings.account.line.channel_token
       end
-      Rails.logger.info(request.headers["X-Line-Signature"])
-      Rails.logger.info(request.raw_post)
+
       raise "シグネチャが不正です" unless @client.validate_signature(request.raw_post, request.headers["X-Line-Signature"])
+
+      @reply_token = content["replyToken"]
+      @reqest_msg  = content["message"]
+      @source      = content["source"]
     end
 
-    def callback(content)
-      token   = content["replyToken"]
-      message = content["message"]
-
-      Rails.logger.info(token)
-      Rails.logger.info(message)
-
-      res = {
-        type: "text",
-        text: message["text"],
-      }
-      @client.reply_message(token, res)
+    def callback
+      case reqest_msg["type"]
+      when "text"
+        return unless valid?
+        reply_text(reqest_msg_a)
+      else
+        reply_text("ごめんなさい！\n文字で話しかけてね\0x100013", strict: true)
+      end
     end
+
+    private
+
+      def reply_text(msg, strict: false)
+        msg = ["Hello"] if msg.blank? || !msg.is_a?(Array)
+        response = case msg.first
+                   when "高速"
+                     "ごめんなさい！\n高速はまだ作ってないの\0x100013"
+                   when "天気"
+                     "ごめんなさい！\n天気はまだ作ってないの\0x100013"
+                   else
+                     strict ? msg.first : chatting(msg.first)
+                   end
+
+        client.reply_message(reply_token, { type: "text", text: response })
+      end
+
+      def chatting(msg)
+        DocomoHelper::Docomo.new.chatting(source["user_id"], msg)
+      end
+
+      def valid?
+        if source["type"] == "user"
+          true
+        elsif reqest_msg_a.first == "ぱっぷん"
+          reqest_msg_a.drop(1)
+          true
+        else
+          false
+        end
+      end
+
+      def reqest_msg_a
+        reqest_msg["text"].split(/[[:blank:]]+/)
+      end
   end
 end

@@ -1,0 +1,2 @@
+class LastDialogueInfo < ApplicationRecord
+end
