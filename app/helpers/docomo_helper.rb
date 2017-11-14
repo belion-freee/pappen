@@ -5,7 +5,7 @@ module DocomoHelper
     attr_accessor :client
 
     def initialize
-      @client = Docomoru::Client.new(apy_key: Settings.account.docomo.apy_key)
+      @client = Docomoru::Client.new(api_key: Settings.account.docomo.api_key)
     end
 
     def chatting(uid, msg)
