@@ -49,8 +49,8 @@ module LineHelper
       def chatting(msg)
         Rails.logger.info(msg)
         Rails.logger.info(source)
-        Rails.logger.info(source["user_id"])
-        DocomoHelper::Docomo.new.chatting(source["user_id"], msg)
+        Rails.logger.info(source["userId"])
+        DocomoHelper::Docomo.new.chatting(source["userId"], msg)
       end
 
       def valid?
