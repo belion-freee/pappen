@@ -23,7 +23,7 @@ module LineHelper
       return unless valid?
       case reqest_msg["type"]
       when "text"
-        reply_text(reqest_msg["text"].split(/[[:blank:]]+/).reject(&:blank?))
+        reply_text(*reqest_msg["text"].split(/[[:blank:]]+/).reject(&:blank?))
       else
         reply_text("文字で話しかけてね(^3^)", strict: true)
       end
@@ -31,8 +31,9 @@ module LineHelper
 
     private
 
-      def reply_text(msg, strict: false)
-        msg = ["Hello"] if msg.blank? || !msg.is_a?(Array)
+      def reply_text(*msg, strict: false)
+        Rails.logger.info("Bot名をのぞいたリクエストメッセージ\n{msg}")
+        msg = ["Hello"] if msg.blank?
         response = case msg.first
                    when "高速"
                      "ごめんなさい！\n高速はまだ作ってないの(>_<)"
