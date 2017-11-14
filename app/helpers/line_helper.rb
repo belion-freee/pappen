@@ -53,7 +53,7 @@ module LineHelper
         if source["type"] == "user"
           true
         elsif reqest_msg["type"] == "text" && reqest_msg["text"].include?(BOT_NAME)
-          @reqest_msg["text"].delete(BOT_NAME)
+          reqest_msg["text"].delete!(BOT_NAME)
           true
         else
           false
