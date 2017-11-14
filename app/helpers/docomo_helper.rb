@@ -12,10 +12,10 @@ module DocomoHelper
       info = LastDialogueInfo.where(uid: uid).last
 
       if info.blank?
-        res =  client.dialogue(msg)
+        res =  client.create_dialogue(msg)
         info = LastDialogueInfo.new(uid: uid, mode: res.body["mode"], context: res.body["context"])
       else
-        res =  client.dialogue(msg, info.mode, info.context)
+        res =  client.create_dialogue(msg, { mode: info.mode, context: info.context })
         info.mode    = res.body["mode"]
         info.context = res.body["context"]
       end
