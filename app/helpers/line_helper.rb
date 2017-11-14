@@ -21,6 +21,8 @@ module LineHelper
       case reqest_msg["type"]
       when "text"
         return unless valid?
+        Rails.logger.info(reqest_msg)
+        Rails.logger.info(reqest_msg_a)
         reply_text(reqest_msg_a)
       else
         reply_text("ごめんなさい！\n文字で話しかけてね\0x100013", strict: true)
@@ -30,6 +32,7 @@ module LineHelper
     private
 
       def reply_text(msg, strict: false)
+        Rails.logger.info(msg)
         msg = ["Hello"] if msg.blank? || !msg.is_a?(Array)
         response = case msg.first
                    when "高速"
@@ -44,6 +47,9 @@ module LineHelper
       end
 
       def chatting(msg)
+        Rails.logger.info(msg)
+        Rails.logger.info(source)
+        Rails.logger.info(source["user_id"])
         DocomoHelper::Docomo.new.chatting(source["user_id"], msg)
       end
 
