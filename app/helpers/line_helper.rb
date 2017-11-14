@@ -20,12 +20,12 @@ module LineHelper
     end
 
     def callback
+      return unless valid?
       case reqest_msg["type"]
       when "text"
-        return unless valid?
         reply_text(reqest_msg["text"].split(/[[:blank:]]+/).reject(&:blank?))
       else
-        reply_text("ごめんなさい！\n文字で話しかけてね\0x100013", strict: true)
+        reply_text("文字で話しかけてね(^3^)", strict: true)
       end
     end
 
@@ -35,9 +35,9 @@ module LineHelper
         msg = ["Hello"] if msg.blank? || !msg.is_a?(Array)
         response = case msg.first
                    when "高速"
-                     "ごめんなさい！\n高速はまだ作ってないの0x100013"
+                     "ごめんなさい！\n高速はまだ作ってないの(>_<)"
                    when "天気"
-                     "ごめんなさい！\n天気はまだ作ってないの(start)"
+                     "ごめんなさい！\n天気はまだ作ってないの(>_<)"
                    else
                      strict ? msg.first : chatting(msg.first)
                    end
@@ -52,7 +52,7 @@ module LineHelper
       def valid?
         if source["type"] == "user"
           true
-        elsif reqest_msg["text"].include?(BOT_NAME)
+        elsif reqest_msg["type"] == "text" && reqest_msg["text"].include?(BOT_NAME)
           reqest_msg["text"].delete(BOT_NAME)
           Rails.logger.info(reqest_msg["text"])
           Rails.logger.info(reqest_msg["text"].split(/[[:blank:]]+/).reject(&:blank?))
