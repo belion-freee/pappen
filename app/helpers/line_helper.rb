@@ -35,9 +35,9 @@ module LineHelper
         msg = ["Hello"] if msg.blank? || !msg.is_a?(Array)
         response = case msg.first
                    when "高速"
-                     "ごめんなさい！\n高速はまだ作ってないの\0x100013"
+                     "ごめんなさい！\n高速はまだ作ってないの0x100013"
                    when "天気"
-                     "ごめんなさい！\n天気はまだ作ってないの\0x100013"
+                     "ごめんなさい！\n天気はまだ作ってないの(start)"
                    else
                      strict ? msg.first : chatting(msg.first)
                    end
@@ -54,6 +54,8 @@ module LineHelper
           true
         elsif reqest_msg["text"].include?(BOT_NAME)
           reqest_msg["text"].delete(BOT_NAME)
+          Rails.logger.info(reqest_msg["text"])
+          Rails.logger.info(reqest_msg["text"].split(/[[:blank:]]+/).reject(&:blank?))
           true
         else
           false
