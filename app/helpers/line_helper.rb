@@ -2,6 +2,8 @@ require "line/bot"
 
 module LineHelper
   class LineBot
+    BOT_NAME = Settings.account.line.bot_name
+
     attr_accessor :client, :reply_token, :reqest_msg, :source
 
     def initialize(request, content)
@@ -21,9 +23,7 @@ module LineHelper
       case reqest_msg["type"]
       when "text"
         return unless valid?
-        Rails.logger.info(reqest_msg)
-        Rails.logger.info(reqest_msg_a)
-        reply_text(reqest_msg_a)
+        reply_text(reqest_msg["text"].split(/[[:blank:]]+/).reject(&:blank?))
       else
         reply_text("ごめんなさい！\n文字で話しかけてね\0x100013", strict: true)
       end
@@ -32,7 +32,6 @@ module LineHelper
     private
 
       def reply_text(msg, strict: false)
-        Rails.logger.info(msg)
         msg = ["Hello"] if msg.blank? || !msg.is_a?(Array)
         response = case msg.first
                    when "高速"
@@ -47,25 +46,18 @@ module LineHelper
       end
 
       def chatting(msg)
-        Rails.logger.info(msg)
-        Rails.logger.info(source)
-        Rails.logger.info(source["userId"])
         DocomoHelper::Docomo.new.chatting(source["userId"], msg)
       end
 
       def valid?
         if source["type"] == "user"
           true
-        elsif reqest_msg_a.first == "ぱっぷん"
-          reqest_msg_a.drop(1)
+        elsif reqest_msg["text"].include?(BOT_NAME)
+          reqest_msg["text"].delete(BOT_NAME)
           true
         else
           false
         end
-      end
-
-      def reqest_msg_a
-        reqest_msg["text"].split(/[[:blank:]]+/)
       end
   end
 end

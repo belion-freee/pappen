@@ -10,6 +10,7 @@ defaults: &defaults
       access_token: 905725360901316609-yZwg0bkkYRnMMPk8L8FRTSMbWu8NCzf
       access_token_secret: 	1zcgCJEBGeXdPRhUenPEKUZGiYCkiyGdKwZNoVcegSm1e
     line:
+      bot_name:       ぱっぷん
       channel_secret: 6a3086258a839b16c930cbc128c5c15b
       channel_token:  w5UADIV35hCwdmQkr8CidhCmBqeGDJ3uJHkH6wGxgZ6EgmMBc7mcJPxqwc9rYTuoHm61MkwTAMHpQnhKWqZxFznZJHFWaDysnYREXtz7L9wt0O9tnaYRqXLNtwDFTuWee5xvGjKc0V4QpQxcPNcBVQdB04t89/1O/w1cDnyilFU=
     docomo:
