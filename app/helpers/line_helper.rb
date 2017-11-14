@@ -7,16 +7,14 @@ module LineHelper
         config.channel_secret = Settings.account.line.channel_secret
         config.channel_token  = Settings.account.line.channel_token
       end
-      Rails.logger.info(request)
-      Rails.logger.info(request.headers)
-      Rails.logger.info(request.headers["X-LINE-ChannelSignature"])
+      Rails.logger.info(request.headers["X-Line-Signature"])
       Rails.logger.info(request.raw_post)
-      raise "シグネチャが不正です" unless @client.validate_signature(request.raw_post, request.headers["X-LINE-ChannelSignature"])
+      raise "シグネチャが不正です" unless @client.validate_signature(request.raw_post, request.headers["X-Line-Signature"])
     end
 
     def callback(content)
       token   = content["replyToken"]
-      message = content["message"]["text"]
+      message = content["message"]
 
       Rails.logger.info(token)
       Rails.logger.info(message)
