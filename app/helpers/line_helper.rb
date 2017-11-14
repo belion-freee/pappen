@@ -32,7 +32,7 @@ module LineHelper
     private
 
       def reply_text(*msg, strict: false)
-        Rails.logger.info("Bot名をのぞいたリクエストメッセージ\n{msg}")
+        Rails.logger.info("Bot名をのぞいたリクエストメッセージ : #{msg}")
         msg = ["Hello"] if msg.blank?
         response = case msg.first
                    when "高速"
