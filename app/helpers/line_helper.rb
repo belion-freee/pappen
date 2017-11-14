@@ -2,7 +2,7 @@ require "line/bot"
 
 module LineHelper
   class LineBot
-    attr_accessor :client, :reply_token, :reqest_msg
+    attr_accessor :client, :reply_token, :reqest_msg, :source
 
     def initialize(request, content)
       @client = Line::Bot::Client.new do |config|
