@@ -37,7 +37,7 @@ module LineHelper
         response = case msg.first
                    when "本", "図書", "書籍"
                      msg.slice!(0)
-                     GoogleHelper::Book.new.search(msg)
+                     google_books(msg)
                    else
                      strict ? msg.first : chatting(msg.first)
                    end
