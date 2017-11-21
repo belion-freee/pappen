@@ -41,7 +41,7 @@ module LineHelper
                    else
                      strict ? msg.first : chatting(msg.first)
                    end
-
+        Rails.logger.info("response : #{response}")
         client.reply_message(reply_token, { type: "text", text: response })
       end
 
