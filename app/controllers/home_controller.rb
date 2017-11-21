@@ -22,4 +22,10 @@ class HomeController < ApplicationController
     Rails.logger.error(e)
     raise e
   end
+
+  def debug
+    reply = { title: "this is debug" }
+    # TODO: describe debug code you wanna trace
+    render json: reply
+  end
 end

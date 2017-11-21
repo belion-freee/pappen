@@ -35,10 +35,9 @@ module LineHelper
         Rails.logger.info("Bot名をのぞいたリクエストメッセージ : #{msg}")
         msg = ["Hello"] if msg.blank?
         response = case msg.first
-                   when "高速"
-                     "ごめんなさい！\n高速はまだ作ってないの(>_<)"
-                   when "天気"
-                     "ごめんなさい！\n天気はまだ作ってないの(>_<)"
+                   when "本", "図書", "書籍"
+                     msg.slice!(0)
+                     GoogleHelper::Book.new.search(msg)
                    else
                      strict ? msg.first : chatting(msg.first)
                    end
@@ -48,6 +47,20 @@ module LineHelper
 
       def chatting(msg)
         DocomoHelper::Docomo.new.chatting(source["userId"], msg)
+      end
+
+      def google_books(msg)
+        res = GoogleHelper::Book.new.search(msg)
+
+        reply = "検索結果だよ！\n上位の10件を教えるね(^3^)\n\n"
+
+        res.each {|r|
+          info = r["volumeInfo"]
+          reply << "タイトル : #{info["title"]}\n"
+          reply << "著者 : #{info["authors"].join(",")}\n"
+          reply << "詳細 : #{info["infoLink"]}\n\n"
+        }
+        reply
       end
 
       def valid?
