@@ -40,7 +40,7 @@ module LineHelper
                      google_books(msg)
                    when "天気"
                      msg.slice!(0)
-                     livedoor_weather(msg)
+                     livedoor_weather(msg.first)
                    else
                      strict ? msg.first : chatting(msg.first)
                    end
