@@ -24,7 +24,7 @@ module GoogleHelper
       def format_response(res_json)
         res = JSON.parse(res_json)
         unless res.try(:fetch, "items")
-          logger.info("Google books serch result is NOT FOUND params is #{params}")
+          Rails.logger.info("Google books serch result is NOT FOUND params is #{params}")
           return nil
         end
         res["items"][0, MAX_ITEMS]

@@ -38,6 +38,9 @@ module LineHelper
                    when "本", "図書", "書籍"
                      msg.slice!(0)
                      google_books(msg)
+                   when "天気"
+                     msg.slice!(0)
+                     livedoor_weather(msg)
                    else
                      strict ? msg.first : chatting(msg.first)
                    end
@@ -59,6 +62,30 @@ module LineHelper
           reply << "著者 : #{info["authors"].join(",")}\n"
           reply << "詳細 : #{info["infoLink"]}\n\n"
         }
+        reply
+      end
+
+      def livedoor_weather(msg)
+        res = WeatherHelper::Livedoor.new.search(msg)
+
+        if res.blank?
+          return "ごめん！\nその街はわからないから他の都市で検索してね(;_;)"
+        end
+
+        reply = "#{res["title"]}のお天気を教えるね(^3^)\n\n"
+
+        res["forecasts"].each {|r|
+          reply << "#{r["dateLabel"]}のお天気は#{r["telop"]}！\n"
+
+          min = r["temperature"]["min"].blank? ? "？" : r["temperature"]["min"]["celsius"]
+          max = r["temperature"]["max"].blank? ? "？" : r["temperature"]["max"]["celsius"]
+          reply << "気温はね、最高が#{max}度で、最低は#{min}度だよ！\n\n"
+        }
+
+        if res["description"]["text"].present?
+          reply << "詳細な説明だよ！\n"
+          reply << res["description"]["text"]
+        end
         reply
       end
 
