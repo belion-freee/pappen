@@ -16,7 +16,7 @@ module WeatherHelper
 
       id = CITYS.key(word)
       unless id
-        logger.info("city is NOT FOUND params is #{word}")
+        Rails.logger.info("city is NOT FOUND params is #{word}")
         return nil
       end
 
