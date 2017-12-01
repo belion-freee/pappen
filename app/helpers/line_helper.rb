@@ -72,13 +72,13 @@ module LineHelper
           return "ごめん！\nその街はわからないから他の都市で検索してね(;_;)"
         end
 
-        reply = "#{res["title"]}のお天気を教えるね(^3^)\n\n"
+        reply = "#{res["title"]}を教えるね(^3^)\n\n"
 
         res["forecasts"].each {|r|
           reply << "#{r["dateLabel"]}のお天気は#{r["telop"]}！\n"
 
-          min = r["temperature"]["min"].blank? ? "？" : r["temperature"]["min"]["celsius"]
-          max = r["temperature"]["max"].blank? ? "？" : r["temperature"]["max"]["celsius"]
+          min = r["temperature"]["min"].blank? ? "ちょうどいい温" : r["temperature"]["min"]["celsius"]
+          max = r["temperature"]["max"].blank? ? "そこそこの温" : r["temperature"]["max"]["celsius"]
           reply << "気温はね、最高が#{max}度で、最低は#{min}度だよ！\n\n"
         }
 
