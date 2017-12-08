@@ -28,6 +28,8 @@ module LineHelper
       case reqest_msg["type"]
       when "text"
         reply_text(*reqest_msg["text"].split(/[[:blank:]]+/).reject(&:blank?))
+      when "sticker"
+        reply_sticker
       else
         reply_text("文字で話しかけてね#{uni(0x10009D)}", strict: true)
       end
@@ -49,6 +51,22 @@ module LineHelper
                      strict ? msg.first : chatting(msg.first)
                    end
         client.reply_message(reply_token, { type: "text", text: response })
+      end
+
+      def reply_sticker
+        pkid = rand(1..2)
+        stid = pkid == 1 ? rand(100..139) : rand(140..179)
+
+        Rails.logger.info("レスポンスのスタンプ packageId : #{pkid}, stickerId : #{stid}")
+
+        client.reply_message(
+          reply_token,
+          {
+            type:      "sticker",
+            packageId: pkid,
+            stickerId: stid,
+          }
+        )
       end
 
       def chatting(msg)
