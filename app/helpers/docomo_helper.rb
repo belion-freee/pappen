@@ -1,11 +1,15 @@
 require "docomoru"
 
 module DocomoHelper
+  include ApplicationHelper
+
   class Docomo
+    include DocomoHelper
+
     attr_accessor :client
 
     def initialize
-      @client = Docomoru::Client.new(api_key: Settings.account.docomo.api_key)
+      @client = Docomoru::Client.new(api_key: env(:docomo_api_key))
     end
 
     def chatting(uid, msg)

@@ -4,17 +4,8 @@ defaults: &defaults
   http:
     success: '200'
   account:
-    twitter:
-      consumer_key: j5Vd0WdhoBFhxLTsMysxj3OQ8
-      consumer_secret: NqwB6tgqvJiRQ2kGrDAFyuTJZ2qTcUr85Dtoxw0Dwfrnp8hxJG
-      access_token: 905725360901316609-yZwg0bkkYRnMMPk8L8FRTSMbWu8NCzf
-      access_token_secret: 	1zcgCJEBGeXdPRhUenPEKUZGiYCkiyGdKwZNoVcegSm1e
     line:
       bot_name:       ぱっぷん
-      channel_secret: 6a3086258a839b16c930cbc128c5c15b
-      channel_token:  w5UADIV35hCwdmQkr8CidhCmBqeGDJ3uJHkH6wGxgZ6EgmMBc7mcJPxqwc9rYTuoHm61MkwTAMHpQnhKWqZxFznZJHFWaDysnYREXtz7L9wt0O9tnaYRqXLNtwDFTuWee5xvGjKc0V4QpQxcPNcBVQdB04t89/1O/w1cDnyilFU=
-    docomo:
-      api_key: 5930486a364d5248675930796e314f52314876653267527337685068676e6668694a745230765558337835
     google:
       books:
         uri: https://www.googleapis.com/books/v1/volumes

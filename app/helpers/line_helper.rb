@@ -1,15 +1,19 @@
 require "line/bot"
 
 module LineHelper
+  include ApplicationHelper
+
   class LineBot
+    include LineHelper
+
     BOT_NAME = Settings.account.line.bot_name
 
     attr_accessor :client, :reply_token, :reqest_msg, :source
 
     def initialize(request, content)
       @client = Line::Bot::Client.new do |config|
-        config.channel_secret = Settings.account.line.channel_secret
-        config.channel_token  = Settings.account.line.channel_token
+        config.channel_secret = env(:line_channel_secret)
+        config.channel_token  = env(:line_channel_token)
       end
 
       raise "シグネチャが不正です" unless @client.validate_signature(request.raw_post, request.headers["X-Line-Signature"])

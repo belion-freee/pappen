@@ -1,6 +1,8 @@
 module GoogleHelper
+  include ApplicationHelper
+
   class Book
-    include ApplicationHelper
+    include GoogleHelper
 
     API_URI = Settings.account.google.books.uri
     MAX_ITEMS = 10

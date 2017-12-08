@@ -17,6 +17,11 @@ module ApplicationHelper
     raise e
   end
 
+  def env(sym)
+    raise "symbol is blank at env" if sym.blank?
+    ENV[sym.to_s.upcase]
+  end
+
   protected
 
     def format_get_request(uri, params)

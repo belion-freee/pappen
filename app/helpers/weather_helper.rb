@@ -1,6 +1,8 @@
 module WeatherHelper
+  include ApplicationHelper
+
   class Livedoor
-    include ApplicationHelper
+    include WeatherHelper
 
     API_URI = Settings.account.livedoor.weather.uri
     CITYS = Settings.weather[:city]

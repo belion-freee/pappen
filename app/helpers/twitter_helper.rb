@@ -1,13 +1,17 @@
 require "twitter"
 
 module TwitterHelper
+  include ApplicationHelper
+
   class Tweet
+    include TwitterHelper
+
     def initialize
       @client = Twitter::REST::Client.new do |config|
-        config.consumer_key        = Settings.account.twitter.consumer_key
-        config.consumer_secret     = Settings.account.twitter.consumer_secret
-        config.access_token        = Settings.account.twitter.access_token
-        config.access_token_secret = Settings.account.twitter.access_token_secret
+        config.consumer_key        = env(:twitter_consumer_key)
+        config.consumer_secret     = env(:twitter_consumer_secret)
+        config.access_token        = env(:twitter_access_token)
+        config.access_token_secret = env(:twitter_access_token_secret)
       end
     end
 
