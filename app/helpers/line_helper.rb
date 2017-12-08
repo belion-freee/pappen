@@ -29,7 +29,7 @@ module LineHelper
       when "text"
         reply_text(*reqest_msg["text"].split(/[[:blank:]]+/).reject(&:blank?))
       else
-        reply_text("文字で話しかけてね(^3^)", strict: true)
+        reply_text("文字で話しかけてね#{uni(0x10009D)}", strict: true)
       end
     end
 
@@ -58,7 +58,7 @@ module LineHelper
       def google_books(msg)
         res = GoogleHelper::Book.new.search(msg)
 
-        reply = "検索結果だよ！\n上位の10件を教えるね#{0x100078.chr("UTF-8")}\n\n"
+        reply = "検索結果だよ！\n上位の10件を教えるね#{uni(0x100078)}\n\n"
 
         res.each {|r|
           info = r["volumeInfo"]
@@ -73,10 +73,10 @@ module LineHelper
         res = WeatherHelper::Livedoor.new.search(msg)
 
         if res.blank?
-          return "ごめん！\nその街はわからないから他の都市で検索してね(;_;)"
+          return "ごめん！\nその街はわからないから他の都市で検索してね#{uni(0x10007C)}"
         end
 
-        reply = "#{res["title"]}を教えるね(^3^)\n\n"
+        reply = "#{res["title"]}を教えるね#{uni(0x10007F)}\n\n"
 
         res["forecasts"].each {|r|
           reply << "#{r["dateLabel"]}のお天気は#{r["telop"]}！\n"
@@ -87,7 +87,7 @@ module LineHelper
         }
 
         if res["description"]["text"].present?
-          reply << "詳細な説明だよ！\n"
+          reply << "詳細な説明だよ#{uni(0x1000B1)}\n"
           reply << res["description"]["text"]
         end
         reply

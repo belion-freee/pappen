@@ -22,6 +22,11 @@ module ApplicationHelper
     ENV[sym.to_s.upcase]
   end
 
+  def uni(uni)
+    raise "unicode is invalid at uni" unless uni.present? && uni.is_a?(Integer)
+    uni.chr(Encoding::UTF_8)
+  end
+
   protected
 
     def format_get_request(uri, params)
