@@ -58,7 +58,7 @@ module LineHelper
       def google_books(msg)
         res = GoogleHelper::Book.new.search(msg)
 
-        reply = "検索結果だよ！\n上位の10件を教えるね(^3^)\n\n"
+        reply = "検索結果だよ！\n上位の10件を教えるね\uDBC0\uDC84 \n\n"
 
         res.each {|r|
           info = r["volumeInfo"]
