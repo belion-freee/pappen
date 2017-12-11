@@ -30,6 +30,8 @@ module LineHelper
         reply_text(*reqest_msg["text"].split(/[[:blank:]]+/).reject(&:blank?))
       when "sticker"
         reply_sticker
+      when "location"
+        reply_location(reqest_msg["latitude"], reqest_msg["longitude"])
       else
         reply_text("文字で話しかけてね#{uni(0x10009D)}", strict: true)
       end
@@ -50,7 +52,7 @@ module LineHelper
                    else
                      strict ? msg.first : chatting(msg.first)
                    end
-        client.reply_message(reply_token, { type: "text", text: response })
+        reply_message(type: "text", text: response)
       end
 
       def reply_sticker
@@ -59,14 +61,34 @@ module LineHelper
 
         Rails.logger.info("レスポンスのスタンプ packageId : #{pkid}, stickerId : #{stid}")
 
-        client.reply_message(
-          reply_token,
-          {
-            type:      "sticker",
-            packageId: pkid,
-            stickerId: stid,
-          }
+        reply_message(
+          type:      "sticker",
+          packageId: pkid,
+          stickerId: stid
         )
+      end
+
+      def reply_location(lat, lon)
+        raise "required params are blank at reply_location" unless lat.present? && lon.present?
+
+        results = GoogleHelper::Place.new(lat, lon).serch
+
+        if results.present?
+          reply_message(type: "text", text: "近くの銀行とATMを教えるよ#{uni(0x100084)}")
+
+          results.each {|res|
+            loc = res["geometry"]["location"]
+            reply_message(
+              type:      "location",
+              title:     res["name"],
+              address:   res["vicinity"],
+              latitude:  loc["lat"],
+              longitude: loc["lng"]
+            )
+          }
+        else
+          reply_message(type: "text", text: "近くに銀行やATMはないみたい#{uni(0x10007B)}")
+        end
       end
 
       def chatting(msg)
@@ -120,6 +142,10 @@ module LineHelper
         else
           false
         end
+      end
+
+      def reply_message(**msg)
+        client.reply_message(reply_token, msg)
       end
   end
 end

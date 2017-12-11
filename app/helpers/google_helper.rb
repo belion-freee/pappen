@@ -32,4 +32,46 @@ module GoogleHelper
         res["items"][0, MAX_ITEMS]
       end
   end
+
+  class Place
+    include GoogleHelper
+
+    API_URI = Settings.account.google.place.uri
+    RADIUS = 300
+    TYPES = "atm".freeze
+
+    attr_accessor :params
+
+    def initialize(lat, lon)
+      @params = [
+        "language=ja",
+        "key=#{env(:google_api_key)}",
+        "location=#{lat},#{lon}",
+      ]
+    end
+
+    def search(radius: nil, types: nil)
+      radius ||= RADIUS
+      types  ||= TYPES
+
+      @params.push(
+        "radius=#{radius}",
+        "types=#{types}"
+      )
+
+      res = exec_request(:get, API_URI, *params)
+      format_response(res)
+    end
+
+    private
+
+      def format_response(res_json)
+        res = JSON.parse(res_json)
+        unless res.try(:fetch, "results").try(:present?)
+          Rails.logger.info("Google place serch result is NOT FOUND params is #{params}")
+          return nil
+        end
+        res["results"]
+      end
+  end
 end

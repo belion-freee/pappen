@@ -9,6 +9,8 @@ defaults: &defaults
     google:
       books:
         uri: https://www.googleapis.com/books/v1/volumes
+      place:
+        uri: https://maps.googleapis.com/maps/api/place/nearbysearch/json
     livedoor:
       weather:
         uri: http://weather.livedoor.com/forecast/webservice/json/v1
