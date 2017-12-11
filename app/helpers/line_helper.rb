@@ -71,7 +71,7 @@ module LineHelper
       def reply_location(lat, lon)
         raise "required params are blank at reply_location" unless lat.present? && lon.present?
 
-        results = GoogleHelper::Place.new(lat, lon).serch
+        results = GoogleHelper::Place.new(lat, lon).search
 
         if results.present?
           reply_message(type: "text", text: "近くの銀行とATMを教えるよ#{uni(0x100084)}")
