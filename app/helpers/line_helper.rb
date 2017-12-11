@@ -88,7 +88,7 @@ module LineHelper
             }
           }
 
-          reply_message(**msg)
+          reply_message(msg)
         else
           reply_message(type: "text", text: "近くに銀行やATMはないみたい#{uni(0x10007B)}")
         end
@@ -147,7 +147,7 @@ module LineHelper
         end
       end
 
-      def reply_message(**msg)
+      def reply_message(msg)
         client.reply_message(reply_token, msg)
       end
   end
