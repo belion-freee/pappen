@@ -74,18 +74,21 @@ module LineHelper
         results = GoogleHelper::Place.new(lat, lon).search
 
         if results.present?
-          reply_message(type: "text", text: "近くの銀行とATMを教えるよ#{uni(0x100084)}")
+          msg = Array({ type: "text", text: "近くの銀行とATMを教えるよ#{uni(0x100084)}" })
 
-          results.each {|res|
+          results.each_with_index {|res, i|
+            break if i > 3
             loc = res["geometry"]["location"]
-            reply_message(
+            msg << {
               type:      "location",
               title:     res["name"],
               address:   res["vicinity"],
               latitude:  loc["lat"],
-              longitude: loc["lng"]
-            )
+              longitude: loc["lng"],
+            }
           }
+
+          reply_message(**msg)
         else
           reply_message(type: "text", text: "近くに銀行やATMはないみたい#{uni(0x10007B)}")
         end
