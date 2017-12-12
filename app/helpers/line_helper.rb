@@ -52,7 +52,7 @@ module LineHelper
                    else
                      strict ? msg.first : chatting(msg.first)
                    end
-        reply_message(type: "text", text: response)
+        reply_message({ type: "text", text: response })
       end
 
       def reply_sticker
@@ -62,19 +62,21 @@ module LineHelper
         Rails.logger.info("レスポンスのスタンプ packageId : #{pkid}, stickerId : #{stid}")
 
         reply_message(
-          type:      "sticker",
-          packageId: pkid,
-          stickerId: stid
+          {
+            type:      "sticker",
+            packageId: pkid,
+            stickerId: stid,
+          }
         )
       end
 
       def reply_location(lat, lon)
         raise "required params are blank at reply_location" unless lat.present? && lon.present?
 
-        results = GoogleHelper::Place.new(lat, lon).search
+        results = GoogleHelper::Place.new(lat, lon).search(:convenience_store)
 
         if results.present?
-          msg = [{ type: "text", text: "近くの銀行とATMを教えるよ#{uni(0x100084)}" }]
+          msg = [{ type: "text", text: "近くのコンビニを教えるよ#{uni(0x100084)}" }]
 
           results.each_with_index {|res, i|
             break if i > 3
@@ -88,11 +90,9 @@ module LineHelper
             }
           }
 
-          Rails.logger.info("これがリクじゃボケ#{msg}")
-          res = reply_message(msg)
-          Rails.logger.info("これがレスじゃボケ#{res}")
+          reply_message(msg)
         else
-          reply_message(type: "text", text: "近くに銀行やATMはないみたい#{uni(0x10007B)}")
+          reply_message({ type: "text", text: "近くにコンビニはないみたい#{uni(0x10007B)}" })
         end
       end
 
@@ -157,8 +157,8 @@ module LineHelper
             <<~ERROR
               Line API returned Error.
               request params : #{reqest_msg}
-              response code : #{res.code}
-              response body : #{res.body}
+              response code : #{res.try(:code)}
+              response body : #{res.try(:body)}
             ERROR
           )
         end

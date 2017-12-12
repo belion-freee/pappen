@@ -37,8 +37,7 @@ module GoogleHelper
     include GoogleHelper
 
     API_URI = Settings.account.google.place.uri
-    RADIUS = 300
-    TYPES = "atm".freeze
+    TYPES = "cafe".freeze
 
     attr_accessor :params
 
@@ -46,18 +45,15 @@ module GoogleHelper
       @params = [
         "language=ja",
         "key=#{env(:google_api_key)}",
+        "rankby=distance",
         "location=#{lat},#{lon}",
       ]
     end
 
-    def search(radius: nil, types: nil)
-      radius ||= RADIUS
-      types  ||= TYPES
+    def search(types)
+      types ||= TYPES
 
-      @params.push(
-        "radius=#{radius}",
-        "types=#{types}"
-      )
+      @params.push("types=#{types}")
 
       res = exec_request(:get, API_URI, *params)
       format_response(res)
