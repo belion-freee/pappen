@@ -74,10 +74,10 @@ module LineHelper
         results = GoogleHelper::Place.new(lat, lon).search
 
         if results.present?
-          msg = Array({ type: "text", text: "近くの銀行とATMを教えるよ#{uni(0x100084)}" })
+          msg = [{ type: "text", text: "近くの銀行とATMを教えるよ#{uni(0x100084)}" }]
 
           results.each_with_index {|res, i|
-            break if i.positive?
+            break if i > 3
             loc = res["geometry"]["location"]
             msg << {
               type:      "location",
@@ -153,10 +153,14 @@ module LineHelper
         res = client.reply_message(reply_token, msg)
 
         unless res.present? && res.code == SUCCESS
-          Rails.logger.error("response code : #{res.code}")
-          Rails.logger.error("response body : #{res.body}")
-          Rails.logger.error("response entity : #{res.entity}")
-          raise "Line API returned Error. request params : #{reqest_msg}"
+          Rails.logger.error(
+            <<~ERROR
+              Line API returned Error.
+              request params : #{reqest_msg}
+              response code : #{res.code}
+              response body : #{res.body}
+            ERROR
+          )
         end
       end
   end
