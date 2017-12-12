@@ -150,7 +150,14 @@ module LineHelper
       end
 
       def reply_message(msg)
-        client.reply_message(reply_token, msg)
+        res = client.reply_message(reply_token, msg)
+
+        unless res.present? && res.code == SUCCESS
+          Rails.logger.error("response code : #{res.code}")
+          Rails.logger.error("response body : #{res.body}")
+          Rails.logger.error("response entity : #{res.entity}")
+          raise "Line API returned Error. request params : #{reqest_msg}"
+        end
       end
   end
 end
