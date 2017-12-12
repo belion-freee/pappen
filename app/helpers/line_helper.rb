@@ -77,7 +77,7 @@ module LineHelper
           msg = Array({ type: "text", text: "近くの銀行とATMを教えるよ#{uni(0x100084)}" })
 
           results.each_with_index {|res, i|
-            break if i > 3
+            break if i.positive?
             loc = res["geometry"]["location"]
             msg << {
               type:      "location",
