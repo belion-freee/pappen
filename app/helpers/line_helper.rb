@@ -88,7 +88,9 @@ module LineHelper
             }
           }
 
-          reply_message(msg)
+          Rails.logger.info("これがリクじゃボケ#{msg}")
+          res = reply_message(msg)
+          Rails.logger.info("これがレスじゃボケ#{res}")
         else
           reply_message(type: "text", text: "近くに銀行やATMはないみたい#{uni(0x10007B)}")
         end
