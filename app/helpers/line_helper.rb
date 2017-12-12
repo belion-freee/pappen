@@ -53,7 +53,7 @@ module LineHelper
           livedoor_weather(msg.first)
         when "動画"
           msg.slice!(0)
-          livedoor_weather(msg.first)
+          you_tube(msg)
         else
           chatting(msg.first)
         end
