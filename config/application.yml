@@ -5,12 +5,15 @@ defaults: &defaults
     success: '200'
   account:
     line:
-      bot_name:       ぱっぷん
+      bot_name: ぱっぷん
     google:
       books:
         uri: https://www.googleapis.com/books/v1/volumes
       place:
         uri: https://maps.googleapis.com/maps/api/place/nearbysearch/json
+      youtube:
+        search_uri: https://www.googleapis.com/youtube/v3/search
+        video_uri:  https://www.youtube.com/watch
     livedoor:
       weather:
         uri: http://weather.livedoor.com/forecast/webservice/json/v1

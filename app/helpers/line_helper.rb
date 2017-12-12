@@ -33,26 +33,30 @@ module LineHelper
       when "location"
         reply_location(reqest_msg["latitude"], reqest_msg["longitude"])
       else
-        reply_text("文字で話しかけてね#{uni(0x10009D)}", strict: true)
+        reply_message({ type: "text", text: "文字で話しかけてね#{uni(0x10009D)}" })
       end
     end
 
     private
 
-      def reply_text(*msg, strict: false)
+      def reply_text(*msg)
         Rails.logger.info("Bot名をのぞいたリクエストメッセージ : #{msg}")
+
         msg = ["Hello"] if msg.blank?
-        response = case msg.first
-                   when "本", "図書", "書籍"
-                     msg.slice!(0)
-                     google_books(msg)
-                   when "天気"
-                     msg.slice!(0)
-                     livedoor_weather(msg.first)
-                   else
-                     strict ? msg.first : chatting(msg.first)
-                   end
-        reply_message({ type: "text", text: response })
+
+        case msg.first
+        when "本", "図書", "書籍"
+          msg.slice!(0)
+          google_books(msg)
+        when "天気"
+          msg.slice!(0)
+          livedoor_weather(msg.first)
+        when "動画"
+          msg.slice!(0)
+          livedoor_weather(msg.first)
+        else
+          chatting(msg.first)
+        end
       end
 
       def reply_sticker
@@ -97,7 +101,12 @@ module LineHelper
       end
 
       def chatting(msg)
-        DocomoHelper::Docomo.new.chatting(source["userId"], msg)
+        reply_message(
+          {
+            type: "text",
+            text: DocomoHelper::Docomo.new.chatting(source["userId"], msg),
+          }
+        )
       end
 
       def google_books(msg)
@@ -111,7 +120,7 @@ module LineHelper
           reply << "著者 : #{info["authors"].join(",")}\n"
           reply << "詳細 : #{info["infoLink"]}\n\n"
         }
-        reply
+        reply_message({ type: "text", text: reply })
       end
 
       def livedoor_weather(msg)
@@ -135,7 +144,23 @@ module LineHelper
           reply << "詳細な説明だよ#{uni(0x1000B1)}\n"
           reply << res["description"]["text"]
         end
-        reply
+        reply_message({ type: "text", text: reply })
+      end
+
+      def you_tube(msg)
+        youtube = GoogleHelper::YouTube.new
+        res = youtube.search(msg)
+
+        reply = [{ type: "text", text: "YouTubeで検索したよ#{uni(0x100084)}" }]
+
+        res.each {|r|
+          reply << {
+            type:               "video",
+            originalContentUrl: "#{youtube.video_uri}?v=#{r["id"]["videoId"]}",
+            previewImageUrl:    r["snippet"]["thumbnails"]["default"]["url"],
+          }
+        }
+        reply_message(reply)
       end
 
       def valid?
