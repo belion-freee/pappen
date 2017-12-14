@@ -31,7 +31,7 @@ module LineHelper
       when "sticker"
         reply_sticker
       when "location"
-        reply_location(reqest_msg["latitude"], reqest_msg["longitude"])
+        update_location(reqest_msg["latitude"], reqest_msg["longitude"])
       else
         reply_message({ type: "text", text: "文字で話しかけてね#{uni(0x10009D)}" })
       end
@@ -45,17 +45,17 @@ module LineHelper
         msg = ["Hello"] if msg.blank?
 
         case msg.first
-        when "本", "図書", "書籍"
+        when "本"
           msg.slice!(0)
           google_books(msg)
         when "天気"
           msg.slice!(0)
-          livedoor_weather(msg.first)
-        when "動画"
+          livedoor_weather(msg.try(:first))
+        when "マップ"
           msg.slice!(0)
-          you_tube(msg)
+          reply_location(msg.try(:first))
         else
-          chatting(msg.first)
+          chatting(msg.try(:first))
         end
       end
 
@@ -74,13 +74,21 @@ module LineHelper
         )
       end
 
-      def reply_location(lat, lon)
-        raise "required params are blank at reply_location" unless lat.present? && lon.present?
+      def reply_location(types)
+        if types.blank?
+          return reply_message({ type: "text", text: "検索したい項目を教えてね#{uni(0x100084)}" })
+        end
 
-        results = GoogleHelper::Place.new(lat, lon).search(:convenience_store)
+        info = LastLocationInfo.where(uid: source["userId"])
+
+        if info.blank?
+          return reply_message({ type: "text", text: "始めに現在地を教えてね#{uni(0x100084)}" })
+        end
+
+        results = GoogleHelper::Place.new(info.lat, info.lon).search(types)
 
         if results.present?
-          msg = [{ type: "text", text: "近くのコンビニを教えるよ#{uni(0x100084)}" }]
+          msg = [{ type: "text", text: "近くの#{types}を教えるよ#{uni(0x100084)}" }]
 
           results.each_with_index {|res, i|
             break if i > 3
@@ -96,7 +104,7 @@ module LineHelper
 
           reply_message(msg)
         else
-          reply_message({ type: "text", text: "近くにコンビニはないみたい#{uni(0x10007B)}" })
+          reply_message({ type: "text", text: "近くに#{types}はないみたい#{uni(0x10007B)}" })
         end
       end
 
@@ -161,6 +169,19 @@ module LineHelper
           }
         }
         reply_message(reply)
+      end
+
+      def update_location(lat, lon)
+        info = LastLocationInfo.where(uid: source["userId"])
+
+        if info.blank?
+          info = LastLocationInfo.new(uid: source["userId"], lat: lat, lon: lon)
+        else
+          info.lat = lat
+          info.lon = lon
+        end
+        info.save!
+        reply_message({ type: "text", text: "現在地を登録したよ#{uni(0x100084)}" })
       end
 
       def valid?

@@ -1,0 +1,2 @@
+class LastLocationInfo < ApplicationRecord
+end

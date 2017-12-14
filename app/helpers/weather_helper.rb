@@ -5,7 +5,7 @@ module WeatherHelper
     include WeatherHelper
 
     API_URI = Settings.account.livedoor.weather.uri
-    CITYS = Settings.weather[:city]
+    CITYS = WeatherSettings[:city]
 
     attr_accessor :params
 

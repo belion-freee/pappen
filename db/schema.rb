@@ -10,14 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171114045941) do
+ActiveRecord::Schema.define(version: 20171213065952) do
 
   create_table "last_dialogue_infos", force: :cascade do |t|
-    t.string "uid"
-    t.string "mode"
-    t.string "context"
+    t.string "uid", null: false
+    t.string "mode", null: false
+    t.string "context", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["uid"], name: "index_last_dialogue_infos_on_uid", unique: true
+  end
+
+  create_table "last_location_infos", force: :cascade do |t|
+    t.string "uid", null: false
+    t.float "lat", null: false
+    t.float "lon", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["uid"], name: "index_last_location_infos_on_uid", unique: true
   end
 
   create_table "maxims", force: :cascade do |t|

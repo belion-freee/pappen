@@ -38,8 +38,6 @@ module GoogleHelper
   class Place
     include GoogleHelper
 
-    TYPES = "cafe".freeze
-
     def initialize(lat, lon)
       @params = [
         "language=ja",
@@ -47,13 +45,13 @@ module GoogleHelper
         "rankby=distance",
         "location=#{lat},#{lon}",
       ]
-      @uri    = Settings.account.google.place.uri
+      @uri = Settings.account.google.place.uri
     end
 
-    def search(types)
-      types ||= TYPES
+    def search(q)
+      raise "required params keyword is blank!" if q.blank?
 
-      @params.push("types=#{types}")
+      @params.push("keyword=#{q}")
 
       res = exec_request(:get, uri, *params)
       format_response(res)

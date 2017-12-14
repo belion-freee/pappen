@@ -26,7 +26,6 @@ class HomeController < ApplicationController
   def debug
     reply = { title: "this is debug" }
     # TODO: describe debug code you wanna trace
-    reply = GoogleHelper::YouTube.new.search(params[:q])
     render json: reply
   end
 end

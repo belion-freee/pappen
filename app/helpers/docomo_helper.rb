@@ -13,7 +13,7 @@ module DocomoHelper
     end
 
     def chatting(uid, msg)
-      info = LastDialogueInfo.where(uid: uid).last
+      info = LastDialogueInfo.where(uid: uid)
 
       if info.blank?
         res =  client.create_dialogue(msg)
