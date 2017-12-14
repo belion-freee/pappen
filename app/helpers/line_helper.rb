@@ -172,7 +172,7 @@ module LineHelper
       end
 
       def update_location(lat, lon)
-        info = LastLocationInfo.where(uid: source["userId"])
+        info = LastLocationInfo.where(uid: source["userId"]).last
 
         if info.blank?
           info = LastLocationInfo.new(uid: source["userId"], lat: lat, lon: lon)
