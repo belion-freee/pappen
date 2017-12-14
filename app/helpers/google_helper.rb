@@ -40,7 +40,6 @@ module GoogleHelper
 
     def initialize(lat, lon)
       @params = [
-        "language=ja",
         "key=#{env(:google_api_key)}",
         "rankby=distance",
         "location=#{lat},#{lon}",
