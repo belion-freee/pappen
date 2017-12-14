@@ -79,7 +79,7 @@ module LineHelper
           return reply_message({ type: "text", text: "検索したい項目を教えてね#{uni(0x100084)}" })
         end
 
-        info = LastLocationInfo.where(uid: source["userId"])
+        info = LastLocationInfo.where(uid: source["userId"]).last
 
         if info.blank?
           return reply_message({ type: "text", text: "始めに現在地を教えてね#{uni(0x100084)}" })
