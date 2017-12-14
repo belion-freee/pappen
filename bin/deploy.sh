@@ -1,15 +1,24 @@
 #!/bin/bash
 set -ux
 
+getopts "npm" npm
+getopts "db" db
+
 # change branch to master
 trap 'git checkout master && git branch -D release' EXIT
 
 # change branch to release
 git checkout master && git checkout -b release
 
-# exec cmd before deploy to heroku
-npm run build
-# heroku run rails db:migrate
+# build assets
+if [[ $npm != "?" ]]; then
+  npm run build
+fi
+
+# migrate db
+if [[ $db != "?" ]]; then
+  heroku run rails db:migrate
+fi
 
 # push to release branch
 git add .
