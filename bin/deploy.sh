@@ -15,14 +15,14 @@ if [[ $npm != "?" ]]; then
   npm run build
 fi
 
-# migrate db
-if [[ $db != "?" ]]; then
-  heroku run rails db:migrate
-fi
-
 # push to release branch
 git add .
 git commit -m "Deploying to Heroku"
 
 # deploy to heroku
 git push heroku release:master --force
+
+# migrate db
+if [[ $db != "?" ]]; then
+  heroku run rails db:migrate
+fi
