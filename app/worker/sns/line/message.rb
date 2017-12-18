@@ -10,7 +10,7 @@ class Sns::Line::Message < Sns::Line::Base
     # exclude in cases other than group and text
     return if source["type"] != "user" && !reqest_msg["text"].try(:include?, BOT_NAME)
 
-    reqest_msg["text"].delete!(BOT_NAME)
+    @reqest_msg["text"].try(:delete!, BOT_NAME)
 
     # distribute methods by type
     method_name = "request_type_#{reqest_msg["type"]}"
