@@ -28,7 +28,7 @@ module Sns::Line::LineBot
   def livedoor_weather(msg, _)
     city = msg.try(:first) || "東京"
 
-    res = Weather::Livedoor.new.search(city)
+    res = Weather::LiveDoor.new.search(city)
 
     if res.present?
       reply = "#{res["title"]}を教えるね#{uni(0x10007F)}\n\n"
