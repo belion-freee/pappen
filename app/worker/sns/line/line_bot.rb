@@ -15,10 +15,12 @@ module Sns::Line::LineBot
 
     reply = "検索結果だよ！\n上位の10件を教えるね#{uni(0x100078)}\n\n"
 
-    res.each {|r|
+    res.each_with_index {|r, i|
+      break if i > 4
+
       info = r["volumeInfo"]
       reply << "タイトル : #{info["title"]}\n"
-      reply << "著者 : #{info["authors"]}\n"
+      reply << "著者 : #{info["authors"].try(:join, ",")}\n"
       reply << "詳細 : #{info["infoLink"]}\n\n"
     }
 
