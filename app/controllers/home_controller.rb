@@ -1,6 +1,4 @@
 class HomeController < ApplicationController
-  include HomeHelper
-
   protect_from_forgery except: [:line]
 
   def index
@@ -9,14 +7,14 @@ class HomeController < ApplicationController
   end
 
   def tweet
-    TwitterHelper::Tweet.new.random_tweet(params[:category])
+    Sns::Twitter::Tweet.new.random_tweet(params[:category])
   rescue => e
     Rails.logger.error(e)
     @res = e.message
   end
 
   def line
-    LineHelper::LineBot.new(request, params["events"].first).callback
+    Sns::Line::Message.new(request, params["events"].first).callback
     head :ok
   rescue => e
     Rails.logger.error(e)
