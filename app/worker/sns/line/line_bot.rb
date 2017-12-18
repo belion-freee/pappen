@@ -1,7 +1,7 @@
 # A module describing the actual processing relating to linebot
 # it is necessary to return nil or reply_message's hash
 module Sns::Line::LineBot
-  def chatting(msg, user_id)
+  def chat(msg, user_id)
     text = msg.try(:first) || "hello"
 
     {
