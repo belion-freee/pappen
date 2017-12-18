@@ -37,7 +37,7 @@ class Sns::Line::Message < Sns::Line::Base
         msg.slice!(0)
         send(method_name.keys.first, msg, source["userId"])
       else
-        chatting(msg, source["userId"])
+        chat(msg, source["userId"])
       end
     end
 

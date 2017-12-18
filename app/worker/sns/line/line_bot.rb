@@ -6,7 +6,7 @@ module Sns::Line::LineBot
 
     {
       type: "text",
-      text: Docomo::Chat.new.chatting(user_id, text),
+      text: Docomo::Chat.new.chat(user_id, text),
     }
   end
 
