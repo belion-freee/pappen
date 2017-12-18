@@ -13,7 +13,7 @@ module Sns::Line::LineBot
   def google_books(msg, _)
     res = Google::Book.new.search(msg)
 
-    reply = "検索結果だよ！\n上位の10件を教えるね#{uni(0x100078)}\n\n"
+    reply = "検索結果だよ！\n上位の5件を教えるね#{uni(0x100078)}\n\n"
 
     res.each_with_index {|r, i|
       break if i > 4
