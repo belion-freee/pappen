@@ -18,7 +18,7 @@ module Sns::Line::LineBot
     res.each {|r|
       info = r["volumeInfo"]
       reply << "タイトル : #{info["title"]}\n"
-      reply << "著者 : #{info["authors"].join(",")}\n"
+      reply << "著者 : #{info["authors"]}\n"
       reply << "詳細 : #{info["infoLink"]}\n\n"
     }
 

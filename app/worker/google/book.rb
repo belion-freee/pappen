@@ -10,7 +10,7 @@ class Google::Book < Google::Base
     raise "keyword is valid format #{word}" if word.blank?
 
     @params[:q] = concat(word)
-    Rails.logger.info(@params)
+
     format_response(
       exec_request(:get),
       "items"
