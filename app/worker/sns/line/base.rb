@@ -48,4 +48,11 @@ class Sns::Line::Base
         ERROR
       end
     end
+
+    def get_group_member_profile(gid)
+      res = client.get_group_member_profile(gid, :ids)
+      Rails.logger.info(res)
+      Rails.logger.info(res.body)
+      Rails.logger.info(res.body["memberIds"])
+    end
 end

@@ -4,6 +4,7 @@ class Sns::Line::Message < Sns::Line::Base
     google_books:     %w[本 書籍 ブック],
     livedoor_weather: %w[天気 天候 ウェザー],
     google_place:     %w[地図 所在地 施設 マップ],
+    topuru:           %w[とぷる トプル イベント],
   }.freeze
 
   def callback
@@ -18,9 +19,16 @@ class Sns::Line::Message < Sns::Line::Base
       send(method_name) :
       { type: :text, text: "処理できな-い#{uni(0x10009D)}" }
 
-    res.present? ?
-    reply_message(res) :
-    Rails.logger.info("line reply had not send")
+    if res.present?
+      if res.is_a?(Array)
+        res.each_with_index {|r, i|
+          r.() && res.delete_at(i) if r.is_a?(Proc)
+        }
+      end
+      reply_message(res)
+    else
+      Rails.logger.info("line reply had not send")
+    end
   end
 
   protected
@@ -35,9 +43,9 @@ class Sns::Line::Message < Sns::Line::Base
 
       if method_name.present?
         msg.slice!(0)
-        send(method_name.keys.first, msg, source["userId"])
+        send(method_name.keys.first, msg, uid: source["userId"], gid: source.try(:[], "groupId"))
       else
-        chat(msg, source["userId"])
+        chat(msg, uid: source["userId"])
       end
     end
 

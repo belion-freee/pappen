@@ -1,8 +1,9 @@
 # A module describing the actual processing relating to linebot
 # it is necessary to return nil or reply_message's hash
 module Sns::Line::LineBot
-  def chat(msg, user_id)
+  def chat(msg, **opts)
     text = msg.try(:first) || "hello"
+    user_id = opts[:uid]
 
     {
       type: "text",
@@ -10,7 +11,7 @@ module Sns::Line::LineBot
     }
   end
 
-  def google_books(msg, _)
+  def google_books(msg, **opts)
     res = Google::Book.new.search(msg)
 
     reply = "検索結果だよ！\n上位の5件を教えるね#{uni(0x100078)}\n\n"
@@ -27,7 +28,7 @@ module Sns::Line::LineBot
     { type: "text", text: reply }
   end
 
-  def livedoor_weather(msg, _)
+  def livedoor_weather(msg, **opts)
     city = msg.try(:first) || "東京"
 
     res = Weather::LiveDoor.new.search(city)
@@ -54,8 +55,9 @@ module Sns::Line::LineBot
     { type: "text", text: reply }
   end
 
-  def google_place(msg, user_id)
+  def google_place(msg, **opts)
     types = msg.try(:first)
+    user_id = opts[:uid]
 
     if types.blank?
       return { type: "text", text: "検索したい項目を教えてね#{uni(0x100084)}" }
@@ -87,6 +89,63 @@ module Sns::Line::LineBot
       msg
     else
       { type: "text", text: "近くに#{types}はないみたい#{uni(0x10007B)}" }
+    end
+  end
+
+  def topuru(msg, **opts)
+    types = msg.try(:first)
+    gid = opts[:gid]
+
+    if types.blank?
+      events = Event.where(gid: gid)
+
+      res = [get_group_member_profile(gid)]
+
+      res << events.blank? ?
+        {
+          type:     :template,
+          altText:  "まだイベントが登録されてないよ！",
+          template: {
+            type:    :confirm,
+            text:    "イベントを新しく作る?",
+            actions: [
+              {
+                type:  :uri,
+                label: "はい",
+                uri:   Settings.account.topuru.uri.create % gid,
+              },
+              {
+                type:  :message,
+                label: "いいえ",
+                text:  "OK!\nまたイベント作りたくなったら教えてね#{uni(0x100084)}",
+              },
+            ],
+          },
+        } :
+        {
+          type:     :template,
+          altText:  "イベントを選んでね！",
+          template: {
+            type:    :carousel,
+            columns: events.map {|ev|
+                       {
+                         text:    ev.name,
+                         actions: [
+                           {
+                             type:  :uri,
+                             label: "詳細",
+                             uri:   Settings.account.topuru.uri.create % ev.id,
+                           },
+                           {
+                             type:  :postback,
+                             label: "お会計",
+                             data:  "export&event_id=#{ev.id}",
+                           },
+                         ],
+                       }
+                     },
+          },
+        }
     end
   end
 
