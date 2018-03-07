@@ -1,0 +1,49 @@
+<%- model_class = Event -%>
+<div class="page-header">
+  <h1><%= t("helpers.titles.event_show") %></h1>
+</div>
+
+<table class="table table-striped">
+  <tbody>
+    <tr>
+      <th class="text-center"><%= model_class.human_attribute_name(:name) %></th>
+      <td><%= @event.name %></td>
+    </tr>
+    <tr>
+      <th class="text-center"><%= model_class.human_attribute_name(:place) %></th>
+      <td><%= @event.place %></td>
+    </tr>
+    <tr>
+      <th class="text-center"><%= model_class.human_attribute_name(:start) %></th>
+      <td><%= l @event.start %></td>
+    </tr>
+    <tr>
+      <th class="text-center"><%= model_class.human_attribute_name(:end) %></th>
+      <td><%= l @event.end %></td>
+    </tr>
+    <tr>
+      <th class="text-center"><%= model_class.human_attribute_name(:sponsors) %></th>
+      <td><%= User.where(id: @event.sponsors).map(&:name).join(", ") %></td>
+    </tr>
+    <tr>
+      <th class="text-center"><%= model_class.human_attribute_name(:member) %></th>
+      <td><%= @event.users.map(&:name).join(", ") %></td>
+    </tr>
+    <tr>
+      <th class="text-center"><%= model_class.human_attribute_name(:memo) %></th>
+      <td><%= @event.memo %></td>
+    </tr>
+  </tbody>
+</table>
+
+<%= link_to t("helpers.links.back"), root_path, :class => 'btn btn-info'  %>
+<%= link_to t("helpers.links.edit"), edit_event_path(@event), class: 'btn btn-success' %>
+<%= link_to t("helpers.links.destroy"),
+            event_path(@event),
+            method: :delete,
+            data: { confirm: t("helpers.links.confirm") },
+            class: 'btn btn-danger' %>
+
+<%= render template: 'expenses/index' %>
+
+<%= render partial: 'accounting' %>

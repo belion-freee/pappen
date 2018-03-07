@@ -8,4 +8,6 @@ Rails.application.routes.draw do
   get "/debug", to: "home#debug", as: :debug
 
   resources :maxims
+  resources :events
+  resources :expenses
 end

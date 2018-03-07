@@ -1,0 +1,73 @@
+<script>
+// refresh because it cannot display because of side effect at first
+$('.selectpicker').selectpicker('refresh');
+</script>
+
+<%= form_for @event, :html => { class: "form-horizontal" } do |f| %>
+
+  <% if @event.errors.any? %>
+    <div id="error_expl" class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= pluralize(@event.errors.count, "error") %> prohibited this event from being saved:</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+        <% @event.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :name, class: 'control-label col-lg-2' %>
+    <div class="col-lg-4 col-xs-10">
+      <%= f.text_field :name, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :place, class: 'control-label col-lg-2' %>
+    <div class="col-lg-4 col-xs-10">
+      <%= f.text_field :place, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :start, class: 'control-label col-lg-2' %>
+    <div class="col-lg-2 col-xs-6">
+      <%= f.date_field :start, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :end, class: 'control-label col-lg-2' %>
+    <div class="col-lg-2 col-xs-6">
+      <%= f.date_field :end, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :sponsors, class: 'control-label col-lg-2' %>
+    <div class="col-lg-4 col-xs-6">
+      <%= f.collection_select :sponsors, User.selection(current_user), :id, :name, {}, { multiple: true, class: "selectpicker" } %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :member, class: 'control-label col-lg-2' %>
+    <div class="col-lg-4 col-xs-6">
+      <%= f.collection_select :user_ids, User.selection(current_user), :id, :name, {selected: @event.users.map(&:id)}, { multiple: true, class: "selectpicker" } %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :memo, class: 'control-label col-lg-2' %>
+    <div class="col-lg-6 col-xs-12">
+      <%= f.text_area :memo, class: 'form-control', rows: 6 %>
+    </div>
+  </div>
+
+  <div class="form-group nowrap">
+    <div class="col-lg-offset-2 col-lg-4 col-xs-10">
+      <%= f.submit t("helpers.links.#{action}"), class: 'btn btn-primary' %>
+      <%= link_to t("helpers.links.cancel"), root_path, class: 'btn btn-warning' %>
+    </div>
+  </div>
+
+<% end %>

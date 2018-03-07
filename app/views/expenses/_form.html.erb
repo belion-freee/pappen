@@ -1,0 +1,49 @@
+<script>
+// refresh because it cannot display because of side effect at first
+$('.selectpicker').selectpicker('refresh');
+</script>
+
+<%= form_for @expense, :html => { class: "form-horizontal" } do |f| %>
+<%= f.hidden_field :event_id, value: @event.id %>
+  <% if @expense.errors.any? %>
+    <div id="error_expl" class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= pluralize(@expense.errors.count, "error") %> prohibited this expense from being saved:</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+        <% @expense.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :name, class: 'control-label col-lg-2' %>
+    <div class="col-lg-4 col-xs-10">
+      <%= f.text_field :name, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :user_id, class: 'control-label col-lg-2' %>
+    <div class="col-lg-4 col-xs-6">
+      <%= f.collection_select :user_id, @event.users, :id, :name, {}, { class: "selectpicker" } %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :payment, class: 'control-label col-lg-2' %>
+    <div class="col-lg-2 col-xs-8">
+      <%= f.number_field :payment, class: 'form-control' %>
+    </div>
+  </div>
+
+  <div class="form-group nowrap">
+    <div class="col-lg-offset-2 col-lg-4 col-xs-6">
+      <%= f.submit t("helpers.links.#{action}"), class: 'btn btn-primary' %>
+      <%= link_to t("helpers.links.cancel"), event_path(@event), class: 'btn btn-warning' %>
+    </div>
+  </div>
+
+<% end %>

@@ -14,6 +14,10 @@ defaults: &defaults
     livedoor:
       weather:
         uri: http://weather.livedoor.com/forecast/webservice/json/v1
+    topuru:
+      uri:
+        create: https://topuru.herokuapp.com/events/new&gid=%s
+        show:   https://topuru.herokuapp.com/events/show/%s
   maxim:
     category:
       movie: 映画

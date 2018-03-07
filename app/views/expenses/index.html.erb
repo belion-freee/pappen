@@ -1,0 +1,38 @@
+<%- model_class = Expense -%>
+<div class="page-header">
+  <h2><%= t("helpers.titles.expense_index") %></h2>
+</div>
+<table class="table table-striped">
+  <thead>
+    <thead>
+      <tr class="nowrap">
+        <th><%= model_class.human_attribute_name(:total) %></th>
+        <th><%= m @total %></th>
+      </tr>
+    </thead>
+    <tr class="nowrap">
+      <th><%= model_class.human_attribute_name(:name) %></th>
+      <th><%= model_class.human_attribute_name(:user) %></th>
+      <th><%= model_class.human_attribute_name(:payment) %></th>
+      <th><%= t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @expenses.each do |expense| %>
+      <tr>
+        <td><%= expense.name %></td>
+        <td><%= User.find(expense.user_id).name %></td>
+        <td class="nowrap"><%= m expense.payment %></td>
+        <td class="nowrap">
+          <%= link_to t("helpers.links.edit"), edit_expense_path(expense), class: 'btn btn-success' %>
+          <%= link_to t("helpers.links.destroy"),
+                      expense_path(expense),
+                      method: :delete,
+                      data: { confirm: t("helpers.links.confirm") },
+                      class: 'btn btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= link_to t("helpers.links.new"), new_expense_path(event_id: params[:id]), class: 'btn btn-primary' %>

@@ -1,0 +1,25 @@
+<div class="page-header">
+  <h2><%= t("helpers.titles.accounting") %></h2>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr class="nowrap">
+      <th><%= t("helpers.attributes.accounting.user") %></th>
+      <th><%= t("helpers.attributes.accounting.payment") %></th>
+      <th><%= t("helpers.attributes.accounting.fee") %></th>
+      <th><%= t("helpers.attributes.accounting.amount") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @accountings.each do |accounting| %>
+      <tr>
+        <td><%= accounting[:user] %></td>
+        <td class="nowrap"><%= m accounting[:payment] %></td>
+        <td class="nowrap"><%= m accounting[:fee] %></td>
+        <td class="nowrap">
+          <strong><%= m accounting[:amount] %></strong> <%= accounting[:message] %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
