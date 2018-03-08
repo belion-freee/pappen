@@ -3,7 +3,6 @@ class RoomMembers < ApplicationRecord
   has_many :events, through: :room_member_events
   has_many :expenses, dependent: :destroy
 
-  validates :gid
   validates :uid, presence: true
   validates :name, presence: true
 end
