@@ -50,10 +50,11 @@ class Sns::Line::Base
     end
 
     def get_group_member_profile(gid)
-      res = client.get_group_member_profile(gid, :ids)
+      res = client.get_group_member_ids(gid)
       Rails.logger.info(gid)
       Rails.logger.info(res)
       Rails.logger.info(res.body)
-      Rails.logger.info(res.body["memberIds"])
+      Rails.logger.info(res.body.key) if res.body.is_a?(Hush)
+      Rails.logger.info(res.body["memberIds"]) if res.body.is_a?(Hush) && res.body.try(:[], "memberIds")
     end
 end
