@@ -54,7 +54,7 @@ class Sns::Line::Base
       Rails.logger.info(gid)
       Rails.logger.info(res)
       Rails.logger.info(res.body)
-      Rails.logger.info(res.body.key) if res.body.is_a?(Hush)
-      Rails.logger.info(res.body["memberIds"]) if res.body.is_a?(Hush) && res.body.try(:[], "memberIds")
+      Rails.logger.info(res.body.key) if res.body.is_a?(Hash)
+      Rails.logger.info(res.body["memberIds"]) if res.body.is_a?(Hash) && res.body.try(:[], "memberIds")
     end
 end
