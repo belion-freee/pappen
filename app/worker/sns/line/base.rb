@@ -50,11 +50,14 @@ class Sns::Line::Base
     end
 
     def get_group_member_profile(gid)
-      res = client.get_group_member_ids(gid)
-      Rails.logger.info(gid)
-      Rails.logger.info(res)
-      Rails.logger.info(res.body)
-      Rails.logger.info(res.body.key) if res.body.is_a?(Hash)
-      Rails.logger.info(res.body["memberIds"]) if res.body.is_a?(Hash) && res.body.try(:[], "memberIds")
+      res = client.get_group_member_ids(gid, reply_token)
+      unless res.present? && res.code == SUCCESS
+        raise <<~ERROR
+          \nLine API returned Error.
+          request params : #{gid}
+          response code : #{res.try(:code)}
+          response body : #{res.try(:body)}
+        ERROR
+      end
     end
 end
