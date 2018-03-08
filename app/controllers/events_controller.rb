@@ -17,6 +17,7 @@ class EventsController < ApplicationController
 
   # GET /events/new
   def new
+    @room_members = RoomMember.where(gid: params[:gid])
     @event = Event.new
   end
 

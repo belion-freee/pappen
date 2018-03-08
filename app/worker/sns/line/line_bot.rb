@@ -104,27 +104,22 @@ module Sns::Line::LineBot
       res << events.blank? ?
         {
           type:     :template,
-          altText:  "まだイベントが登録されてないよ！",
+          altText:  :confirm,
           template: {
             type:    :confirm,
-            text:    "イベントを新しく作る?",
+            text:    "まだイベントが登録されてないよ！\nイベントを新しく作る？#{uni(0x10007F)}",
             actions: [
               {
                 type:  :uri,
                 label: "はい",
                 uri:   Settings.account.topuru.uri.create % gid,
               },
-              {
-                type:  :message,
-                label: "いいえ",
-                text:  "OK!\nまたイベント作りたくなったら教えてね#{uni(0x100084)}",
-              },
             ],
           },
         } :
         {
           type:     :template,
-          altText:  "イベントを選んでね！",
+          altText:  "イベントを選んでね！#{uni(0x100079)}",
           template: {
             type:    :carousel,
             columns: events.map {|ev|

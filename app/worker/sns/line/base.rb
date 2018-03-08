@@ -51,6 +51,7 @@ class Sns::Line::Base
 
     def get_group_member_profile(gid)
       res = client.get_group_member_profile(gid, :ids)
+      Rails.logger.info(gid)
       Rails.logger.info(res)
       Rails.logger.info(res.body)
       Rails.logger.info(res.body["memberIds"])
