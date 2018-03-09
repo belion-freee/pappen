@@ -22,12 +22,8 @@
       <td><%= l @event.end %></td>
     </tr>
     <tr>
-      <th class="text-center"><%= model_class.human_attribute_name(:sponsors) %></th>
-      <td><%= User.where(id: @event.sponsors).map(&:name).join(", ") %></td>
-    </tr>
-    <tr>
-      <th class="text-center"><%= model_class.human_attribute_name(:member) %></th>
-      <td><%= @event.users.map(&:name).join(", ") %></td>
+      <th class="text-center"><%= model_class.human_attribute_name(:room_members) %></th>
+      <td><%= @event.room_members.map(&:name).join(", ") %></td>
     </tr>
     <tr>
       <th class="text-center"><%= model_class.human_attribute_name(:memo) %></th>
@@ -36,7 +32,6 @@
   </tbody>
 </table>
 
-<%= link_to t("helpers.links.back"), root_path, :class => 'btn btn-info'  %>
 <%= link_to t("helpers.links.edit"), edit_event_path(@event), class: 'btn btn-success' %>
 <%= link_to t("helpers.links.destroy"),
             event_path(@event),

@@ -1,10 +1,11 @@
 class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
+  before_action :set_member, only: [:new, :create]
 
   # GET /events
   # GET /events.json
   def index
-    @events = Event.where(gid: params[:gid])
+    @events = Event.all
   end
 
   # GET /events/1
@@ -17,7 +18,6 @@ class EventsController < ApplicationController
 
   # GET /events/new
   def new
-    @room_members = RoomMember.where(gid: params[:gid])
     @event = Event.new
   end
 
@@ -28,11 +28,11 @@ class EventsController < ApplicationController
   # POST /events.json
   def create
     permitted_params = event_params
-    @event = Event.new(permitted_params.except(:uids))
+    @event = Event.new(permitted_params)
 
     respond_to do |format|
-      if @event.save && @event.update(uids: permitted_params[:uids])
-        format.html { redirect_to @event, notice: "Event was successfully created." }
+      if @event.save
+        format.html { redirect_to @event }
         format.json { render :show, status: :created, location: @event }
       else
         format.html { render :new }
@@ -46,7 +46,7 @@ class EventsController < ApplicationController
   def update
     respond_to do |format|
       if @event.update(event_params)
-        format.html { redirect_to @event, notice: "Event was successfully updated." }
+        format.html { redirect_to @event }
         format.json { render :show, status: :ok, location: @event }
       else
         format.html { render :edit }
@@ -62,32 +62,36 @@ class EventsController < ApplicationController
       @event = Event.find(params[:id])
     end
 
+    def set_member
+      head :bad_request unless params[:rmid].present? && RoomMember.find(params[:rmid]).try(:gid).present?
+      @rmid    = params[:rmid]
+      @members = RoomMember.where(gid: RoomMember.find(params[:rmid]).gid)
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-      format_params params.require(:event).permit(:name, :place, :start, :end, :memo, uids: [])
+      format_params params.require(:event).permit(:name, :place, :start, :end, :memo, room_member_ids: [])
     end
 
     def format_params(permitted_params)
-      permitted_params[:uids].delete("")
-      raise "member should be exist at least 1" if permitted_params[:uids].blank?
+      permitted_params[:room_member_ids].delete("")
       permitted_params
     end
 
     def create_accountings
       return [] if @expenses.blank?
-      members = @event.users
-      fee = @total.div(members.count)
+      members = @event.room_members
+      @fee = @total.div(members.count)
       members.map {|user|
         name = user.name
-        payment = @expenses.where(uids: user.id).map {|ex| ex[:payment] }.inject(:+) || 0
-        amount = payment - fee
+        payment = @expenses.where(room_member_id: user.id).map {|ex| ex[:payment] }.inject(:+) || 0
+        amount = payment - @fee
         message = amount.negative? ? "お支払いください" : "受け取ってください"
         {
-          user:    name,
-          payment: payment,
-          fee:     fee,
-          amount:  amount.abs,
-          message: message,
+          room_member: name,
+          payment:     payment,
+          amount:      amount.abs,
+          message:     message,
         }
       }
     end

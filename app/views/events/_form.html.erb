@@ -20,6 +20,10 @@ $('.selectpicker').selectpicker('refresh');
     </div>
   <% end %>
 
+  <% if @rmid.present? %>
+    <%= hidden_field_tag :rmid, @rmid %>
+  <% end %>
+
   <div class="form-group">
     <%= f.label :name, class: 'control-label col-lg-2' %>
     <div class="col-lg-4 col-xs-10">
@@ -45,9 +49,9 @@ $('.selectpicker').selectpicker('refresh');
     </div>
   </div>
   <div class="form-group">
-    <%= f.label :member, class: 'control-label col-lg-2' %>
-    <div class="col-lg-4 col-xs-6">
-      <%= f.collection_select :user_ids, @room_members, :id, :name, {selected: @event.room_members.map(&:id)}, { multiple: true, class: "selectpicker" } %>
+    <%= f.label :room_members, class: 'control-label col-lg-2' %>
+    <div class="col-lg-6 col-xs-12">
+      <%= f.collection_select :room_member_ids, @members, :id, :name, { selected: @event.room_member_ids }, { multiple: true, class: ['form-control', "selectpicker"], rows: 2} %>
     </div>
   </div>
   <div class="form-group">
@@ -60,7 +64,6 @@ $('.selectpicker').selectpicker('refresh');
   <div class="form-group nowrap">
     <div class="col-lg-offset-2 col-lg-4 col-xs-10">
       <%= f.submit t("helpers.links.#{action}"), class: 'btn btn-primary' %>
-      <%= link_to t("helpers.links.cancel"), root_path, class: 'btn btn-warning' %>
     </div>
   </div>
 

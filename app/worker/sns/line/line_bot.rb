@@ -92,56 +92,66 @@ module Sns::Line::LineBot
     end
   end
 
-  def topuru(msg, **opts)
-    types = msg.try(:first)
+  def topuru(_, **opts)
     gid = opts[:gid]
 
-    if types.blank?
-      events = Event.where(gid: gid)
+    return { type: "text", text: "イベントはグループでしか作れないよ！" } if gid.blank?
 
-      res = [get_group_member_profile(gid)]
+    member_id = RoomMember.where(gid: gid).first.try(:id)
 
-      res << events.blank? ?
-        {
-          type:     :template,
-          altText:  :confirm,
-          template: {
-            type:    :confirm,
-            text:    "まだイベントが登録されてないよ！\nイベントを新しく作る？#{uni(0x10007F)}",
-            actions: [
-              {
-                type:  :uri,
-                label: "はい",
-                uri:   Settings.account.topuru.uri.create % gid,
-              },
-            ],
-          },
-        } :
-        {
-          type:     :template,
-          altText:  "イベントを選んでね！#{uni(0x100079)}",
-          template: {
-            type:    :carousel,
-            columns: events.map {|ev|
-                       {
-                         text:    ev.name,
-                         actions: [
-                           {
-                             type:  :uri,
-                             label: "詳細",
-                             uri:   Settings.account.topuru.uri.create % ev.id,
-                           },
-                           {
-                             type:  :postback,
-                             label: "お会計",
-                             data:  "export&event_id=#{ev.id}",
-                           },
-                         ],
-                       }
-                     },
-          },
-        }
-    end
+    return { type: "text", text: "メンバー登録を先にしてね！" } if member_id.blank?
+
+    events = Event.selected_gid(gid)
+
+    events.blank? ?
+      {
+        type:     :template,
+        altText:  :confirm,
+        template: {
+          type:    :confirm,
+          text:    "まだイベントが登録されてないよ！\nイベントを新しく作る？#{uni(0x10007F)}",
+          actions: [
+            {
+              type:  :uri,
+              label: "はい!",
+              uri:   Settings.account.topuru.uri.create % member_id,
+            },
+          ],
+        },
+      } :
+      {
+        type:     :template,
+        altText:  "イベントを選んでね！#{uni(0x100079)}",
+        template: {
+          type:    :carousel,
+          columns: events.map {|ev|
+                     {
+                       text:    ev.name,
+                       actions: [
+                         {
+                           type:  :uri,
+                           label: "詳細",
+                           uri:   Settings.account.topuru.uri.create % ev.id,
+                         },
+                         {
+                           type:  :postback,
+                           label: "お会計",
+                           data:  "export&event_id=#{ev.id}",
+                         },
+                       ],
+                     }
+                   },
+        },
+      }
+  end
+
+  def user_register(msg, **opts)
+    return chat(msg, opts) if msg.try(:first).present?
+
+    [
+      register_user_to_pappen(opts[:uid], opts[:gid]),
+      { type: "text", text: "ユーザを登録したよ#{uni(0x100079)}" },
+    ]
   end
 
   # def you_tube(msg)

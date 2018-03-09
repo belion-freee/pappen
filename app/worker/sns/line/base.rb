@@ -37,27 +37,34 @@ class Sns::Line::Base
     end
 
     def reply_message(msg)
-      res = client.reply_message(reply_token, msg)
-
-      unless res.present? && res.code == SUCCESS
-        raise <<~ERROR
-          \nLine API returned Error.
-          request params : #{reqest_msg}
-          response code : #{res.try(:code)}
-          response body : #{res.try(:body)}
-        ERROR
-      end
+      raise_error?(msg, client.reply_message(reply_token, msg))
     end
 
-    def get_group_member_profile(gid)
-      res = client.get_group_member_ids(gid, reply_token)
-      unless res.present? && res.code == SUCCESS
-        raise <<~ERROR
-          \nLine API returned Error.
-          request params : #{gid}
-          response code : #{res.try(:code)}
-          response body : #{res.try(:body)}
-        ERROR
-      end
+    def register_user_to_pappen(uid, gid = nil)
+      gid = nil if gid.blank?
+      res = get_user_profile(uid)
+      RoomMember.create(uid: uid, gid: gid, name: res["displayName"]) if RoomMember.where(uid: uid, gid: gid).blank?
+    end
+
+  private
+
+    def get_user_profile(uid)
+      res = client.get_profile(uid)
+      raise_error?(uid, res)
+      Rails.logger.error(res.body)
+      res.body
+    end
+
+    def raise_error?(param, res)
+      raise_error(param: param, code: res.try(:code), body: res.try(:body)) unless res.try(:code) == SUCCESS
+    end
+
+    def raise_error(**errors)
+      raise <<~ERROR
+        \nLine API returned Error.
+        request params : #{errors[:param]}
+        response code  : #{errors[:code]}
+        response body  : #{errors[:body]}
+      ERROR
     end
 end

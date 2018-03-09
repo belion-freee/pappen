@@ -22,20 +22,26 @@ $('.selectpicker').selectpicker('refresh');
 
   <div class="form-group">
     <%= f.label :name, class: 'control-label col-lg-2' %>
-    <div class="col-lg-4 col-xs-10">
-      <%= f.text_field :name, class: 'form-control' %>
+    <div class="col-lg-2 col-xs-4">
+      <%= f.collection_select :name, Expense::ITEM, :itself, :itself, {}, { class: "form-control selectpicker" } %>
     </div>
   </div>
   <div class="form-group">
-    <%= f.label :user_id, class: 'control-label col-lg-2' %>
-    <div class="col-lg-4 col-xs-6">
-      <%= f.collection_select :user_id, @event.users, :id, :name, {}, { class: "selectpicker" } %>
+    <%= f.label :room_member, class: 'control-label col-lg-2' %>
+    <div class="col-lg-2 col-xs-4">
+      <%= f.collection_select :room_member_id, @event.room_members, :id, :name, {}, { class: "form-control selectpicker" } %>
     </div>
   </div>
   <div class="form-group">
     <%= f.label :payment, class: 'control-label col-lg-2' %>
     <div class="col-lg-2 col-xs-8">
-      <%= f.number_field :payment, class: 'form-control' %>
+      <%= f.number_field :payment, class: 'form-control', step: 100 %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :memo, class: 'control-label col-lg-2' %>
+    <div class="col-lg-4 col-xs-6">
+      <%= f.text_area :memo, class: 'form-control'%>
     </div>
   </div>
 

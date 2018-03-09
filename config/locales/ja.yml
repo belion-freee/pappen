@@ -1,4 +1,13 @@
 ja:
+  date:
+    abbr_day_names:
+      - 日
+      - 月
+      - 火
+      - 水
+      - 木
+      - 金
+      - 土
   time:
     formats:
       default: ! '%Y年%m月%d日 %H:%M'
@@ -24,12 +33,25 @@ ja:
       confirm:   "本当によろしいですか?"
       tweet:     "ツイート！"
     titles:
-      edit: "編集 %{model}"
-      save: "保存 %{model}"
-      new: "新規作成 %{model}"
-      delete: "削除 %{model}"
+      edit: "%{model} 編集"
+      save: "%{model} 保存"
+      new: "%{model} 作成"
+      delete: "%{model} 削除"
+      event_index: 参加イベント一覧
+      event_show:  イベント概要
+      expense_index:  出費表
+      accounting: 会計表
+    attributes:
+      accounting:
+        room_member: 支払者
+        payment:     支払額
+        fee:         会費(一人当たり)
+        amount:      差引金額
   activerecord:
     models:
+      room_member: ルームメンバー
+      event:       イベント
+      expense:     支払表
     attributes:
       base: &base
         id: ID
@@ -41,7 +63,36 @@ ja:
         remark:   セリフ
         author:   発言者
         source:   出典
+      room_member:
+        <<: *base
+        name: ユーザー名
+      event:
+        <<: *base
+        name:         イベント名
+        place:        場所
+        start:        開始日
+        end:          終了日
+        memo:         メモ
+        room_members: 参加メンバー
+      expense:
+        <<: *base
+        name:        支払項目
+        payment:     支払額
+        total:       会費(支払総額)
+        room_member: 支払者
+        event:       イベント
+        memo:        メモ
+      errors:
+        models:
+          event:
+            attributes:
+              room_members:
+                multiple_group: グループが複数あります
+              room_member_events:
+                invalid: データが不正です
   errors:
     format: "%{attribute}%{message}"
     messages:
-      blank: "を入力してください"
+      blank:     を入力してください
+      not_saved: 登録できませんでした
+      invalid:   データが不正です

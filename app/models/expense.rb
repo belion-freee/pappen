@@ -1,6 +1,8 @@
 class Expense < ApplicationRecord
-  belongs_to :room_members
-  belongs_to :event
+  ITEM = %w[宿泊料金 施設利用料金 高速料金 ガソリン代 レンタカー代 用品レンタル代 食費 酒代 飲み代 予約料金 雑費 その他].freeze
+
+  belongs_to :room_member, inverse_of: :expenses
+  belongs_to :event,       inverse_of: :expenses
 
   validates :name,           presence: true
   validates :event_id,       presence: true

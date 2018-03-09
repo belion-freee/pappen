@@ -5,6 +5,7 @@ class CreateExpenses < ActiveRecord::Migration[5.1]
       t.integer :event_id
       t.integer :room_member_id
       t.integer :payment
+      t.text :memo
 
       t.timestamps
     end

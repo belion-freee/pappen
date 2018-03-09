@@ -5,6 +5,7 @@ class Sns::Line::Message < Sns::Line::Base
     livedoor_weather: %w[天気 天候 ウェザー],
     google_place:     %w[地図 所在地 施設 マップ],
     topuru:           %w[とぷる トプル イベント],
+    user_register:    %w[@],
   }.freeze
 
   def callback
@@ -36,13 +37,13 @@ class Sns::Line::Message < Sns::Line::Base
     def request_type_text
       # become message to array
       msg = reqest_msg["text"].split(/[[:blank:]]+/).reject(&:blank?)
-      msg.delete(BOT_NAME)
 
       # select method_name matching keyword
       method_name = REQUEST_DISTRIBUTOR.select {|_, v| v.include?(msg.first) }
 
       if method_name.present?
-        msg.slice!(0)
+        # remove REQUEST_DISTRIBUTOR
+        msg.delete_at(0)
         send(method_name.keys.first, msg, uid: source["userId"], gid: source.try(:[], "groupId"))
       else
         chat(msg, uid: source["userId"])
