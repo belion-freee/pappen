@@ -44,10 +44,12 @@ class Sns::Line::Base
       gid = nil if gid.blank?
       res = get_user_profile(uid)
       name = res["displayName"]
-      Rails.logger.info("register_user_to_pappen : res : #{res}")
-      Rails.logger.info("register_user_to_pappen : res : #{res.class}")
-      Rails.logger.info("register_user_to_pappen : name : #{name}")
-      RoomMember.create(uid: uid, gid: gid, name: name) if RoomMember.where(uid: uid, gid: gid, name: name).blank?
+      rm = RoomMember.where(uid: uid, gid: gid).last
+      if rm.blank?
+        RoomMember.create(uid: uid, gid: gid, name: name)
+      elsif rm.name != name
+        rm.update(name: name)
+      end
     end
 
   private
@@ -55,7 +57,7 @@ class Sns::Line::Base
     def get_user_profile(uid)
       res = client.get_profile(uid)
       raise_error?(uid, res)
-      res.body
+      JSON.parse(res.body)
     end
 
     def raise_error?(param, res)
