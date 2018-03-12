@@ -136,7 +136,7 @@ module Sns::Line::LineBot
                          {
                            type:  :uri,
                            label: "詳細",
-                           uri:   Settings.account.topuru.uri.create % ev.id,
+                           uri:   Settings.account.topuru.uri.show % ev.id,
                          },
                          {
                            type:  :postback,
