@@ -60,7 +60,7 @@ class Sns::Line::Base
 
     def raise_error(**errors)
       raise <<~ERROR
-        \nLine API returned Error.
+        Line API returned Error.
         request params : #{errors[:param]}
         response code  : #{errors[:code]}
         response body  : #{errors[:body]}
