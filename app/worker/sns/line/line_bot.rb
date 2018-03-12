@@ -109,7 +109,7 @@ module Sns::Line::LineBot
         altText:  :confirm,
         template: {
           type:    :confirm,
-          text:    "まだイベントが登録されてないよ！\nイベントを新しく作る？#{uni(0x10007F)}",
+          text:    "まだイベントが登録されてないよ！\nイベントを新しく作る？#{uni(0x100079)}",
           actions: [
             {
               type:  :uri,
