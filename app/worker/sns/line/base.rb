@@ -55,8 +55,9 @@ class Sns::Line::Base
     end
 
     def raise_error?(param, res)
-      Rails.logger.error("raise_error? error params : #{params}")
+      Rails.logger.error("raise_error? error params : #{param}")
       Rails.logger.error("raise_error? error res : #{res}")
+      Rails.logger.error("raise_error? error res : #{res.body}")
       raise_error(param: param, code: res.try(:code), body: res.try(:body)) unless res.try(:code) == SUCCESS
     end
 
