@@ -23,7 +23,10 @@ class Sns::Line::Message < Sns::Line::Base
     if res.present?
       if res.is_a?(Array)
         res.each_with_index {|r, i|
-          r.() && res.delete_at(i) if r.is_a?(Proc)
+          if r.is_a?(Proc)
+            r.()
+            res.delete_at(i)
+          end
         }
       end
       reply_message(res)

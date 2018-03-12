@@ -49,11 +49,8 @@ class Sns::Line::Base
   private
 
     def get_user_profile(uid)
-      Rails.logger.error("get_user_profile uid: #{uid}")
       res = client.get_profile(uid)
       raise_error?(uid, res)
-      # TODO: debug code
-      Rails.logger.error(res.body)
       res.body
     end
 
