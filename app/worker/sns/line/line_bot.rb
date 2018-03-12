@@ -116,6 +116,11 @@ module Sns::Line::LineBot
               label: "はい!",
               uri:   Settings.account.topuru.uri.create % member_id,
             },
+            {
+              type:  "message",
+              label: "いいえ!",
+              text:  "OK！",
+            },
           ],
         },
       } :

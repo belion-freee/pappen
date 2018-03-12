@@ -55,9 +55,6 @@ class Sns::Line::Base
     end
 
     def raise_error?(param, res)
-      Rails.logger.error("raise_error? error params : #{param}")
-      Rails.logger.error("raise_error? error res : #{res}")
-      Rails.logger.error("raise_error? error res : #{res.body}")
       raise_error(param: param, code: res.try(:code), body: res.try(:body)) unless res.try(:code) == SUCCESS
     end
 
@@ -65,8 +62,8 @@ class Sns::Line::Base
       raise <<~ERROR
         Line API returned Error.
         request params : #{errors[:param]}
-        response code  : #{errors[:code]}
-        response body  : #{errors[:body]}
+        response code  : #{errors[:code].try(:force_encoding, "utf-8")}
+        response body  : #{errors[:body].try(:force_encoding, "utf-8")}
       ERROR
     end
 end
