@@ -109,7 +109,7 @@ module Sns::Line::LineBot
         altText:  :confirm,
         template: {
           type:    :confirm,
-          text:    "まだイベントが登録されてないよ！\nイベントを新しく作る？#{uni(0x100079)}",
+          text:    "イベントが登録されてないから新しく作る？",
           actions: [
             {
               type:  :uri,
@@ -121,7 +121,7 @@ module Sns::Line::LineBot
       } :
       {
         type:     :template,
-        altText:  "イベントを選んでね！#{uni(0x100079)}",
+        altText:  "イベントを選んでね！",
         template: {
           type:    :carousel,
           columns: events.map {|ev|
