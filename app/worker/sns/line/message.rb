@@ -24,11 +24,14 @@ class Sns::Line::Message < Sns::Line::Base
       if res.is_a?(Array)
         res.each_with_index {|r, i|
           if r.is_a?(Proc)
+            Rails.logger.info("r is #{r}")
             r.()
             res.delete_at(i)
+            Rails.logger.info("r is #{res}")
           end
         }
       end
+      Rails.logger.info("res is #{res}")
       reply_message(res)
     else
       Rails.logger.info("line reply had not send")
