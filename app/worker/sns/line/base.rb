@@ -45,6 +45,7 @@ class Sns::Line::Base
       res = get_user_profile(uid)
       name = res["displayName"]
       Rails.logger.info("register_user_to_pappen : res : #{res}")
+      Rails.logger.info("register_user_to_pappen : res : #{res.class}")
       Rails.logger.info("register_user_to_pappen : name : #{name}")
       RoomMember.create(uid: uid, gid: gid, name: name) if RoomMember.where(uid: uid, gid: gid, name: name).blank?
     end
