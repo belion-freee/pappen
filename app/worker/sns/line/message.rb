@@ -22,6 +22,7 @@ class Sns::Line::Message < Sns::Line::Base
 
     if res.present?
       if res.is_a?(Array)
+        Rails.logger.info("array is #{res}")
         res.each_with_index {|content, i|
           if content.is_a?(Proc)
             content.()
