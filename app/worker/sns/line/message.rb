@@ -22,13 +22,15 @@ class Sns::Line::Message < Sns::Line::Base
 
     if res.present?
       if res.is_a?(Array)
-        res.each_with_index {|r, i|
-          if r.is_a?(Proc)
-            Rails.logger.info("r is #{r}")
-            r.()
+        Rails.logger.info("in Array")
+        res.each_with_index {|content, i|
+          Rails.logger.info("content is #{content}")
+          if content.is_a?(Proc)
+            Rails.logger.info("content is in proc #{content}")
+            content.()
             res.delete_at(i)
-            Rails.logger.info("r is #{res}")
           end
+          Rails.logger.info("content is outer proc #{res}")
         }
       end
       Rails.logger.info("res is #{res}")
