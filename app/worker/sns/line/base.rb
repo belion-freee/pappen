@@ -43,7 +43,10 @@ class Sns::Line::Base
     def register_user_to_pappen(uid, gid = nil)
       gid = nil if gid.blank?
       res = get_user_profile(uid)
-      RoomMember.create(uid: uid, gid: gid, name: res["displayName"]) if RoomMember.where(uid: uid, gid: gid).blank?
+      name = res["displayName"]
+      Rails.logger.info("register_user_to_pappen : res : #{res}")
+      Rails.logger.info("register_user_to_pappen : name : #{name}")
+      RoomMember.create(uid: uid, gid: gid, name: name) if RoomMember.where(uid: uid, gid: gid, name: name).blank?
     end
 
   private
