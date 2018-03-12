@@ -102,7 +102,7 @@ module Sns::Line::LineBot
     return { type: "text", text: "メンバー登録を先にしてね！" } if member_id.blank?
 
     events = Event.selected_gid(gid)
-    Rails.info("topuru is clear #{Settings.account.topuru.uri.create % member_id}")
+    Rails.logger.info("topuru is clear #{Settings.account.topuru.uri.create % member_id}")
     events.blank? ?
       {
         type:     "template",
