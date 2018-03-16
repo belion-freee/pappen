@@ -5,7 +5,7 @@
 
 # 自動生成されるものはチェック対象から除外する
 AllCops:
-  TargetRubyVersion: 2.4
+  TargetRubyVersion: 2.5
   Exclude:
     - "vendor/**/*" # rubocop config/default.yml
     - "db/schema.rb"
@@ -173,7 +173,9 @@ Style/SpaceBeforeFirstArg:
   Enabled: false
 
 # 複数行の場合はケツカンマを入れる
-Style/TrailingCommaInLiteral:
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: comma
+Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: comma
 
 # method_body, line = <<-EOV, __LINE__ + 1
@@ -306,6 +308,7 @@ Metrics/PerceivedComplexity:
 Metrics/BlockLength:
   Exclude:
     - "spec/**/*.rb"
+    - "config/routes.rb"
     - "config/deploy.rb"
     - "config/deploy/**/*.rb"
     - "lib/tasks/**/*.rake"
