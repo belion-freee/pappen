@@ -57,6 +57,16 @@ class EventsController < ApplicationController
     end
   end
 
+  # DELETE /events/1
+  # DELETE /events/1.json
+  def destroy
+    @event.destroy
+    respond_to do |format|
+      format.html { render :delete }
+      format.json { head :no_content }
+    end
+  end
+
   private
 
     # Use callbacks to share common setup or constraints between actions.

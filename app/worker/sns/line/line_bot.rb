@@ -106,7 +106,7 @@ module Sns::Line::LineBot
     events.blank? ?
       {
         type:     "template",
-        altText:  "confirm",
+        altText:  "イベントを作る？",
         template: {
           type:    "confirm",
           text:    "イベントが登録されてないから新しく作る？",
@@ -137,6 +137,11 @@ module Sns::Line::LineBot
                            type:  :uri,
                            label: "詳細",
                            uri:   Settings.account.topuru.uri.show % ev.id,
+                         },
+                         {
+                           type:  :uri,
+                           label: "支出を追加",
+                           uri:   Settings.account.topuru.uri.expenses % ev.id,
                          },
                          # TODO: it is still developed.
                          # {
