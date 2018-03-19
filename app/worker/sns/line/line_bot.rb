@@ -158,6 +158,9 @@ module Sns::Line::LineBot
 
   def user_register(msg, **opts)
     return chat(msg, opts) if msg.try(:first).present?
+
+    return { type: "text", text: "ユーザ登録はグループでしかできないよ！" } if opts[:gid].blank?
+
     [
       proc { register_user_to_pappen(opts[:uid], opts[:gid]) },
       { type: "text", text: "ユーザを登録したよ#{uni(0x100079)}" },
