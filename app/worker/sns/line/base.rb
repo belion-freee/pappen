@@ -47,7 +47,7 @@ class Sns::Line::Base
 
     def register_user_to_pappen(uid, gid)
       return if gid.blank? || uid.blank?
-      res = get_user_profile(uid)
+      res = get_user_profile(gid, uid)
       name = res["displayName"]
       rm = RoomMember.where(uid: uid, gid: gid).last
       if rm.blank?
