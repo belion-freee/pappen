@@ -22,7 +22,9 @@ class EventsController < ApplicationController
   end
 
   # GET /events/1/edit
-  def edit; end
+  def edit
+    @members = RoomMember.where(gid: @event.room_members.first.gid)
+  end
 
   # POST /events
   # POST /events.json
