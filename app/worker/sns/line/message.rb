@@ -81,4 +81,9 @@ class Sns::Line::Message < Sns::Line::Base
       info.save!
       { type: "text", text: "現在地を登録したよ#{uni(0x100084)}" }
     end
+
+    # it is only used topuru export
+    def request_type_postback
+      reqest_msg["data"].slice!("&")
+    end
 end

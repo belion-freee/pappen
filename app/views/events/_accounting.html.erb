@@ -17,10 +17,10 @@
   </thead>
   <tbody>
     <% @accountings.each do |accounting| %>
-      <tr>
+      <tr class="nowrap">
         <td><%= accounting[:room_member] %></td>
-        <td class="nowrap"><%= m accounting[:payment] %></td>
-        <td class="nowrap">
+        <td><%= m accounting[:payment] %></td>
+        <td>
           <strong><%= m accounting[:amount] %></strong> <%= accounting[:message] %>
         </td>
       </tr>

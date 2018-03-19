@@ -20,12 +20,12 @@
   </thead>
   <tbody>
     <% @expenses.each do |expense| %>
-      <tr>
+      <tr class="nowrap">
         <td><%= expense.name %></td>
         <td><%= RoomMember.find(expense.room_member_id).name %></td>
         <td><%= expense.memo %></td>
-        <td class="nowrap"><%= m expense.payment %></td>
-        <td class="nowrap">
+        <td><%= m expense.payment %></td>
+        <td>
           <%= link_to t("helpers.links.edit"), edit_expense_path(expense), class: 'btn btn-success' %>
           <%= link_to t("helpers.links.destroy"),
                       expense_path(expense),

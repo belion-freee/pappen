@@ -138,10 +138,16 @@ module Sns::Line::LineBot
                            label: "詳細",
                            uri:   Settings.account.topuru.uri.show % ev.id,
                          },
+                         # TODO: it is still developed.
+                         # {
+                         #   type:  :postback,
+                         #   label: "お会計",
+                         #   data:  "export&event_id=#{ev.id}",
+                         # },
                          {
-                           type:  :postback,
-                           label: "お会計",
-                           data:  "export&event_id=#{ev.id}",
+                           type:  :uri,
+                           label: "新規で作る",
+                           uri:   Settings.account.topuru.uri.create % member_id,
                          },
                        ],
                      }

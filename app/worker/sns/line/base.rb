@@ -17,6 +17,11 @@ class Sns::Line::Base
     @reply_token = content["replyToken"]
     @reqest_msg  = content["message"]
     @source      = content["source"]
+
+    # postback
+    if content["postback"].present?
+      @reqest_msg = { "type" => "postback", "text" => BOT_NAME, "data" => content["postback"] }
+    end
   end
 
   protected
@@ -40,8 +45,8 @@ class Sns::Line::Base
       raise_error?(msg, client.reply_message(reply_token, msg))
     end
 
-    def register_user_to_pappen(uid, gid = nil)
-      gid = nil if gid.blank?
+    def register_user_to_pappen(uid, gid)
+      return if gid.blank? || uid.blank?
       res = get_user_profile(uid)
       name = res["displayName"]
       rm = RoomMember.where(uid: uid, gid: gid).last
@@ -54,8 +59,9 @@ class Sns::Line::Base
 
   private
 
-    def get_user_profile(uid)
-      res = client.get_profile(uid)
+    def get_user_profile(gid, uid)
+      # pappen could use function get group member profile
+      res = client.get_group_member_profile(gid, uid)
       raise_error?(uid, res)
       JSON.parse(res.body)
     end

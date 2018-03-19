@@ -33,11 +33,6 @@
 </table>
 
 <%= link_to t("helpers.links.edit"), edit_event_path(@event), class: 'btn btn-success' %>
-<%= link_to t("helpers.links.destroy"),
-            event_path(@event),
-            method: :delete,
-            data: { confirm: t("helpers.links.confirm") },
-            class: 'btn btn-danger' %>
 
 <%= render template: 'expenses/index' %>
 
