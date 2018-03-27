@@ -1,40 +1,39 @@
 <%- model_class = Expense -%>
 <div class="page-header">
   <h2><%= t("helpers.titles.expense_index") %></h2>
+  <h4><%= model_class.human_attribute_name(:total) %> : <%= m @total %></h4>
 </div>
-<table class="table table-striped">
-  <thead>
-    <tr class="nowrap">
-      <th><%= model_class.human_attribute_name(:total) %></th>
-      <th><%= m @total %></th>
-    </tr>
-  </thead>
-  <thead>
-    <tr class="nowrap">
-      <th><%= model_class.human_attribute_name(:name) %></th>
-      <th><%= model_class.human_attribute_name(:room_member) %></th>
-      <th><%= model_class.human_attribute_name(:memo) %></th>
-      <th><%= model_class.human_attribute_name(:payment) %></th>
-      <th><%= t("helpers.actions") %></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @expenses.each do |expense| %>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
       <tr class="nowrap">
-        <td><%= expense.name %></td>
-        <td><%= RoomMember.find(expense.room_member_id).name %></td>
-        <td><%= expense.memo %></td>
-        <td><%= m expense.payment %></td>
-        <td>
-          <%= link_to t("helpers.links.edit"), edit_expense_path(expense), class: 'btn btn-success' %>
-          <%= link_to t("helpers.links.destroy"),
-                      expense_path(expense),
-                      method: :delete,
-                      data: { confirm: t("helpers.links.confirm") },
-                      class: 'btn btn-danger' %>
-        </td>
+        <th><%= model_class.human_attribute_name(:name) %></th>
+        <th><%= model_class.human_attribute_name(:room_member) %></th>
+        <th><%= model_class.human_attribute_name(:memo) %></th>
+        <th><%= model_class.human_attribute_name(:payment) %></th>
+        <th><%= t("helpers.actions") %></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @expenses.each do |expense| %>
+        <tr class="nowrap">
+          <td><%= expense.name %></td>
+          <td><%= RoomMember.find(expense.room_member_id).name %></td>
+          <td><%= expense.memo %></td>
+          <td><%= m expense.payment %></td>
+          <td>
+            <%= link_to t("helpers.links.edit"), edit_expense_path(expense), class: 'btn btn-success' %>
+            <%= link_to t("helpers.links.destroy"),
+                        expense_path(expense),
+                        method: :delete,
+                        data: { confirm: t("helpers.links.confirm") },
+                        class: 'btn btn-danger' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
 <%= link_to t("helpers.links.new"), new_expense_path(event_id: params[:id]), class: 'btn btn-primary' %>
