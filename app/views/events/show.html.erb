@@ -28,7 +28,7 @@
       </tr>
       <tr>
         <th class="text-center"><%= model_class.human_attribute_name(:memo) %></th>
-        <td><%= @event.memo %></td>
+        <td><%= simple_format @event.memo %></td>
       </tr>
     </tbody>
   </table>

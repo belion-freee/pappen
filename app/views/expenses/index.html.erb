@@ -20,7 +20,7 @@
         <tr class="nowrap">
           <td><%= expense.name %></td>
           <td><%= RoomMember.find(expense.room_member_id).name %></td>
-          <td><%= expense.memo %></td>
+          <td><%= simple_format expense.memo %></td>
           <td><%= m expense.payment %></td>
           <td>
             <%= link_to t("helpers.links.edit"), edit_expense_path(expense), class: 'btn btn-success' %>
