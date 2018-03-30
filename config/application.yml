@@ -16,8 +16,9 @@ defaults: &defaults
         uri: http://weather.livedoor.com/forecast/webservice/json/v1
     topuru:
       uri:
-        create: https://pappen.herokuapp.com/events/new?rmid=%s
-        show:   https://pappen.herokuapp.com/events/%s
+        create:   https://pappen.herokuapp.com/events/new?rmid=%s
+        show:     https://pappen.herokuapp.com/events/%s
+        expenses: https://pappen.herokuapp.com/expenses/new?event_id=%s
   maxim:
     category:
       movie: 映画

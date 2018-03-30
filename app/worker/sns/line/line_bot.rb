@@ -106,7 +106,7 @@ module Sns::Line::LineBot
     events.blank? ?
       {
         type:     "template",
-        altText:  "confirm",
+        altText:  "イベントを作る？",
         template: {
           type:    "confirm",
           text:    "イベントが登録されてないから新しく作る？",
@@ -139,9 +139,20 @@ module Sns::Line::LineBot
                            uri:   Settings.account.topuru.uri.show % ev.id,
                          },
                          {
-                           type:  :postback,
-                           label: "お会計",
-                           data:  "export&event_id=#{ev.id}",
+                           type:  :uri,
+                           label: "支出を追加",
+                           uri:   Settings.account.topuru.uri.expenses % ev.id,
+                         },
+                         # TODO: it is still developed.
+                         # {
+                         #   type:  :postback,
+                         #   label: "お会計",
+                         #   data:  "export&event_id=#{ev.id}",
+                         # },
+                         {
+                           type:  :uri,
+                           label: "新規で作る",
+                           uri:   Settings.account.topuru.uri.create % member_id,
                          },
                        ],
                      }
@@ -152,6 +163,9 @@ module Sns::Line::LineBot
 
   def user_register(msg, **opts)
     return chat(msg, opts) if msg.try(:first).present?
+
+    return { type: "text", text: "ユーザ登録はグループでしかできないよ！" } if opts[:gid].blank?
+
     [
       proc { register_user_to_pappen(opts[:uid], opts[:gid]) },
       { type: "text", text: "ユーザを登録したよ#{uni(0x100079)}" },

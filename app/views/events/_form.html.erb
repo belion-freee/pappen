@@ -64,6 +64,9 @@ $('.selectpicker').selectpicker('refresh');
   <div class="form-group nowrap">
     <div class="col-lg-offset-2 col-lg-4 col-xs-10">
       <%= f.submit t("helpers.links.#{action}"), class: 'btn btn-primary' %>
+      <% if action == :edit %>
+        <%= link_to t("helpers.links.cancel"), event_path(@event), class: 'btn btn-warning' %>
+      <% end %>
     </div>
   </div>
 

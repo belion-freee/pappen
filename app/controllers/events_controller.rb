@@ -22,7 +22,9 @@ class EventsController < ApplicationController
   end
 
   # GET /events/1/edit
-  def edit; end
+  def edit
+    @members = RoomMember.where(gid: @event.room_members.first.gid)
+  end
 
   # POST /events
   # POST /events.json
@@ -53,6 +55,22 @@ class EventsController < ApplicationController
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  # DELETE /events/1
+  # DELETE /events/1.json
+  def destroy
+    @event.destroy
+    respond_to do |format|
+      format.html { render :delete }
+      format.json { head :no_content }
+    end
+  end
+
+  # POST /paid
+  def paid
+    rme = RoomMemberEvent.where(event_id: params[:event_id], room_member_id: params[:room_member_id]).last
+    rme.update(paid: params[:paid]) if rme.present?
   end
 
   private
@@ -87,11 +105,14 @@ class EventsController < ApplicationController
         payment = @expenses.where(room_member_id: user.id).map {|ex| ex[:payment] }.inject(:+) || 0
         amount = payment - @fee
         message = amount.negative? ? "お支払いください" : "受け取ってください"
+        paid = RoomMemberEvent.where(event: @event, room_member: user).last.paid
         {
+          id:          user.id,
           room_member: name,
           payment:     payment,
           amount:      amount.abs,
           message:     message,
+          paid:        paid,
         }
       }
     end
