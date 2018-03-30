@@ -12,6 +12,7 @@ git checkout master && git checkout -b release
 
 # build assets
 if [[ $npm != "?" ]]; then
+  echo "run npm build on local and create assets"
   npm run build
 fi
 
@@ -24,5 +25,6 @@ git push heroku release:master --force
 
 # migrate db
 if [[ $db != "?" ]]; then
+  echo "run rails db:migrate on heroku"
   heroku run rails db:migrate
 fi
