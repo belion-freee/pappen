@@ -67,6 +67,12 @@ class EventsController < ApplicationController
     end
   end
 
+  # POST /paid
+  def paid
+    rme = RoomMemberEvent.where(event_id: params[:event_id], room_member_id: params[:room_member_id]).last
+    rme.update(paid: params[:paid]) if rme.present?
+  end
+
   private
 
     # Use callbacks to share common setup or constraints between actions.
@@ -99,11 +105,14 @@ class EventsController < ApplicationController
         payment = @expenses.where(room_member_id: user.id).map {|ex| ex[:payment] }.inject(:+) || 0
         amount = payment - @fee
         message = amount.negative? ? "お支払いください" : "受け取ってください"
+        paid = RoomMemberEvent.where(event: @event, room_member: user).last.paid
         {
+          id:          user.id,
           room_member: name,
           payment:     payment,
           amount:      amount.abs,
           message:     message,
+          paid:        paid,
         }
       }
     end

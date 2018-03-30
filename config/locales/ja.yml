@@ -47,6 +47,7 @@ ja:
         payment:     支払額
         fee:         会費(一人当たり)
         amount:      差引金額
+        paid:        支払済
   activerecord:
     models:
       room_member: ルームメンバー
