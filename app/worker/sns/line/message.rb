@@ -17,6 +17,7 @@ class Sns::Line::Message < Sns::Line::Base
     Rails.logger.info("this is debug code source_type_cond : #{source["type"] == "group"}")
     Rails.logger.info("this is debug code reqest_msg_text : #{reqest_msg["text"]}")
     Rails.logger.info("this is debug code BOT_NAME : #{BOT_NAME}")
+    Rails.logger.info("this is debug code BOT_NAME_settings : #{Settings.account.line.bot_name}")
     Rails.logger.info("this is debug code reqest_msg_text_cond : #{!reqest_msg["text"].try(:include?, BOT_NAME)}")
 
     @reqest_msg["text"].try(:delete!, BOT_NAME)
