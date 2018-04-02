@@ -93,12 +93,12 @@ class Sns::Line::Message < Sns::Line::Base
         { type: "text", text: "#{name} をユーザ登録したよ#{uni(0x100079)}" }
       when :room_members
         event = Event.find(data[1])
-        members = event.room_members.map {|rm| "- #{rm.name}\n" }
+        members = event.room_members.map {|rm| "- #{rm.name}" }
         body = <<-BODY.strip_heredoc
           イベント : #{event.name}
           参加者数 : #{members.size}人
           参加メンバー
-          #{members}
+          #{members.join("\n")}
         BODY
         { type: "text", text: body }
       else
