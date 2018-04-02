@@ -154,11 +154,11 @@ module Sns::Line::LineBot
                          #   label: "お会計",
                          #   data:  "export&event_id=#{ev.id}",
                          # },
-                         {
-                           type:  :uri,
-                           label: "新規で作る",
-                           uri:   Settings.account.topuru.uri.create % member_id,
-                         },
+                         # {
+                         #   type:  :uri,
+                         #   label: "新規で作る",
+                         #   uri:   Settings.account.topuru.uri.create % member_id,
+                         # },
                        ],
                      }
                    },
