@@ -86,6 +86,7 @@ class Sns::Line::Message < Sns::Line::Base
 
     def request_type_postback
       data = reqest_msg["data"].slice("&")
+      Rails.logger.info("this is test code data : #{reqest_msg["data"]}")
       Rails.logger.info("this is test code data : #{data}")
       case data.first.try(:to_sym)
       when :user_register

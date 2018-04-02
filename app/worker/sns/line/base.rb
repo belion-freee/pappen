@@ -20,7 +20,7 @@ class Sns::Line::Base
 
     # postback
     if content["postback"].present?
-      @reqest_msg = { "type" => "postback", "text" => BOT_NAME, "data" => content["postback"] }
+      @reqest_msg = { "type" => "postback", "text" => BOT_NAME, "data" => content["postback"]["data"] }
     end
   end
 
