@@ -96,12 +96,12 @@ class Sns::Line::Message < Sns::Line::Base
       when :room_members
         event = Event.find(data[1])
         members = event.room_members.map {|rm| "- #{rm.name}" }
-        body = <<-BODY.strip_heredoc
-        イベント : #{event.name}
-        参加者数 : #{members.size}人
-        参加メンバー
-        #{members.join("\n")}
-        BODY
+
+        body = "イベント : #{event.name}\n"
+        body << "参加者数 : #{members.size}人\n"
+        body << "参加メンバー\n"
+        body << members.join("\n")
+
         { type: "text", text: body }
       else
         raise "it is unkown postback #{data.first}"
