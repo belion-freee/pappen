@@ -55,6 +55,7 @@ class Sns::Line::Base
       elsif rm.name != name
         rm.update(name: name)
       end
+      name
     end
 
   private

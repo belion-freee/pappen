@@ -23,8 +23,12 @@
         <td><%= l @event.end %></td>
       </tr>
       <tr>
+        <th class="text-center"><%= model_class.human_attribute_name(:members) %></th>
+        <td><%= h @event.room_members.size %></td>
+      </tr>
+      <tr>
         <th class="text-center"><%= model_class.human_attribute_name(:room_members) %></th>
-        <td><%= @event.room_members.map(&:name).join(", ") %></td>
+        <td><%= simple_format @event.room_members.map(&:name).join("\n") %></td>
       </tr>
       <tr>
         <th class="text-center"><%= model_class.human_attribute_name(:memo) %></th>

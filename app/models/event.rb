@@ -8,7 +8,7 @@ class Event < ApplicationRecord
   validate :group_uniq?
 
   scope :selected_gid, ->(gid) {
-    joins(:room_members).where(room_members: { gid: gid })
+    joins(:room_members).where(room_members: { gid: gid }).uniq
   }
 
   def room_member_present?

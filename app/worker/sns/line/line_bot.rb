@@ -143,6 +143,11 @@ module Sns::Line::LineBot
                            label: "支出を追加",
                            uri:   Settings.account.topuru.uri.expenses % ev.id,
                          },
+                         {
+                           type:  :postback,
+                           label: "参加メンバー",
+                           data:  "room_members&#{ev.id}",
+                         },
                          # TODO: it is still developed.
                          # {
                          #   type:  :postback,
@@ -161,15 +166,29 @@ module Sns::Line::LineBot
       }
   end
 
-  def user_register(msg, **opts)
-    return chat(msg, opts) if msg.try(:first).present?
-
+  def user_register_confirm(_, **opts)
     return { type: "text", text: "ユーザ登録はグループでしかできないよ！" } if opts[:gid].blank?
 
-    [
-      proc { register_user_to_pappen(opts[:uid], opts[:gid]) },
-      { type: "text", text: "ユーザを登録したよ#{uni(0x100079)}" },
-    ]
+    {
+      type:     "template",
+      altText:  "ユーザー登録する？",
+      template: {
+        type:    "confirm",
+        text:    "ユーザー登録する？",
+        actions: [
+          {
+            type:  :postback,
+            label: "はい!",
+            data:  :user_register,
+          },
+          {
+            type:  :message,
+            label: "いいえ!",
+            text:  "ユーザー登録しませんでした！",
+          },
+        ],
+      },
+    }
   end
 
   # def you_tube(msg)

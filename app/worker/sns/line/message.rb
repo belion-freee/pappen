@@ -1,12 +1,14 @@
 class Sns::Line::Message < Sns::Line::Base
   # if you add method to LineBotModules, you need to add new set to this hash.
   REQUEST_DISTRIBUTOR = {
-    google_books:     %w[本 書籍 ブック],
-    livedoor_weather: %w[天気 天候 ウェザー],
-    google_place:     %w[地図 所在地 施設 マップ],
-    topuru:           %w[とぷる トプル イベント],
-    user_register:    %w[@],
+    google_books:          %w[本 書籍 ブック],
+    livedoor_weather:      %w[天気 天候 ウェザー],
+    google_place:          %w[地図 所在地 施設 マップ],
+    topuru:                %w[とぷる トプル イベント],
+    user_register_confirm: %w[ユーザー登録],
   }.freeze
+
+  # POSTBACK = %i[user_register export_event].freeze
 
   def callback
     # exclude in cases other than group and text
@@ -82,8 +84,25 @@ class Sns::Line::Message < Sns::Line::Base
       { type: "text", text: "現在地を登録したよ#{uni(0x100084)}" }
     end
 
-    # it is only used topuru export
     def request_type_postback
-      reqest_msg["data"].slice!("&")
+      data = reqest_msg["data"].slice("&")
+      Rails.logger.info("this is test code data : #{data}")
+      case data.first.try(:to_sym)
+      when :user_register
+        name = register_user_to_pappen(source["userId"], source["groupId"])
+        { type: "text", text: "#{name} をユーザ登録したよ#{uni(0x100079)}" }
+      when :room_members
+        event = Event.find(data[1])
+        members = event.room_members.map {|rm| "- #{rm.name}\n" }
+        body = <<-BODY.strip_heredoc
+          イベント : #{event.name}
+          参加者数 : #{members.size}人
+          参加メンバー
+          #{members}
+        BODY
+        { type: "text", text: body }
+      else
+        raise "it is unkown postback #{data.first}"
+      end
     end
 end
