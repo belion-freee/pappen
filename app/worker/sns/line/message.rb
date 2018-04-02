@@ -12,9 +12,11 @@ class Sns::Line::Message < Sns::Line::Base
 
   def callback
     # exclude in cases other than group and text
-    return if source["type"] != "user" && !reqest_msg["text"].try(:include?, BOT_NAME)
+    return if source["type"] == "group" && !reqest_msg["text"].try(:include?, BOT_NAME)
     Rails.logger.info("リクエスト source_type : #{source["type"]}")
     Rails.logger.info("リクエスト reqest_msg_text : #{reqest_msg["text"]}")
+    Rails.logger.info("リクエスト BOT_NAME : #{BOT_NAME}")
+    Rails.logger.info("リクエスト conditions : #{!reqest_msg["text"].try(:include?, BOT_NAME)}")
 
     @reqest_msg["text"].try(:delete!, BOT_NAME)
 
