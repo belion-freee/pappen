@@ -13,6 +13,8 @@ class Sns::Line::Message < Sns::Line::Base
   def callback
     # exclude in cases other than group and text
     return if source["type"] != "user" && !reqest_msg["text"].try(:include?, BOT_NAME)
+    Rails.logger.info("リクエスト source_type : #{source["type"]}")
+    Rails.logger.info("リクエスト reqest_msg_text : #{reqest_msg["text"]}")
 
     @reqest_msg["text"].try(:delete!, BOT_NAME)
 
@@ -95,10 +97,10 @@ class Sns::Line::Message < Sns::Line::Base
         event = Event.find(data[1])
         members = event.room_members.map {|rm| "- #{rm.name}" }
         body = <<-BODY.strip_heredoc
-          イベント : #{event.name}
-          参加者数 : #{members.size}人
-          参加メンバー
-          #{members.join("\n")}
+        イベント : #{event.name}
+        参加者数 : #{members.size}人
+        参加メンバー
+        #{members.join("\n")}
         BODY
         { type: "text", text: body }
       else
