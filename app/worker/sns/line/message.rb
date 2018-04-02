@@ -85,9 +85,8 @@ class Sns::Line::Message < Sns::Line::Base
     end
 
     def request_type_postback
-      data = reqest_msg["data"].slice("&")
-      Rails.logger.info("this is test code data : #{reqest_msg["data"]}")
-      Rails.logger.info("this is test code data : #{data}")
+      data = reqest_msg["data"].split("&")
+
       case data.first.try(:to_sym)
       when :user_register
         name = register_user_to_pappen(source["userId"], source["groupId"])
