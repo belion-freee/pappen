@@ -156,7 +156,7 @@ module Sns::Line::LineBot
                          # },
                        ],
                      }
-                   }.cancat(
+                   }.concat(
                      {
                        text:    "イベントを作る！",
                        actions: [
