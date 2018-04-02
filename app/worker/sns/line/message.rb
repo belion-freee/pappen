@@ -42,7 +42,6 @@ class Sns::Line::Message < Sns::Line::Base
     def request_type_text
       # become message to array
       msg = reqest_msg["text"].split(/[[:blank:]]+/).reject(&:blank?)
-      Rails.logger.info("msg is this : #{msg}")
 
       # select method_name matching keyword
       method_name = REQUEST_DISTRIBUTOR.select {|_, v| v.include?(msg.first) }

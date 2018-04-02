@@ -92,7 +92,7 @@ module Sns::Line::LineBot
     end
   end
 
-  def topuru(_, **opts)
+  def topuru(msg, **opts)
     gid = opts[:gid]
 
     return { type: "text", text: "イベントはグループでしか作れないよ！" } if gid.blank?
@@ -101,29 +101,32 @@ module Sns::Line::LineBot
 
     return { type: "text", text: "メンバー登録を先にしてね！" } if member_id.blank?
 
+    new_event = {
+      type:     "template",
+      altText:  "イベントを作る？",
+      template: {
+        type:    "confirm",
+        text:    "イベントを新しく作る？",
+        actions: [
+          {
+            type:  "uri",
+            label: "はい!",
+            uri:   Settings.account.topuru.uri.create % member_id,
+          },
+          {
+            type:  "message",
+            label: "いいえ!",
+            text:  "OK！",
+          },
+        ],
+      },
+    }
+
+    return new_event if msg.include?("作成")
+
     events = Event.selected_gid(gid)
-    Rails.logger.info("topuru is clear #{Settings.account.topuru.uri.create % member_id}")
     events.blank? ?
-      {
-        type:     "template",
-        altText:  "イベントを作る？",
-        template: {
-          type:    "confirm",
-          text:    "イベントが登録されてないから新しく作る？",
-          actions: [
-            {
-              type:  "uri",
-              label: "はい!",
-              uri:   Settings.account.topuru.uri.create % member_id,
-            },
-            {
-              type:  "message",
-              label: "いいえ!",
-              text:  "OK！",
-            },
-          ],
-        },
-      } :
+      new_event :
       {
         type:     :template,
         altText:  "イベントを選んでね！",
