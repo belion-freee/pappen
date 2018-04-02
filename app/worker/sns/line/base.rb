@@ -4,7 +4,7 @@ class Sns::Line::Base
   include ApplicationWorker
   include LineBot
 
-  BOT_NAME = Settings.account.line.bot_name
+  BOT_NAME = Settings.account.line.bot_name || "ぱっぷん"
 
   def initialize(request, content)
     @client = Line::Bot::Client.new do |config|
