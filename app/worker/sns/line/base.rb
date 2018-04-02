@@ -20,7 +20,7 @@ class Sns::Line::Base
 
     # postback
     if content["postback"].present?
-      @reqest_msg = { "type" => "postback", "text" => BOT_NAME, "data" => content["postback"] }
+      @reqest_msg = { "type" => "postback", "text" => BOT_NAME.dup, "data" => content["postback"]["data"] }
     end
   end
 
@@ -55,6 +55,7 @@ class Sns::Line::Base
       elsif rm.name != name
         rm.update(name: name)
       end
+      name
     end
 
   private
