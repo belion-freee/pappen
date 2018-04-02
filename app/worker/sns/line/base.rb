@@ -4,7 +4,7 @@ class Sns::Line::Base
   include ApplicationWorker
   include LineBot
 
-  BOT_NAME = Settings.account.line.bot_name || "ぱっぷん"
+  BOT_NAME = Settings.account.line.bot_name
 
   def initialize(request, content)
     @client = Line::Bot::Client.new do |config|
@@ -20,7 +20,7 @@ class Sns::Line::Base
 
     # postback
     if content["postback"].present?
-      @reqest_msg = { "type" => "postback", "text" => BOT_NAME, "data" => content["postback"]["data"] }
+      @reqest_msg = { "type" => "postback", "text" => BOT_NAME.dup, "data" => content["postback"]["data"] }
     end
   end
 
