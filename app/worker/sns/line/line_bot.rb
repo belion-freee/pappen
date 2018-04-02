@@ -156,20 +156,7 @@ module Sns::Line::LineBot
                          # },
                        ],
                      }
-                   }.concat(
-                     [
-                       {
-                         text:    "イベントを作る！",
-                         actions: [
-                           {
-                             type:  :uri,
-                             label: "新規で作る",
-                             uri:   Settings.account.topuru.uri.create % member_id,
-                           },
-                         ],
-                       },
-                     ]
-                   ),
+                   },
         },
       }
   end
