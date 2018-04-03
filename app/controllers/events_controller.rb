@@ -100,7 +100,7 @@ class EventsController < ApplicationController
       return [] if @expenses.blank?
       members = @event.room_members
       @fee = @total.div(members.count)
-      members.map {|user|
+      members.order(:id).map {|user|
         name = user.name
         payment = @expenses.where(room_member_id: user.id).map {|ex| ex[:payment] }.inject(:+) || 0
         amount = payment - @fee

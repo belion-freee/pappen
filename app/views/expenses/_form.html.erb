@@ -1,7 +1,4 @@
-<script>
-// refresh because it cannot display because of side effect at first
-$('.selectpicker').selectpicker('refresh');
-</script>
+<%= javascript_include_tag 'form', 'data-turbolinks-track' => 'reload' %>
 
 <%= form_for @expense, :html => { class: "form-horizontal" } do |f| %>
 <%= f.hidden_field :event_id, value: @event.id %>
