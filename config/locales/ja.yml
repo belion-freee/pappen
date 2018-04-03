@@ -32,6 +32,7 @@ ja:
       cancel:    "キャンセル"
       confirm:   "本当によろしいですか?"
       tweet:     "ツイート！"
+      selectall: "全て選択"
     titles:
       edit: "%{model} 編集"
       save: "%{model} 保存"
