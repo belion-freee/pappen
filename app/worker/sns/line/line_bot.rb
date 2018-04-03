@@ -125,43 +125,8 @@ module Sns::Line::LineBot
     return new_event if msg.include?("作成")
 
     events = Event.selected_gid(gid)
-    events.blank? ?
-      new_event :
-      {
-        type:     :template,
-        altText:  "イベントを選んでね！",
-        template: {
-          type:    :carousel,
-          columns: events.map {|ev|
-                     {
-                       text:    ev.name,
-                       actions: [
-                         {
-                           type:  :uri,
-                           label: "詳細",
-                           uri:   Settings.account.topuru.uri.show % ev.id,
-                         },
-                         {
-                           type:  :uri,
-                           label: "支出を追加",
-                           uri:   Settings.account.topuru.uri.expenses % ev.id,
-                         },
-                         {
-                           type:  :postback,
-                           label: "参加メンバー",
-                           data:  "room_members&#{ev.id}",
-                         },
-                         # TODO: it is still developed.
-                         # {
-                         #   type:  :postback,
-                         #   label: "お会計",
-                         #   data:  "export&event_id=#{ev.id}",
-                         # },
-                       ],
-                     }
-                   },
-        },
-      }
+
+    events.blank? ? new_event : events_carousel(events)
   end
 
   def user_register_confirm(_, **opts)
@@ -189,6 +154,21 @@ module Sns::Line::LineBot
     }
   end
 
+  def user_event(msg, **opts)
+    events = Event.includes(:room_members).where(room_members: { uid: opts[:uid] })
+
+    events.blank? ? { type: "text", text: "あなたのイベントがないね〜" } : events_carousel(events)
+  end
+
+  def event_title(msg, **opts)
+    name = msg.try(:first)
+    return { type: "text", text: "イベントタイトルを教えなさい" } if name.blank?
+
+    events = Event.includes(:room_members).where(room_members: { uid: opts[:uid] }).select {|ev| ev.name.include?(name) }
+
+    events.blank? ? { type: "text", text: "指定した名前のイベントはないね〜" } : events_carousel(events)
+  end
+
   # def you_tube(msg)
   #   youtube = Google::YouTube.new
   #   res = youtube.search(msg)
@@ -204,4 +184,38 @@ module Sns::Line::LineBot
   #   }
   #   reply_message(reply)
   # end
+
+  private
+
+    def events_carousel(events)
+      {
+        type:     :template,
+        altText:  "イベントを選んでね！",
+        template: {
+          type:    :carousel,
+          columns: events.map {|ev|
+                     {
+                       text:    ev.name,
+                       actions: [
+                         {
+                           type:  :uri,
+                           label: "詳細",
+                           uri:   Settings.account.topuru.uri.show % ev.id,
+                         },
+                         {
+                           type:  :uri,
+                           label: "支出を追加",
+                           uri:   Settings.account.topuru.uri.expenses % ev.id,
+                         },
+                         {
+                           type:  :postback,
+                           label: "参加メンバー",
+                           data:  "room_members&#{ev.id}",
+                         },
+                       ],
+                     }
+                   },
+        },
+      }
+    end
 end
