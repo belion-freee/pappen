@@ -4,8 +4,10 @@ class Sns::Line::Message < Sns::Line::Base
     google_books:          %w[本 書籍 ブック],
     livedoor_weather:      %w[天気 天候 ウェザー],
     google_place:          %w[地図 所在地 施設 マップ],
-    topuru:                %w[とぷる トプル イベント],
+    topuru:                %w[トプル イベント],
     user_register_confirm: %w[ユーザー登録],
+    user_event:            %w[マイイベント],
+    event_title:           %w[イベントタイトル],
   }.freeze
 
   # POSTBACK = %i[user_register export_event].freeze
