@@ -6,7 +6,7 @@
   <dt><strong><%= model_class.human_attribute_name(:category) %>:</strong></dt>
   <dd><%= @maxim.category %></dd>
   <dt><strong><%= model_class.human_attribute_name(:remark) %>:</strong></dt>
-  <dd><%= @maxim.remark %></dd>
+  <dd><%= simple_format @maxim.remark %></dd>
   <dt><strong><%= model_class.human_attribute_name(:author) %>:</strong></dt>
   <dd><%= @maxim.author %></dd>
   <dt><strong><%= model_class.human_attribute_name(:source) %>:</strong></dt>
