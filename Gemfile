@@ -29,7 +29,7 @@ gem "settingslogic"
 # Use jquery as the JavaScript library
 gem "jquery-rails"
 # Use jquery as the JavaScript library
-gem "twitter"
+gem "twitter", "< 6.2.0"
 # Railsでlessを使えるようにする。Bootstrapがlessで書かれているため
 gem "less-rails", git: "https://github.com/MustafaZain/less-rails"
 # Bootstrapの本体
