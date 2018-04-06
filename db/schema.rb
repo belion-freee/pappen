@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180301092908) do
+ActiveRecord::Schema.define(version: 20180401045941) do
 
   create_table "events", force: :cascade do |t|
     t.string "name", null: false
@@ -48,6 +48,12 @@ ActiveRecord::Schema.define(version: 20180301092908) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["uid"], name: "index_last_location_infos_on_uid", unique: true
+  end
+
+  create_table "last_maxim_infos", force: :cascade do |t|
+    t.integer "maxim_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "maxims", force: :cascade do |t|
