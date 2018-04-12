@@ -1,15 +1,11 @@
 class MaximsController < ApplicationController
-  before_action :set_maxim, only: [:show, :edit, :update, :destroy]
+  before_action :set_maxim, only: [:edit, :update, :destroy]
 
   # GET /maxims
   # GET /maxims.json
   def index
-    @maxims = Maxim.all
+    @maxims = Maxim.page(params[:page])
   end
-
-  # GET /maxims/1
-  # GET /maxims/1.json
-  def show; end
 
   # GET /maxims/new
   def new
@@ -30,11 +26,9 @@ class MaximsController < ApplicationController
 
     respond_to do |format|
       if @maxim.save
-        format.html { redirect_to @maxim, notice: "Maxim was successfully created." }
-        format.json { render :show, status: :created, location: @maxim }
+        format.html { redirect_to maxims_url}
       else
         format.html { render :new }
-        format.json { render json: @maxim.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -44,11 +38,9 @@ class MaximsController < ApplicationController
   def update
     respond_to do |format|
       if @maxim.update(maxim_params)
-        format.html { redirect_to @maxim, notice: "Maxim was successfully updated." }
-        format.json { render :show, status: :ok, location: @maxim }
+        format.html { redirect_to maxims_url }
       else
         format.html { render :edit }
-        format.json { render json: @maxim.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -58,7 +50,7 @@ class MaximsController < ApplicationController
   def destroy
     @maxim.destroy
     respond_to do |format|
-      format.html { redirect_to maxims_url, notice: "Maxim was successfully destroyed." }
+      format.html { redirect_to maxims_url }
       format.json { head :no_content }
     end
   end

@@ -47,7 +47,7 @@ class Sns::Line::Base
 
     def register_user_to_pappen(uid, gid)
       return if gid.blank? || uid.blank?
-      res = get_user_profile(gid, uid)
+      res = get_group_user_profile(gid, uid)
       name = res["displayName"]
       rm = RoomMember.where(uid: uid, gid: gid).last
       if rm.blank?
@@ -58,9 +58,29 @@ class Sns::Line::Base
       name
     end
 
+    def register_line_user(uid)
+      return if uid.blank?
+      res = get_user_profile(uid)
+      name = res["displayName"]
+      user = LineUser.where(uid: uid).first
+      if user.blank?
+        LineUser.create(uid: uid, name: name)
+      elsif user.name != name
+        user.update(name: name)
+      end
+      name
+    end
+
   private
 
-    def get_user_profile(gid, uid)
+    def get_user_profile(uid)
+      # pappen could use function get group member profile
+      res = client.get_profile(uid)
+      raise_error?(uid, res)
+      JSON.parse(res.body)
+    end
+
+    def get_group_user_profile(gid, uid)
       # pappen could use function get group member profile
       res = client.get_group_member_profile(gid, uid)
       raise_error?(uid, res)

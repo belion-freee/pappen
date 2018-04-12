@@ -1,0 +1,40 @@
+<!--検索窓 -->
+<div class="panel panel-info">
+  <div class="panel-heading">
+    <h3 class="panel-title">
+      <a href="#panelCollapse" data-toggle="collapse">
+        <%= t("helpers.links.search") %>
+      </a>
+    </h3>
+  </div>
+  <div class="panel-body">
+    <div id="panelCollapse" class="collapse">
+      <%= form_tag expenditures_path(line_user_id: @line_user.id), method: :get, class: "form-horizontal" do %>
+        <div class="form-group">
+          <%= label_tag :from_date, t("helpers.search.from_date"), class: 'control-label col-lg-2' %>
+          <div class="col-lg-2 col-xs-6">
+            <%= date_field_tag :from_date, :itself, class: 'form-control' %>
+          </div>
+        </div>
+        <div class="form-group">
+          <%= label_tag :to_date, t("helpers.search.to_date"), class: 'control-label col-lg-2' %>
+          <div class="col-lg-2 col-xs-6">
+            <%= date_field_tag :to_date, :itself, class: 'form-control' %>
+          </div>
+        </div>
+        <div class="form-group">
+          <%= label_tag :category, t("helpers.search.category"), class: 'control-label col-lg-2' %>
+          <div class="col-lg-2 col-xs-8">
+            <%= collection_select :category, :name, Expenditure::ITEM, :itself, :itself, { include_blank: true }, { class: "form-control selectpicker" } %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-lg-offset-2 col-lg-4 col-xs-6">
+            <%= submit_tag t("helpers.links.search"), class: 'btn btn-primary' %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,58 @@
+<%- model_class = Expenditure -%>
+
+<!--  title header  -->
+<div class="page-header">
+  <h2><%= t("helpers.titles.expenditures") %></h2>
+  <h4><%= model_class.human_attribute_name(:line_user) %> : <%= @line_user.name %></h4>
+</div>
+
+<!--  search function  -->
+<%= render partial: 'search', locals: { line_user: @line_user, expenditure: @expenditures }  %>
+
+<!--  insert button  -->
+<div class="text-left">
+  <%= link_to t("helpers.links.new"), new_expenditure_path(line_user_id: @line_user.id), class: 'btn btn-primary' %>
+</div>
+
+<!-- pagination -->
+<div class="text-center">
+  <%= paginate @expenditures %>
+</div>
+
+<!--  content list  -->
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr class="nowrap">
+        <th><%= model_class.human_attribute_name(:entry_date) %></th>
+        <th><%= model_class.human_attribute_name(:category) %></th>
+        <th><%= model_class.human_attribute_name(:payment) %></th>
+        <th><%= model_class.human_attribute_name(:memo) %></th>
+        <th><%= t("helpers.actions") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @expenditures.each do |expenditure| %>
+        <tr class="nowrap">
+          <td><%= l expenditure.entry_date %></td>
+          <td><%= expenditure.category %></td>
+          <td><%= m expenditure.payment %></td>
+          <td><%= simple_format expenditure.memo %></td>
+          <td>
+            <%= link_to t("helpers.links.edit"), edit_expenditure_path(id: expenditure.id, line_user_id: expenditure.line_user_id), class: 'btn btn-success' %>
+            <%= link_to t("helpers.links.destroy"),
+                        expenditure_path(id: expenditure.id, line_user_id: expenditure.line_user_id),
+                        method: :delete,
+                        data: { confirm: t("helpers.links.confirm") },
+                        class: 'btn btn-danger' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<!-- pagination -->
+<div class="text-center">
+  <%= paginate @expenditures %>
+</div>

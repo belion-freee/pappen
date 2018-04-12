@@ -19,6 +19,10 @@ defaults: &defaults
         create:   https://pappen.herokuapp.com/events/new?rmid=%s
         show:     https://pappen.herokuapp.com/events/%s
         expenses: https://pappen.herokuapp.com/expenses/new?event_id=%s
+    expenditure:
+      uri:
+        create: https://pappen.herokuapp.com/expenditure/new/%s
+        index:  https://pappen.herokuapp.com/expenditures/%s
   maxim:
     category:
       movie: 映画

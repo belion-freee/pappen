@@ -8,6 +8,7 @@ class Sns::Line::Message < Sns::Line::Base
     user_register_confirm: %w[ユーザー登録],
     user_event:            %w[マイイベント],
     event_title:           %w[イベントタイトル],
+    expenditure:           %w[経費申請],
   }.freeze
 
   # POSTBACK = %i[user_register export_event].freeze
@@ -91,7 +92,7 @@ class Sns::Line::Message < Sns::Line::Base
 
       case data.first.try(:to_sym)
       when :user_register
-        name = register_user_to_pappen(source["userId"], source["groupId"])
+        name = source["groupId"].blank? ? register_line_user(source["userId"]) : register_user_to_pappen(source["userId"], source["groupId"])
         { type: "text", text: "#{name} をユーザ登録したよ#{uni(0x100079)}" }
       when :room_members
         event = Event.find(data[1])

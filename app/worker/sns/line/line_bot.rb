@@ -129,12 +129,41 @@ module Sns::Line::LineBot
     events.blank? ? new_event : events_carousel(events)
   end
 
-  def user_register_confirm(_, **opts)
-    return { type: "text", text: "ユーザ登録はグループでしかできないよ！" } if opts[:gid].blank?
+  def expenditure(msg, **opts)
+    uid = opts[:uid]
+
+    return { type: "text", text: "グループで経費申請はできないよ！" } if opts[:gid].present?
+
+    id = LineUser.where(uid: uid).first.try(:id)
+
+    return { type: "text", text: "ユーザー登録を先にしてね！" } if id.blank?
 
     {
+      type:     :template,
+      altText:  "経費申請だよ！",
+      template: {
+        type:    "confirm",
+        text:    "経費申請の項目だよ",
+        actions: [
+          {
+            type:  "uri",
+            label: "経費申請する？",
+            uri:   Settings.account.expenditure.uri.create % id,
+          },
+          {
+            type:  "uri",
+            label: "経費を確認する？",
+            uri:   Settings.account.expenditure.uri.index % id,
+          },
+        ],
+      },
+    }
+  end
+
+  def user_register_confirm(_, _)
+    {
       type:     "template",
-      altText:  "ユーザー登録する？",
+      altText:  "ユーザー登録だよ！",
       template: {
         type:    "confirm",
         text:    "ユーザー登録する？",
