@@ -147,12 +147,12 @@ module Sns::Line::LineBot
         actions: [
           {
             type:  "uri",
-            label: "経費申請する？",
+            label: "経費申請",
             uri:   Settings.account.expenditure.uri.create % id,
           },
           {
             type:  "uri",
-            label: "経費を確認する？",
+            label: "収支確認",
             uri:   Settings.account.expenditure.uri.index % id,
           },
         ],
