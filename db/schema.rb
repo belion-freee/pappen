@@ -10,13 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180401045941) do
+ActiveRecord::Schema.define(version: 20180403045941) do
 
   create_table "events", force: :cascade do |t|
     t.string "name", null: false
     t.string "place"
     t.datetime "start"
     t.datetime "end"
+    t.text "memo"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "expenditures", force: :cascade do |t|
+    t.string "line_user_id", null: false
+    t.date "entry_date", null: false
+    t.string "category", null: false
+    t.integer "payment", null: false
     t.text "memo"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -52,6 +62,14 @@ ActiveRecord::Schema.define(version: 20180401045941) do
 
   create_table "last_maxim_infos", force: :cascade do |t|
     t.integer "maxim_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "line_users", force: :cascade do |t|
+    t.string "code", null: false
+    t.string "uid", null: false
+    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

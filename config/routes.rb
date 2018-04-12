@@ -8,7 +8,14 @@ Rails.application.routes.draw do
   # it is for debug
   get "/debug", to: "home#debug", as: :debug
 
-  resources :maxims
+  resources :maxims, except: [:show]
   resources :events
   resources :expenses
+
+  # expenditure
+  resources :expenditures, only: [:edit, :update, :destroy]
+
+  get "/expenditures/:line_user_id", to: "expenditures#index", as: :expenditures
+  get "/expenditure/new/:line_user_id", to: "expenditures#new", as: :new_expenditure
+  post "/expenditures/:line_user_id", to: "expenditures#create", as: :post_expenditure
 end

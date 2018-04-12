@@ -1,4 +1,11 @@
 ja:
+  views:
+    pagination:
+      first:    先頭
+      last:     最終
+      previous: 前ページ
+      next:     次ページ
+      truncate: "..."
   date:
     abbr_day_names:
       - 日
@@ -20,6 +27,10 @@ ja:
       pages: "ページ"
   helpers:
     actions: "アクション"
+    search:
+      from_date: 開始日
+      to_date:   終了日
+      category:  経費科目
     links:
       root:      "ホーム"
       new:       "新規作成"
@@ -33,15 +44,18 @@ ja:
       confirm:   "本当によろしいですか?"
       tweet:     "ツイート！"
       selectall: "全て選択"
+      search:    検索
     titles:
-      edit: "%{model} 編集"
-      save: "%{model} 保存"
-      new: "%{model} 作成"
-      delete: "%{model} 削除"
-      event_index: 参加イベント一覧
-      event_show:  イベント概要
-      expense_index:  出費表
-      accounting: 会計表
+      edit:          "%{model} 編集"
+      save:          "%{model} 保存"
+      new:           "%{model} 作成"
+      delete:        "%{model} 削除"
+      event_index:   参加イベント一覧
+      event_show:    イベント概要
+      expense_index: 出費表
+      accounting:    会計表
+      expenditures:  確定申告支出表
+      maxims:        名言一覧
     attributes:
       accounting:
         room_member: 支払者
@@ -50,11 +64,21 @@ ja:
         amount:      差引金額
         paid:        支払済
         members:     参加人数
+    page_entries_info:
+        one_page:
+          display_entries:
+            zero: "%{entry_name} が存在しません"
+            one:  "%{entry_name}  <b>all %{count}</b>　1ページ目のみ"
+            other: "全体で <b> %{count}</b> 件　%{entry_name}"
+        more_pages:
+          display_entries: " %{entry_name} <b>%{first}&nbsp;-&nbsp;%{last}</b> までを表示中　全体で <b>%{total}</b> 件"
   activerecord:
     models:
+      maxims:      名言
       room_member: ルームメンバー
       event:       イベント
       expense:     支払表
+      expenditure: 経費申請
     attributes:
       base: &base
         id: ID
@@ -86,6 +110,13 @@ ja:
         room_member: 支払者
         event:       イベント
         memo:        メモ
+      expenditure:
+        <<: *base
+        line_user:  事業主
+        category:   経費科目
+        entry_date: 支払日
+        payment:    支出額
+        memo:       メモ
       errors:
         models:
           event:
