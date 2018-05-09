@@ -12,13 +12,13 @@
       <%= form_tag expenditures_path(line_user_id: @line_user.id), method: :get, class: "form-horizontal" do %>
         <div class="form-group">
           <%= label_tag :from_date, t("helpers.search.from_date"), class: 'control-label col-lg-2' %>
-          <div class="col-lg-2 col-xs-6">
+          <div class="col-lg-2 col-xs-8">
             <%= date_field_tag :from_date, :itself, class: 'form-control' %>
           </div>
         </div>
         <div class="form-group">
           <%= label_tag :to_date, t("helpers.search.to_date"), class: 'control-label col-lg-2' %>
-          <div class="col-lg-2 col-xs-6">
+          <div class="col-lg-2 col-xs-8">
             <%= date_field_tag :to_date, :itself, class: 'form-control' %>
           </div>
         </div>
