@@ -11,7 +11,7 @@
     <div id="panelCollapseSummary" class="collapse">
       <!--  content list  -->
       <div class="table-responsive">
-        <p class="lead">総支出額 <%= m @expenditures.map(&:payment).inject(:+) %></p>
+        <p class="lead">総支出額 <%= m @summary.values.inject(:+) %></p>
         <table class="table table-striped table-bordered table-hover">
           <thead>
             <tr class="nowrap">
@@ -20,10 +20,10 @@
             </tr>
           </thead>
           <tbody>
-            <% @expenditures.group_by(&:category).each do |category, arr| %>
+            <% @summary.each do |category, payment| %>
               <tr class="nowrap">
                 <td><%= category %></td>
-                <td><%= m arr.map(&:payment).inject(:+) %></td>
+                <td><%= m payment %></td>
               </tr>
             <% end %>
           </tbody>

@@ -13,15 +13,4 @@ $(function(){
   $("#select_all").click(function() {
     $('.selectpicker').selectpicker('selectAll');
   });
-
-  // datepicker
-  $(".datepicker").datepicker({
-    dateFormat: "yy-mm-dd",
-    showAnim: "slideDown",
-    showButtonPanel: true,
-    changeMonth: true,
-    changeYear: true,
-    showOtherMonths: true,
-    selectOtherMonths: true
-  });
 });
