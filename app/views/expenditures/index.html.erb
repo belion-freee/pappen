@@ -9,6 +9,9 @@
 <!--  search function  -->
 <%= render partial: 'search', locals: { line_user: @line_user, expenditure: @expenditures }  %>
 
+<!--  search function  -->
+<%= render partial: 'summary', locals: { expenditure: @expenditures }  %>
+
 <!--  insert button  -->
 <div class="text-left">
   <%= link_to t("helpers.links.new"), new_expenditure_path(line_user_id: @line_user.id), class: 'btn btn-primary' %>

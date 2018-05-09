@@ -45,6 +45,7 @@ ja:
       tweet:     "ツイート！"
       selectall: "全て選択"
       search:    検索
+      summary:   合計額
     titles:
       edit:          "%{model} 編集"
       save:          "%{model} 保存"

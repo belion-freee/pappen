@@ -18,12 +18,10 @@ class Expenditure < ApplicationRecord
     from = params.try(:[], :from_date).try(:to_date)
     to   = params.try(:[], :to_date).try(:to_date)
 
-    if from && to
+    if from || to
+      from ||= Time.zone.today
+      to   ||= Time.now.beginning_of_year.to_date
       res = res.where(entry_date: from..to)
-    elsif from
-      res = res.where(entry_date: from..Time.zone.today)
-    elsif to
-      res = res.where(entry_date: Time.now.beginning_of_year.to_date..to)
     end
 
     res.order(entry_date: :desc)
