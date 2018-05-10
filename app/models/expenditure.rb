@@ -1,6 +1,8 @@
 class Expenditure < ApplicationRecord
   ITEM = %w[接待交際費 取材費 旅費交通費 会議費 広告宣伝費 研究開発費 新聞図書費 消耗品費 雑費 減価償却費 水道光熱費 地代家賃 通信費 開業費].freeze
 
+  attr_accessor :margin
+
   belongs_to :line_user, inverse_of: :expenditures
 
   validates :line_user_id, presence: true
@@ -8,7 +10,8 @@ class Expenditure < ApplicationRecord
   validates :category,     presence: true
   validates :payment,      presence: true
 
-  after_initialize :default_entry_date, if: :new_record?
+  before_save :default_entry_date
+  before_save :calc_margin, if: proc {|expenditure| expenditure.margin.present? }
 
   scope :search, ->(params) {
     res = where(line_user_id: params[:line_user_id])
@@ -31,5 +34,9 @@ class Expenditure < ApplicationRecord
 
     def default_entry_date
       self.entry_date ||= Time.zone.today
+    end
+
+    def calc_margin
+      self.payment = (self.payment * (self.margin.to_f / 100)).round
     end
 end

@@ -54,7 +54,7 @@ class ExpendituresController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def permitted_params
-      params.require(:expenditure).permit(:line_user_id, :entry_date, :category, :payment, :memo)
+      params.require(:expenditure).permit(:line_user_id, :entry_date, :category, :payment, :memo, :margin)
     end
 
     def summary(records)

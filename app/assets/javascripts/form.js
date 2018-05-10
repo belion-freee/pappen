@@ -13,4 +13,9 @@ $(function(){
   $("#select_all").click(function() {
     $('.selectpicker').selectpicker('selectAll');
   });
+
+  $("i.fa-percent").click(function() {
+    let target = $("#expenditure-margin");
+    target.attr("disabled") ? target.removeAttr("disabled") : target.attr("disabled", "disabled");
+  });
 });
