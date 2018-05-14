@@ -175,7 +175,7 @@ module Sns::Line::LineBot
       to_date:      Time.zone.today.end_of_month,
     })
 
-    body = "今月の収支状況だよ#{uni(0x100096)}"
+    body = "今月の収支状況だよ#{uni(0x100096)}\n"
     body << "総支出額 : #{res.sum(:payment).to_s(:delimited)}円\n"
     body << res.summary.map {|k, v| "- #{k}: #{v.to_s(:delimited)}円" }.join("\n")
 
