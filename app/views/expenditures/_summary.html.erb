@@ -11,7 +11,7 @@
     <div id="panelCollapseSummary" class="collapse">
       <!--  content list  -->
       <div class="table-responsive">
-        <p class="lead">総支出額 <%= m @summary.values.inject(:+) %></p>
+        <p class="lead">総支出額 <strong><%= m @summary.values.inject(:+) %></strong></p>
         <table class="table table-striped table-bordered table-hover">
           <thead>
             <tr class="nowrap">
