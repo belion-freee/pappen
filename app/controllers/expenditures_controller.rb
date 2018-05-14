@@ -6,7 +6,7 @@ class ExpendituresController < ApplicationController
 
     @line_user = LineUser.find(params[:line_user_id])
     @expenditures = records.page(params[:page])
-    @summary = summary(records)
+    @summary = records.summary
   end
 
   def new
@@ -55,11 +55,5 @@ class ExpendituresController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def permitted_params
       params.require(:expenditure).permit(:line_user_id, :entry_date, :category, :payment, :memo, :margin)
-    end
-
-    def summary(records)
-      records.group_by(&:category).map {|category, arr|
-        [category, arr.map(&:payment).inject(:+)]
-      }.to_h
     end
 end

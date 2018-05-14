@@ -129,10 +129,10 @@ module Sns::Line::LineBot
     events.blank? ? new_event : events_carousel(events)
   end
 
-  def expenditure(msg, **opts)
+  def expenditure(_, **opts)
     uid = opts[:uid]
 
-    return { type: "text", text: "グループで経費申請はできないよ！" } if opts[:gid].present?
+    return { type: "text", text: "グループ内で経費申請はできないよ！" } if opts[:gid].present?
 
     id = LineUser.where(uid: uid).first.try(:id)
 
@@ -158,6 +158,28 @@ module Sns::Line::LineBot
         ],
       },
     }
+  end
+
+  def expenditure_confirm(_, **opts)
+    uid = opts[:uid]
+
+    return { type: "text", text: "グループ内で経費確認はできないよ！" } if opts[:gid].present?
+
+    id = LineUser.where(uid: uid).first.try(:id)
+
+    return { type: "text", text: "ユーザー登録を先にしてね！" } if id.blank?
+
+    res = Expenditure.search({
+      line_user_id: id,
+      from_date:    Time.zone.today.beginning_of_month,
+      to_date:      Time.zone.today.end_of_month,
+    })
+
+    body = "今月の収支状況だよ#{uni(0x100096)}"
+    body << "総支出額 : #{res.sum(:payment).to_s(:delimited)}円\n"
+    body << res.summary.map {|k, v| "- #{k}: #{v.to_s(:delimited)}円" }.join("\n")
+
+    { type: "text", text: body }
   end
 
   def user_register_confirm(_, _)

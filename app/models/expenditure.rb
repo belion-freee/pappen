@@ -30,6 +30,12 @@ class Expenditure < ApplicationRecord
     res.order(entry_date: :desc)
   }
 
+  scope :summary, -> {
+    all.group_by(&:category).map {|category, arr|
+      [category, arr.map(&:payment).inject(:+)]
+    }.to_h
+  }
+
   private
 
     def default_entry_date
