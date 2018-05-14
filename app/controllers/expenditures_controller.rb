@@ -10,7 +10,7 @@ class ExpendituresController < ApplicationController
   end
 
   def new
-    @expenditure = Expenditure.new(line_user_id: params[:line_user_id])
+    @expenditure = Expenditure.new(line_user_id: params[:line_user_id], entry_date: Time.zone.today)
   end
 
   def edit
