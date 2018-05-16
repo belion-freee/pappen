@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   root to: "home#index"
 
+  # for health check
+  get "/alive", to: "alive#index", as: :alive
+
   post "/tweet",   to: "home#tweet",   as: :tweet
   post "/line",    to: "home#line",    as: :line
   post "/paid",    to: "events#paid",  as: :paid
