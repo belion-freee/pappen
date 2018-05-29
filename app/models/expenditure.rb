@@ -1,5 +1,21 @@
 class Expenditure < ApplicationRecord
-  ITEM = %w[接待交際費 取材費 旅費交通費 会議費 広告宣伝費 研究開発費 新聞図書費 消耗品費 雑費 減価償却費 水道光熱費 地代家賃 通信費 開業費].freeze
+  ITEM = %w[
+    接待交際費
+    取材費
+    旅費交通費
+    会議費
+    広告宣伝費
+    研究開発費
+    新聞図書費
+    消耗品費
+    雑費
+    減価償却費
+    水道光熱費
+    地代家賃
+    通信費
+    開業費
+    租税公課
+  ].freeze
 
   attr_accessor :margin
 
