@@ -3,11 +3,10 @@
 module Sns::Line::LineBot
   def chat(msg, **opts)
     text = msg.try(:first) || "hello"
-    user_id = opts[:uid]
 
     {
       type: "text",
-      text: Docomo::Chat.new.chat(user_id, text),
+      text: A3rt::Base.new.talk(text),
     }
   end
 

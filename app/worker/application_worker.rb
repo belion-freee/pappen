@@ -15,7 +15,7 @@ module ApplicationWorker
       when :get
         res = Net::HTTP.get(URI.parse(create_get_request))
       when :post
-        res = Net::HTTP.post_form(URI.parse(uri), URI.parse(params))
+        res = Net::HTTP.post_form(URI.parse(uri), params)
       end
       raise "HTTP response is not success response_code" if res.blank?
       res
