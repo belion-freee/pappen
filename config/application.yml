@@ -23,6 +23,9 @@ defaults: &defaults
       uri:
         create: https://pappen.herokuapp.com/expenditure/new/%s
         index:  https://pappen.herokuapp.com/expenditures/%s
+    a3rt:
+      uri:
+        talk: https://api.a3rt.recruit-tech.co.jp/talk/v1/smalltalk
   maxim:
     category:
       movie: 映画
