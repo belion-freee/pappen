@@ -17,7 +17,8 @@ class A3rt::Base
     @params[:query] = word
 
     ress = MESSAGES.select {|keys, _| keys.any? {|key| word.include?(key) } }
-
+Rails.logger.info("word : #{word}")
+Rails.logger.info(ress)
     if ress.present?
       res = ress.values.first
       size = res.size - 1
