@@ -21,8 +21,8 @@
 
 - [Bot](https://twitter.com/meigensanBot)
 - [投稿](https://pappen.herokuapp.com/)
-- [一覧](https://pappen.herokuapp.com/maxims/new)
-- [追加](https://pappen.herokuapp.com/maxims)
+- [一覧](https://pappen.herokuapp.com/maxims)
+- [追加](https://pappen.herokuapp.com/maxims/new)
 
 ## ぱっぷん
 色々なことができるLineBot。以下に機能を列挙していく。
@@ -34,7 +34,12 @@
 ***
 
 ### 友達追加
-Lineアプリを起動して以下のQRコードをスキャン。
+1. 以下の画像をダウンロード
+2. Lineアプリを起動
+3. 友達追加ボタンを押す
+4. QRコードから追加するボタンを押す
+5. 右下のライブラリを選択する
+6. ライブラリからダウンロードしたQRコードを指定 
 
 ![jgyghkrhim](https://user-images.githubusercontent.com/34331230/45133814-3679ca80-b1d2-11e8-8766-d8d4b77ddf6d.png)
 
