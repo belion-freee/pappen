@@ -235,6 +235,13 @@ module Sns::Line::LineBot
   #   reply_message(reply)
   # end
 
+  def help(_, _)
+    {
+      type: "text",
+      text: "私の使い方を教えるね#{uni(0x10008D)}\n下のリンクから確認してね！\nhttps://github.com/belion-freee/pappen#%E3%81%B1%E3%81%A3%E3%81%B7%E3%82%93"
+    }
+  end
+
   private
 
     def events_carousel(events)
