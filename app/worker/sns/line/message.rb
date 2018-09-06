@@ -10,6 +10,7 @@ class Sns::Line::Message < Sns::Line::Base
     event_title:           %w[イベントタイトル],
     expenditure:           %w[経費申請],
     expenditure_confirm:   %w[収支確認],
+    help:                  %w[ヘルプ],
   }.freeze
 
   # POSTBACK = %i[user_register export_event].freeze
