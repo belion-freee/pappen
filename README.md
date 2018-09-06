@@ -4,4 +4,8 @@ This is tutorial projects of ruby on rails
 
 ## Services
 
-This Services gives you someting helphul.
+サービスは下記の２つ。
+
+
+## Contact
+[Bishan](mailto:belion.freee@gmail.com?subject=問い合わせ&body=以下に要件を記載します。)
