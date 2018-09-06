@@ -23,6 +23,7 @@ This is tutorial projects of ruby on rails
 
 #### 友達追加
 Lineアプリを起動して以下のQRコードをスキャン。
+
 ![jgyghkrhim](https://user-images.githubusercontent.com/34331230/45133814-3679ca80-b1d2-11e8-8766-d8d4b77ddf6d.png)
 
 
