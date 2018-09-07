@@ -11,6 +11,26 @@
   background-size: cover;
   background-color:#464646;
 
+  .tweet-header {
+    display: table;
+    padding-top: 80px;
+    width: 100%;
+  }
+
+  .content {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+  }
+
+  /* Special */
+  .sub-title {
+    color: #efecec;
+    margin: 50px auto;
+    font-size: 18px;
+    line-height: 23px;
+  }
+
   h1 {
     font-family: "Helvetica Neue", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
     color: #efecec;
@@ -42,9 +62,7 @@
   }
 
   select {
-    height: 33px;
-    font-size: 14px;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     border: 1px solid #ccc;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
@@ -52,24 +70,4 @@
     border-radius: 4px;
     overflow: hidden;
   }
-}
-
-.container {
-  display: table;
-  padding-top: 80px;
-  width: 100%;
-}
-
-.content {
-  display: table-cell;
-  vertical-align: middle;
-  text-align: center;
-}
-
-/* Special */
-.sub-title {
-  color: #efecec;
-  margin: 50px auto;
-  font-size: 18px;
-  line-height: 23px;
 }
