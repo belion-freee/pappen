@@ -1,4 +1,11 @@
 ja:
+  maxims:
+    index:
+      title: "Let Show You All Remarks"
+    new:
+      title: "Let's Make Wise Remarks!"
+    edit:
+      title: "Do you wana Edit?"
   views:
     pagination:
       first:    先頭
