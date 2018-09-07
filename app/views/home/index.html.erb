@@ -1,24 +1,61 @@
-<div class="page-header">
-  <h1>Twitter名言Bot</h1>
-</div>
-<p id="notice"><%= @notice %></p>
-<p><%= link_to t('helpers.links.new-maxim'), new_maxim_path, class: 'btn btn-success' %></p>
-<%= form_tag(controller: :home, action: :tweet) do %>
-  <table class="table table-striped">
-    <div class="col-lg-1 col-xs-2">
-      <tr>
-        <td>
-          <label>カテゴリー</label>
-        </td>
-        <td>
-          <select class="select1" id="select_category" name="category">
-            <%= options_for_select(@res) %>
-          </select>
-        </td>
-      </tr>
-    </div>
-  </table>
-  <div class="text-center">
-    <%= submit_tag t('helpers.links.tweet'), class: 'btn btn-lightblue400_ftg' %>
-  </div>
-<% end %>
+<header class="container">
+  <section class="content">
+    <h1>Tweet anything you want</h1>
+    <p class="top-text"><a class="sub-title" id="tweet-maxim" href="#"><strong>Tweet Now!</strong></a></p>
+    <p class="top-text"><%= link_to 'Or new create?', new_maxim_path, class: "button"  %></p>
+  </section>
+</header>
+
+<script>
+$(function(){
+  // tweet
+  $("#tweet-maxim").click(function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const category = <%= Settings.maxim.category.to_json.html_safe %>
+    const url = "<%= root_url %>"
+
+    swal({
+      title: 'カテゴリーを選択してね！',
+      input: 'select',
+      inputOptions: category,
+      showCancelButton: true,
+      confirmButtonText: 'Tweet!',
+      showLoaderOnConfirm: true,
+      preConfirm: (data) => {
+        return fetch(
+          `${url}tweet.json`,
+          {
+            method: 'POST',
+            headers: {
+              'content-type': 'application/json'
+            },
+            body: JSON.stringify({
+              category: data
+            })
+          }
+        )
+        .then(response => {
+          if (response.ok) {
+            return response.json()
+          } else {
+            swal.showValidationError(
+              `投稿に失敗しました。<br>他のカテゴリで投稿してみてね！`
+            )
+          }
+        })
+      },
+      allowOutsideClick: () => !swal.isLoading()
+    }).then((result) => {
+      if (result.value) {
+        swal(
+          'Tweeted',
+          '名言をつぶやきました！',
+          'success'
+        )
+      }
+    })
+  });
+});
+</script>

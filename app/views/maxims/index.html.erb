@@ -1,14 +1,15 @@
 <%- model_class = Maxim -%>
 
-<!--  title header  -->
-<div class="page-header">
-  <h2><%= t("helpers.titles.maxims") %></h2>
-</div>
+<header class="container">
+  <section class="content">
+    <!--  title header  -->
+    <h1><%=t('.title')%></h1>
 
-<!--  insert button  -->
-<div class="text-left">
-  <%= link_to t("helpers.links.new"), new_maxim_path, class: 'btn btn-primary' %>
-</div>
+    <!--  insert button  -->
+    <p class="pt-1"><%= link_to 'Or new create?', new_maxim_path  %></p>
+    <p class="pt-1"><%= link_to 'Back to Top', root_path %></p>
+  </section>
+</header>
 
 <!-- pagination -->
 <div class="text-center">
@@ -16,7 +17,7 @@
 </div>
 
 <div class="table-responsive">
-<table class="table table-striped table-bordered">
+<table class="table table-bordered">
   <thead>
     <tr>
       <th><%= model_class.human_attribute_name(:category) %></th>
@@ -51,5 +52,3 @@
 <div class="text-center">
   <%= paginate @maxims %>
 </div>
-
-<%= link_to t("helpers.links.back"), root_path, :class => 'btn btn-info' %>

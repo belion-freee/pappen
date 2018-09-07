@@ -1,24 +1,22 @@
 class HomeController < ApplicationController
   protect_from_forgery except: [:line]
 
-  def index
-    @notice = "選択したカテゴリーからランダムで名言をツイートします"
-    @res = Settings.maxim.category.invert
-  end
+  def index; end
 
   def tweet
     Sns::Twitter::Tweet.new.random_tweet(params[:category])
-  rescue => e
+    render json: :ok
+  rescue StandardError => e
     Rails.logger.error(e)
-    @res = e.message
+    render status: 500, json: :bad
   end
 
   def line
     Sns::Line::Message.new(request, params["events"].first).callback
-    head :ok
-  rescue => e
+    render json: :ok
+  rescue StandardError => e
     Rails.logger.error(e)
-    raise e
+    render status: 500, json: :bad
   end
 
   def debug

@@ -1,0 +1,75 @@
+// https://github.com/sweetalert2/sweetalert2/issues/834
+.swal2-popup {
+  font-size: 1.6rem !important;
+}
+
+.tweet-home {
+  background-image: image-url("tweet-home.jpg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color:#464646;
+
+  h1 {
+    font-family: "Helvetica Neue", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+    color: #efecec;
+    font-size: 40px;
+    line-height: 50px;
+    font-weight: 400;
+    padding-bottom: 40px;
+  }
+
+  a {
+    color: #ffffff;
+  }
+
+  .top-text {
+    margin: 0 0 15px 0;
+    padding-top: 40px;
+  }
+
+  .pt-1 {
+    padding-top: 10px;
+  }
+
+  table {
+    color: #ffffff;
+
+    thead {
+        background-color: rgba(80,80,80,0.8);
+    }
+  }
+
+  select {
+    height: 33px;
+    font-size: 14px;
+    font-size: 1.4rem;
+    border: 1px solid #ccc;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+}
+
+.container {
+  display: table;
+  padding-top: 80px;
+  width: 100%;
+}
+
+.content {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+
+/* Special */
+.sub-title {
+  color: #efecec;
+  margin: 50px auto;
+  font-size: 18px;
+  line-height: 23px;
+}
