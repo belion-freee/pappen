@@ -1,5 +1,5 @@
 <% model_class = Maxim %>
-<%= form_for @maxim, :html => { :class => "form-horizontal maxim align_center" } do |f| %>
+  <%= form_for @maxim, :html => { :class => "form-horizontal maxim align_center" } do |f| %>
   <% if @maxim.errors.any? %>
     <div id="error_expl" class="panel panel-danger w-10">
       <div class="panel-heading">
@@ -15,8 +15,10 @@
     </div>
   <% end %>
   <div class="form-group">
-    <div class="col-md-4 col-xs-6">
-      <%= f.select :category, @category, prompt: "カテゴリー", class: 'form-control' %>
+    <div class="col-md-3 col-xs-8">
+      <div class="cp_ipselect cp_sl01">
+        <%= f.select :category, @category, prompt: "カテゴリー", class: 'form-control' %>
+      </div>
     </div>
   </div>
   <div class="form-group">
