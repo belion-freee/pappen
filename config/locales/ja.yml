@@ -8,10 +8,10 @@ ja:
       title: "Do you wana Edit?"
   views:
     pagination:
-      first:    先頭
-      last:     最終
-      previous: 前ページ
-      next:     次ページ
+      first:    '<<'
+      last:     '>>'
+      previous: '<'
+      next:     '>'
       truncate: "..."
   date:
     abbr_day_names:
