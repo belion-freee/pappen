@@ -1,61 +1,53 @@
 <header class="tweet-header">
   <section class="content">
     <h1>Tweet anything you want</h1>
-    <p class="top-text"><a class="sub-title" id="tweet-maxim" href="#"><strong>Tweet Now!</strong></a></p>
-    <p class="top-text"><%= link_to 'Or new create?', new_maxim_path, class: "button tweet-link"  %></p>
+    <p class="top-text">
+      <a class="sub-title" id="tweet-maxim" href="#">
+        <strong>Tweet Now!</strong>
+      </a>
+    </p>
+    <p class="top-text"><%= link_to 'Or new create?', new_maxim_path, class: "button tweet-link" %></p>
   </section>
 </header>
 
 <script>
-$(function(){
-  // tweet
-  $("#tweet-maxim").click(function(e) {
-    e.preventDefault();
-    e.stopPropagation();
+  $(function () {
+    // tweet
+    $("#tweet-maxim").click(function (e) {
+      e.preventDefault();
+      e.stopPropagation();
 
-    const category = <%= Settings.maxim.category.to_json.html_safe %>
-    const url = "<%= root_url %>"
+      const category = <%= Settings.maxim.category.to_json.html_safe %>
+      const url = "<%= root_url %>"
 
-    swal({
-      title: 'カテゴリーを選択してね！',
-      input: 'select',
-      inputOptions: category,
-      showCancelButton: true,
-      confirmButtonText: 'Tweet!',
-      showLoaderOnConfirm: true,
-      preConfirm: (data) => {
-        return fetch(
-          `${url}tweet.json`,
-          {
+      swal({
+        title: 'カテゴリーを選択してね！',
+        input: 'select',
+        inputOptions: category,
+        showCancelButton: true,
+        confirmButtonText: 'Tweet!',
+        showLoaderOnConfirm: true,
+        preConfirm: (data) => {
+          return fetch(`${url}tweet.json`, {
             method: 'POST',
             headers: {
               'content-type': 'application/json'
             },
-            body: JSON.stringify({
-              category: data
-            })
-          }
-        )
-        .then(response => {
-          if (response.ok) {
-            return response.json()
-          } else {
-            swal.showValidationError(
-              `投稿に失敗しました。<br>他のカテゴリで投稿してみてね！`
-            )
-          }
-        })
-      },
-      allowOutsideClick: () => !swal.isLoading()
-    }).then((result) => {
-      if (result.value) {
-        swal(
-          'Tweeted',
-          '名言をつぶやきました！',
-          'success'
-        )
-      }
-    })
+            body: JSON.stringify({category: data})
+          }).then(response => {
+            if (response.ok) {
+              return response.json()
+            } else {
+              swal.showValidationError(`投稿に失敗しました。<br>他のカテゴリで投稿してみてね！`)
+            }
+          })
+        },
+        allowOutsideClick: () => !swal.isLoading()
+      }).then((result) => {
+        if (result.value) {
+          swal({type: 'success', title: 'Tweeted', text: '名言をつぶやきました！', footer: '<a href="https://twitter.com/meigensanBot">Go to Twitter</a>'})
+        }
+      })
+    });
   });
-});
 </script>
