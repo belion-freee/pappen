@@ -5,7 +5,7 @@
 }
 
 .tweet-home {
-  background-image: image-url("tweet-home.jpg");
+  background-image: image-url("home.svg");
   background-position: center center;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -33,6 +33,10 @@
     margin: 50px auto;
     font-size: 18px;
     line-height: 23px;
+  }
+
+  .tr-hover:hover{
+    background-color: rgba(80,80,80,0.8);
   }
 
   h1 {
@@ -66,6 +70,16 @@
 
     thead {
       background-color: rgba(80,80,80,0.8);
+    }
+
+    .wrap {
+      p {
+        @media only screen and (max-device-width: 480px) {
+          width: 300px;
+          word-break: break-all;
+          white-space: normal;
+        }
+      }
     }
   }
 

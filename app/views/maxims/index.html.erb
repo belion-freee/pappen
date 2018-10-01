@@ -23,19 +23,14 @@
       <th><%= model_class.human_attribute_name(:remark) %></th>
       <th><%= model_class.human_attribute_name(:author) %></th>
       <th><%= model_class.human_attribute_name(:source) %></th>
-      <th><%=t '.actions', default: t("helpers.actions") %></th>
     </tr>
   </thead>
   <tbody>
     <% @maxims.each do |maxim| %>
-      <tr>
-        <td><%= simple_format maxim.remark %></td>
+      <tr data-link="<%= edit_maxim_path(maxim) %>" class="tr-hover">
+        <td class="wrap"><%= simple_format maxim.remark %></td>
         <td><%= maxim.author %></td>
         <td><%= maxim.source %></td>
-        <td class="nowrap">
-          <%= link_to t('.edit', default: t("helpers.links.edit")),
-                      edit_maxim_path(maxim), class: 'btn btn-success' %>
-        </td>
       </tr>
     <% end %>
   </tbody>
@@ -46,3 +41,9 @@
 <div class="text-center">
   <%= paginate @maxims %>
 </div>
+
+<script>
+$("tr[data-link]").on("click", function() {
+  window.location = $(this).data("link")
+})
+</script>
