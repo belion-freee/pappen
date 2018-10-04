@@ -63,7 +63,6 @@ $("#new-maxims").click(function (e) {
     html: formTemplate,
     showCancelButton: true,
     confirmButtonText: 'OK',
-    width: 600,
     preConfirm: () => {
       const form = $("#swal2-content > form");
       let body = {
@@ -121,7 +120,6 @@ $("tr[data-link]").on("click", function(e) {
     html: formTemplate,
     showCancelButton: true,
     confirmButtonText: 'OK',
-    width: 600,
     preConfirm: () => {
       const form = $("#swal2-content > form");
       let body = {
