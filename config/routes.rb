@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   # it is for debug
   get "/debug", to: "home#debug", as: :debug
 
-  resources :maxims, except: [:show]
+  resources :maxims, except: %i[new edit show]
   resources :events
   resources :expenses
 

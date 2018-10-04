@@ -13,7 +13,8 @@
     <%= stylesheet_link_tag    "//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" %>
     <%= stylesheet_link_tag    "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css" %>
   </head>
-  <body class="<%= "tweet-home" if %w[home maxims].include?(controller_name) %>">
+  <% home = %w[home maxims].include?(controller_name) %>
+  <body class="<%= "tweet-home" if home %>">
     <div class="container">
       <div class="row">
         <%= yield %>

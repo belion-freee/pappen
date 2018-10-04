@@ -1,21 +1,11 @@
 class MaximsController < ApplicationController
-  before_action :set_maxim, only: [:edit, :update, :destroy]
+  before_action :set_maxim, only: %i[update destroy]
 
   # GET /maxims
   # GET /maxims.json
   def index
     @maxims = Maxim.page(params[:page])
-  end
-
-  # GET /maxims/new
-  def new
     @maxim = Maxim.new
-    @category = Settings.maxim.category.invert
-  end
-
-  # GET /maxims/1/edit
-  def edit
-    @category = Settings.maxim.category.invert
   end
 
   # POST /maxims
@@ -24,24 +14,20 @@ class MaximsController < ApplicationController
     @maxim = Maxim.new(maxim_params)
     @category = Settings.maxim.category.invert
 
-    respond_to do |format|
-      if @maxim.save
-        format.html { redirect_to maxims_url}
-      else
-        format.html { render :new }
-      end
+    if @maxim.save
+      render json: :ok
+    else
+      render json: { errors: @maxim.errors.full_messages }, status: :bad_request
     end
   end
 
   # PATCH/PUT /maxims/1
   # PATCH/PUT /maxims/1.json
   def update
-    respond_to do |format|
-      if @maxim.update(maxim_params)
-        format.html { redirect_to maxims_url }
-      else
-        format.html { render :edit }
-      end
+    if @maxim.update(maxim_params)
+      render json: :ok
+    else
+      render json: { errors: @maxim.errors.full_messages }, status: :bad_request
     end
   end
 

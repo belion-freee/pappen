@@ -1,19 +1,41 @@
-<header class="tweet-header">
-  <section class="content">
-    <h1>Wonderful World</h1>
-    <p class="top-text">
+<div class='wave -one'></div>
+<div class='wave -two'></div>
+<div class='wave -three'></div>
+<div class='wave -four'></div>
+<div class='wave -five'></div>
+<div class="content">
+  <div class="row">
+    <h1 class="maxim-tweet">Topuru</h1>
+  </div>
+  <div class="row">
+    <p class="tweet-text">
       <a class="sub-title" id="tweet-maxim" href="#">
-        <strong>Tweet Now!</strong>
+        <strong>Tweet Now</strong>
       </a>
     </p>
-    <p class="top-text"><%= link_to 'Or new create?', new_maxim_path, class: "button tweet-link" %></p>
-  </section>
-</header>
+  </div>
+  <div class="row">
+    <p class="text-center">
+      <a class="button tweet-link" id="new-maxims" href="#">Or new create?</a>
+    </p>
+  </div>
+  <div class="row">
+    <p class="text-center">
+      <a class="button tweet-index-link" href="maxims">Show remarks</a>
+    </p>
+  </div>
+</div>
+
+<%= render partial: 'maxims/form' %>
 
 <script>
   $(function () {
     // fade-in
-    $(".tweet-header").hide().fadeIn(1700);
+    $("h1").hide().fadeIn(1700);
+    $("a").hide();
+    setTimeout(function(){
+      $("a").fadeIn(1500);
+    }, 800);
 
     // tweet
     $("#tweet-maxim").click(function (e) {
@@ -21,17 +43,17 @@
       e.stopPropagation();
 
       const category = <%= Settings.maxim.category.to_json.html_safe %>
-      const url = "<%= root_url %>"
+      const url = "<%= tweet_url %>" + ".json"
 
       swal({
-        title: 'カテゴリーを選択してね！',
+        title: 'Choose a category',
         input: 'select',
         inputOptions: category,
         showCancelButton: true,
-        confirmButtonText: 'Tweet!',
+        confirmButtonText: 'Tweet',
         showLoaderOnConfirm: true,
         preConfirm: (data) => {
-          return fetch(`${url}tweet.json`, {
+          return fetch(url, {
             method: 'POST',
             headers: {
               'content-type': 'application/json'
@@ -41,14 +63,64 @@
             if (response.ok) {
               return response.json()
             } else {
-              swal.showValidationError(`投稿に失敗しました。<br>他のカテゴリで投稿してみてね！`)
+              swal.showValidationMessage(`Ooops...Failed<br>Try another one`)
             }
           })
         },
         allowOutsideClick: () => !swal.isLoading()
       }).then((result) => {
         if (result.value) {
-          swal({type: 'success', title: 'Tweeted', text: '名言をつぶやきました！', footer: '<a href="https://twitter.com/meigensanBot">Go to Twitter</a>'})
+          swal({type: 'success', title: 'Tweeted', text: 'Tweet Success!', footer: '<a href="https://twitter.com/meigensanBot">Go to Twitter</a>'})
+        }
+      })
+    });
+
+    // new
+    $("#new-maxims").click(function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const category = <%= Settings.maxim.category.to_json.html_safe %>
+      const url = "<%= maxims_url %>" + ".json"
+
+      // store form HTML markup in a JS variable
+      var formTemplate = $('#form-template > form');
+
+      swal({
+        title: 'New Remarks',
+        html: formTemplate,
+        showCancelButton: true,
+        confirmButtonText: 'OK',
+        width: 600,
+        preConfirm: () => {
+          const form = $("#swal2-content > form");
+          let body = {
+            category: form.find("#maxim_category option:selected").val(),
+            remark: form.find("#maxim_remark").val(),
+            author: form.find("#maxim_author").val(),
+            source: form.find("#maxim_source").val(),
+            url: form.find("#maxim_url").val(),
+          }
+          return fetch(url, {
+            method: 'POST',
+            headers: {
+              'content-type': 'application/json',
+            },
+            body: JSON.stringify(body)
+          }).then(response => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              response.json().then(json => {
+                swal.showValidationError(json.errors.join("<br>"));
+              });
+            }
+          })
+        },
+        allowOutsideClick: () => !swal.isLoading()
+      }).then((result) => {
+        if (result.value) {
+          swal({type: 'success', title: 'Success!', footer: '<a href="<%= maxims_url %>">Show All Remarks</a>'})
         }
       })
     });
