@@ -1,50 +1,32 @@
-<% model_class = Maxim %>
-  <%= form_for @maxim, :html => { :class => "form-horizontal maxim align_center" } do |f| %>
-  <% if @maxim.errors.any? %>
-    <div id="error_expl" class="panel panel-danger w-10">
-      <div class="panel-heading">
-        <h3 class="panel-title"><%= pluralize(@maxim.errors.count, "error") %>件のエラーがあります</h3>
+<div id="form-template" class="hidden">
+  <% model_class = Maxim %>
+    <%= form_for @maxim, :html => { :class => "form-horizontal maxim" } do |f| %>
+    <div class="form-group">
+      <div class="col-md-4 col-xs-8">
+        <div class="cp_ipselect cp_sl01">
+          <%= f.select :category, Settings.maxim.category.invert, prompt: "カテゴリー", class: 'form-control' %>
+        </div>
       </div>
-      <div class="panel-body">
-        <ul>
-          <% @maxim.errors.full_messages.each do |msg| %>
-            <li><%= msg %></li>
-          <% end %>
-        </ul>
+    </div>
+    <div class="form-group">
+      <div class="col-md-12 col-xs-12">
+        <%= f.text_field :remark, :class => 'form-control', placeholder: model_class.human_attribute_name(:remark) %>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-md-6 col-xs-12">
+        <%= f.text_field :author, :class => 'form-control', placeholder: model_class.human_attribute_name(:author) %>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-md-6 col-xs-12">
+        <%= f.text_field :source, :class => 'form-control', placeholder: model_class.human_attribute_name(:source) %>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-md-10 col-xs-12">
+        <%= f.text_field :url, :class => 'form-control', placeholder: model_class.human_attribute_name(:url) %>
       </div>
     </div>
   <% end %>
-  <div class="form-group">
-    <div class="col-md-3 col-xs-8">
-      <div class="cp_ipselect cp_sl01">
-        <%= f.select :category, @category, prompt: "カテゴリー", class: 'form-control' %>
-      </div>
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="col-md-8 col-xs-12">
-      <%= f.text_field :remark, :class => 'form-control', placeholder: model_class.human_attribute_name(:remark) %>
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="col-md-4 col-xs-12">
-      <%= f.text_field :author, :class => 'form-control', placeholder: model_class.human_attribute_name(:author) %>
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="col-md-4 col-xs-12">
-      <%= f.text_field :source, :class => 'form-control', placeholder: model_class.human_attribute_name(:source) %>
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="col-md-4 col-xs-12">
-      <%= f.text_field :url, :class => 'form-control', placeholder: model_class.human_attribute_name(:url) %>
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="col-md-2 col-xs-3">
-      <p class="pt-1"><%= f.submit 'Make Remarks!', :class => 'btn btn-primary' %></p>
-      <p class="pt-1"><%= link_to "Cancel", maxims_path, :class => 'btn btn-warning' %></p>
-    </div>
-  </div>
-<% end %>
+</div>

@@ -1,7 +1,9 @@
 class HomeController < ApplicationController
   protect_from_forgery except: [:line]
 
-  def index; end
+  def index
+    @maxim = Maxim.new
+  end
 
   def tweet
     Sns::Twitter::Tweet.new.random_tweet(params[:category])

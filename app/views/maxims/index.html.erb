@@ -1,15 +1,14 @@
 <%- model_class = Maxim -%>
 
-<header class="tweet-header">
-  <section class="content">
-    <!--  title header  -->
-    <h1><%=t('.title')%></h1>
+<h1 class="maxim-index">Remarks</h1>
 
-    <!--  insert button  -->
-    <p class="pt-1"><%= link_to 'Or new create?', new_maxim_path, class: "tweet-link"  %></p>
-    <p class="pt-1"><%= link_to 'Back to Top', root_path, class: "tweet-link" %></p>
-  </section>
-</header>
+<div class="text-center pt-2">
+  <a class="button maxim-link" id="new-maxims" href="#">Or new create?</a>
+</div>
+
+<div class="text-center pt-2">
+  <a class="button maxim-link" href="/">Go to Top</a>
+</div>
 
 <!-- pagination -->
 <div class="text-center">
@@ -27,10 +26,12 @@
   </thead>
   <tbody>
     <% @maxims.each do |maxim| %>
-      <tr data-link="<%= edit_maxim_path(maxim) %>" class="tr-hover">
-        <td class="wrap"><%= simple_format maxim.remark %></td>
-        <td><%= maxim.author %></td>
-        <td><%= maxim.source %></td>
+      <tr data-link="<%= maxim_url(maxim) %>" data-id="<%= maxim.id %>" class="tr-hover">
+        <td class="wrap" name="remark"><%= simple_format maxim.remark %></td>
+        <td name="author"><%= maxim.author %></td>
+        <td name="source"><%= maxim.source %></td>
+        <td class="hidden" name="url"><%= maxim.url %></td>
+        <td class="hidden" name="category"><%= maxim.category %></td>
       </tr>
     <% end %>
   </tbody>
@@ -42,8 +43,115 @@
   <%= paginate @maxims %>
 </div>
 
+<!-- form -->
+<%= render partial: 'form' %>
+
 <script>
-$("tr[data-link]").on("click", function() {
-  window.location = $(this).data("link")
-})
+// new
+$("#new-maxims").click(function (e) {
+  e.preventDefault();
+  e.stopPropagation();
+
+  const category = <%= Settings.maxim.category.to_json.html_safe %>
+  const url = "<%= maxims_url %>" + ".json"
+
+  // store form HTML markup in a JS variable
+  var formTemplate = $('#form-template > form');
+
+  swal({
+    title: 'New Remarks',
+    html: formTemplate,
+    showCancelButton: true,
+    confirmButtonText: 'OK',
+    width: 600,
+    preConfirm: () => {
+      const form = $("#swal2-content > form");
+      let body = {
+        category: form.find("#maxim_category option:selected").val(),
+        remark: form.find("#maxim_remark").val(),
+        author: form.find("#maxim_author").val(),
+        source: form.find("#maxim_source").val(),
+        url: form.find("#maxim_url").val(),
+      }
+      return fetch(url, {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify(body)
+      }).then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          response.json().then(json => {
+            swal.showValidationError(json.errors.join("<br>"));
+          });
+        }
+      })
+    },
+    allowOutsideClick: () => !swal.isLoading()
+  }).then((result) => {
+    if (result.value) {
+      swal({type: 'success', title: 'Success!', footer: '<a href="<%= maxims_url %>">Show All Remarks</a>'})
+    }
+  })
+});
+
+// edit
+$("tr[data-link]").on("click", function(e) {
+  e.preventDefault();
+  e.stopPropagation();
+
+  const category = <%= Settings.maxim.category.to_json.html_safe %>
+  const url = $(this).data("link")+ ".json"
+  const tds = $(this).find("td")
+
+  // store form HTML markup in a JS variable
+  let formTemplate = $('#form-template > form');
+
+  // input form
+  formTemplate.find("#maxim_category option[value=" + $(this).find("td[name=category]").text() + "]").attr("selected", "selected")
+  formTemplate.find("#maxim_remark").val($(this).find("td[name=remark] p").text())
+  formTemplate.find("#maxim_author").val($(this).find("td[name=author]").text())
+  formTemplate.find("#maxim_source").val($(this).find("td[name=source]").text())
+  formTemplate.find("#maxim_url").val($(this).find("td[name=url]").text())
+
+  swal({
+    title: 'Edit Remarks',
+    html: formTemplate,
+    showCancelButton: true,
+    confirmButtonText: 'OK',
+    width: 600,
+    preConfirm: () => {
+      const form = $("#swal2-content > form");
+      let body = {
+        category: form.find("#maxim_category option:selected").val(),
+        remark: form.find("#maxim_remark").val(),
+        author: form.find("#maxim_author").val(),
+        source: form.find("#maxim_source").val(),
+        url: form.find("#maxim_url").val(),
+      }
+      return fetch(url, {
+        method: 'PUT',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify(body)
+      }).then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          response.json().then(json => {
+            swal.showValidationError(json.errors.join("<br>"));
+          });
+        }
+      })
+    },
+    allowOutsideClick: () => !swal.isLoading()
+  }).then((result) => {
+    if (result.value) {
+      swal({type: 'success', title: 'Update!'})
+    }
+  })
+});
 </script>
