@@ -13,7 +13,7 @@
   background: lighten(#f0f4c3, 10%);
 
   .wave {
-    opacity: .4;
+    opacity: .5;
     position: absolute;
     left: 22%;
     background: #0af;
@@ -26,7 +26,7 @@
 
   .wave.-two {
     animation: drift 7000ms infinite linear;
-    opacity: .1;
+    opacity: .2;
     background: yellow;
   }
 
@@ -36,7 +36,7 @@
 
   .wave.-four {
     animation: drift 5500ms infinite linear;
-    opacity: .4;
+    opacity: .5;
     background: orange;
   }
 
@@ -87,6 +87,7 @@
 
   .maxim-index {
     color: gray;
+    letter-spacing: .2em;
   }
 
   .tweet-link {
