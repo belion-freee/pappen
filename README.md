@@ -22,7 +22,6 @@
 - [Bot](https://twitter.com/meigensanBot)
 - [投稿](https://pappen.herokuapp.com/)
 - [一覧](https://pappen.herokuapp.com/maxims)
-- [追加](https://pappen.herokuapp.com/maxims/new)
 
 ## ぱっぷん
 色々なことができるLineBot。以下に機能を列挙していく。
