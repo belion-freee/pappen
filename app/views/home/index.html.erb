@@ -16,7 +16,7 @@
   </div>
   <div class="row">
     <p class="text-center">
-      <a class="button tweet-link" id="new-maxims" href="#">Or new create?</a>
+      <%= link_to "Or new create?", "#", data: { url: maxims_url, category: Settings.maxim.category.to_json.html_safe }, class: "button tweet-link", id: "new-maxims" %>
     </p>
   </div>
   <div class="row">
@@ -70,58 +70,10 @@
         allowOutsideClick: () => !swal.isLoading()
       }).then((result) => {
         if (result.value) {
-          swal({type: 'success', title: 'Tweeted', text: 'Tweet Success!', footer: '<a href="https://twitter.com/meigensanBot">Go to Twitter</a>'})
-        }
-      })
-    });
-
-    // new
-    $("#new-maxims").click(function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-
-      const category = <%= Settings.maxim.category.to_json.html_safe %>
-      const url = "<%= maxims_url %>" + ".json"
-
-      // store form HTML markup in a JS variable
-      var formTemplate = $('#form-template > form');
-
-      swal({
-        title: 'New Remarks',
-        html: formTemplate,
-        showCancelButton: true,
-        confirmButtonText: 'OK',
-        preConfirm: () => {
-          const form = $("#swal2-content > form");
-          let body = {
-            category: form.find("#maxim_category option:selected").val(),
-            remark: form.find("#maxim_remark").val(),
-            author: form.find("#maxim_author").val(),
-            source: form.find("#maxim_source").val(),
-            url: form.find("#maxim_url").val(),
-          }
-          return fetch(url, {
-            method: 'POST',
-            headers: {
-              'content-type': 'application/json',
-            },
-            body: JSON.stringify(body)
-          }).then(response => {
-            if (response.ok) {
-              return response.json();
-            } else {
-              response.json().then(json => {
-                swal.showValidationError(json.errors.join("<br>"));
-              });
-            }
-          })
-        },
-        allowOutsideClick: () => !swal.isLoading()
-      }).then((result) => {
-        if (result.value) {
-          swal({type: 'success', title: 'Success!', footer: '<a href="<%= maxims_url %>">Show All Remarks</a>'})
+          swal({type: 'success', title: 'Tweeted', text: 'Tweet Success!', footer: '<a href="https://twitter.com/meigensanBot" target="_blank">Go to Twitter</a>'})
         }
       })
     });
   });
 </script>
+<%= javascript_include_tag 'part/form', 'data-turbolinks-track' => 'reload' %>
