@@ -50,6 +50,8 @@ gem "kaminari"
 
 # for security alert
 gem "loofah", ">= 2.2.3"
+gem "rubyzip", ">= 1.2.2"
+gem "ffi", ">= 1.9.24"
 
 group :development, :test do
   # Use sqlite3 as the database for Active Record
