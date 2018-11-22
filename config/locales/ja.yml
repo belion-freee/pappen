@@ -87,6 +87,7 @@ ja:
       event:       イベント
       expense:     支払表
       expenditure: 経費申請
+      house:       家計簿
     attributes:
       base: &base
         id: ID
@@ -110,6 +111,12 @@ ja:
         memo:         メモ
         room_members: 参加メンバー
         members:      参加人数
+      house:
+        <<: *base
+        name:         家名
+        memo:         メモ
+        room_members: 家族
+        members:      家族
       expense:
         <<: *base
         name:        支払項目

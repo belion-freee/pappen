@@ -1,0 +1,77 @@
+<div class="page-header" id="house-header">
+  <h1><%= @house.name %></h1>
+  <h3><%= simple_format @house.memo %></h3>
+  <ul>
+    <% @house.room_members.each do |room_member| %>
+      <%= content_tag(:li, room_member.name, value: room_member.id, class: "label label-info") %>
+    <% end %>
+  </ul>
+</div>
+
+<%= link_to t("helpers.links.edit"), "#", data: { link: house_url(@house) }, class: "btn btn-success", id: "edit-house" %>
+
+<%# <%= render template: 'expenses/index' %> %>
+
+<%# <%= render partial: 'accounting' %> %>
+
+<!-- form -->
+<%= render partial: 'form' %>
+
+<script>
+// edit
+$("#edit-house").on("click", function(e) {
+  e.preventDefault();
+  e.stopPropagation();
+
+  // store form HTML markup in a JS variable
+  const url = $(this).data("link")+ ".json"
+  let formTemplate = $('#form-template > form');
+  let header = $('#house-header');
+
+  // input form
+  formTemplate.find("#house_name").val(header.find("h1").text())
+  formTemplate.find("#house_memo").val(header.find("h3").text())
+
+  swal({
+    title: '家計簿編集',
+    html: formTemplate,
+    showCancelButton: true,
+    confirmButtonText: 'OK',
+    preConfirm: () => {
+      const form = $("#swal2-content > form");
+      let body = {
+        house: {
+         name: form.find("#house_name").val(),
+         room_member_ids: form.find("#house_room_members").val(),
+         memo: form.find("#house_memo").val(),
+        }
+      }
+      return fetch(url, {
+        method: 'PUT',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify(body)
+      }).then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          response.json().then(json => {
+            swal.showValidationError(json.errors.join("<br>"));
+          });
+        }
+      })
+    },
+    allowOutsideClick: () => !swal.isLoading()
+  }).then((result) => {
+    if (result.value) {
+      swal({
+        title: '更新したよ!',
+        type: 'success'
+      }).then(function() {
+        location.reload();
+      });
+    }
+  })
+});
+</script>

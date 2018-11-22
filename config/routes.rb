@@ -21,4 +21,8 @@ Rails.application.routes.draw do
   get "/expenditures/:line_user_id", to: "expenditures#index", as: :expenditures
   get "/expenditure/new/:line_user_id", to: "expenditures#new", as: :new_expenditure
   post "/expenditures/:line_user_id", to: "expenditures#create", as: :post_expenditure
+
+  resources :houses do
+    resources :house_expenditure
+  end
 end
