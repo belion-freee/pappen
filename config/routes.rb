@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   get "/expenditure/new/:line_user_id", to: "expenditures#new", as: :new_expenditure
   post "/expenditures/:line_user_id", to: "expenditures#create", as: :post_expenditure
 
-  resources :houses do
-    resources :house_expenditure
+  resources :houses, only: %i[show update] do
+    resources :house_expenditures
   end
 end

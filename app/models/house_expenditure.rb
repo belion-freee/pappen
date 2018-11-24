@@ -1,5 +1,9 @@
 class HouseExpenditure < ApplicationRecord
-  CATEGORY = %w[固定支出 定期支出 一般支出].freeze
+  CATEGORY = {
+    fixed:   "固定支出",
+    regular: "定期支出",
+    common:  "一般支出",
+  }.with_indifferent_access.freeze
 
   belongs_to :house, inverse_of: :house_expenditures
   belongs_to :room_member, inverse_of: :house_expenditures
@@ -7,6 +11,10 @@ class HouseExpenditure < ApplicationRecord
   validates :entry_date,   presence: true
   validates :category,     presence: true
   validates :payment,      presence: true
+
+  scope :house, ->(id) {
+    where(house_id: id).order(entry_date: :desc).group_by(&:category)
+  }
 
   scope :search, ->(params) {
     res = where(house_id: params[:house_id])

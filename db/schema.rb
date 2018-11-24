@@ -65,7 +65,7 @@ ActiveRecord::Schema.define(version: 20181120030000) do
     t.date "entry_date", null: false
     t.string "category", null: false
     t.integer "payment", null: false
-    t.text "memo"
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["house_id"], name: "index_house_expenditures_on_house_id"

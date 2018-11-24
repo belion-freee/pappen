@@ -6,7 +6,7 @@ class CreateHouseExpenditures < ActiveRecord::Migration[5.1]
       t.date :entry_date, null: false
       t.string :category, null: false
       t.integer :payment, null: false
-      t.text :memo
+      t.string :name
 
       t.timestamps
     end

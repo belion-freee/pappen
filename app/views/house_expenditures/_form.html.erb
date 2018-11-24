@@ -1,0 +1,30 @@
+<div id="house-expenditure-form" class="hidden">
+  <% model_class = HouseExpenditure %>
+    <%= form_for @house_expenditure, url: "#", :html => { :class => "form-horizontal maxim" } do |f| %>
+    <div class="form-group">
+      <div class="col-lg-6 col-xs-6">
+        <%= f.date_field :entry_date, value: Time.now.strftime("%Y-%m-%d"), class: 'form-control' %>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-6 col-xs-12">
+        <%= f.collection_select :room_member, @members, :first, :last, { prompt: model_class.human_attribute_name(:room_member) }, { class: 'form-control', rows: 2} %>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-6 col-xs-12">
+        <%= f.collection_select :category, model_class::CATEGORY.to_a, :first, :last, { prompt: model_class.human_attribute_name(:category) }, { class: "form-control", rows: 2 } %>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-4 col-xs-8">
+        <%= f.number_field :payment, class: 'form-control', placeholder: model_class.human_attribute_name(:payment) %>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-8 col-xs-10">
+        <%= f.text_field :name, class: 'form-control', placeholder: model_class.human_attribute_name(:name).concat("(任意)") %>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -2,14 +2,13 @@ class HousesController < ApplicationController
   before_action :set_house, only: %i[show update]
 
   def show
-    @members = RoomMember.where(gid: @house.room_members.first.gid)
-    # @expenses = Expense.where(house_id: params[:id])
-    # @total = @expenses.map {|ex| ex[:payment] }.inject(:+) || 0
+    @members = RoomMember.names(@house.room_members.first.gid)
+    @house_expenditure = HouseExpenditure.new
+    @house_expenditures = HouseExpenditure.house(@house.id)
     # @accountings = create_accountings
   end
 
   def update
-    debugger
     if @house.update(permitted_params)
       render json: :ok
     else

@@ -1,7 +1,7 @@
 class House < ApplicationRecord
   has_many :room_member_houses, { inverse_of: :house, dependent: :destroy }, ->{ order(:id) }
   has_many :room_members, through: :room_member_houses
-  has_many :house_expenses, dependent: :destroy
+  has_many :house_expenditures, dependent: :destroy
 
   validates :name, presence: true, uniqueness: true
   validate :room_member_present?

@@ -1,48 +1,29 @@
 class HouseExpendituresController < ApplicationController
-  before_action :house_id?, only: [:index, :new, :edit, :destroy]
-
-  def index
-    records = Expenditure.search(params)
-
-    @line_user = LineUser.find(params[:line_user_id])
-    @expenditures = records.page(params[:page])
-    @summary = records.summary
-  end
-
-  def new
-    @expenditure = Expenditure.new(line_user_id: params[:line_user_id], entry_date: Time.zone.today)
-  end
-
-  def edit
-    @expenditure = Expenditure.find(params[:id])
-  end
+  before_action :house_id?, only: %i[update create destroy]
 
   def create
-    @expenditure = Expenditure.new(permitted_params)
-    respond_to do |format|
-      if @expenditure.save
-        format.html { redirect_to expenditures_url(line_user_id: @expenditure.line_user_id) }
-      else
-        format.html { render :new }
-      end
+    @house_expenditure = HouseExpenditure.new(permitted_params)
+    if @house_expenditure.save
+      render json: :ok
+    else
+      render json: { errors: @house_expenditure.errors.full_messages }, status: :bad_request
     end
   end
 
   def update
-    expenditure = Expenditure.find(params[:id])
-    respond_to do |format|
-      if expenditure.update(permitted_params)
-        format.html { redirect_to expenditures_url(line_user_id: expenditure.line_user_id) }
-      else
-        format.html { render :edit }
-      end
+    house_expenditure = HouseExpenditure.find(params[:id])
+    if house_expenditure.update(permitted_params)
+      render json: :ok
+    else
+      render json: { errors: house_expenditure.errors.full_messages }, status: :bad_request
     end
   end
 
   def destroy
-    Expenditure.find(params[:id]).destroy
-    respond_to do |format|
-      format.html { redirect_to expenditures_url(line_user_id: params[:line_user_id]) }
+    if Expenditure.find(params[:id]).destroy
+      render json: :ok
+    else
+      render json: { errors: ["delete failed id:#{params[:id]}"] }, status: :bad_request
     end
   end
 
@@ -54,6 +35,6 @@ class HouseExpendituresController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def permitted_params
-      params.require(:expenditure).permit(:line_user_id, :entry_date, :category, :payment, :memo, :margin)
+      params.require(:house_expenditure).permit(:house_id, :room_member_id, :entry_date, :category, :payment, :name)
     end
 end

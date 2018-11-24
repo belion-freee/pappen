@@ -132,6 +132,13 @@ ja:
         entry_date: 支払日
         payment:    支出額
         memo:       メモ
+      house_expenditure:
+        <<: *base
+        room_member: 支払者
+        category:    支出項目
+        entry_date:  支出日
+        payment:     支出額
+        name:        支出名
       errors:
         models:
           event:
@@ -143,6 +150,7 @@ ja:
   errors:
     format: "%{attribute}%{message}"
     messages:
+      required:  を入力してください
       blank:     を入力してください
       not_saved: 登録できませんでした
       invalid:   データが不正です
