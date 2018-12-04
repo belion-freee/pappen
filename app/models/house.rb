@@ -7,6 +7,8 @@ class House < ApplicationRecord
   validate :room_member_present?
   validate :group_uniq?
 
+  after_initialize :identify, if: :new_record?
+
   scope :selected_gid, ->(gid) {
     joins(:room_members).where(room_members: { gid: gid }).uniq
   }
@@ -18,4 +20,10 @@ class House < ApplicationRecord
   def group_uniq?
     errors.add(:room_members, :multiple_group) if self.room_members.map(&:gid).uniq.size > 1
   end
+
+  private
+
+    def identify(num = 16)
+      self.hid ||= SecureRandom.hex(num)
+    end
 end

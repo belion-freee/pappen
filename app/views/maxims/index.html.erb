@@ -3,7 +3,7 @@
 <h1 class="maxim-index">Remarks</h1>
 
 <div class="text-center pt-2">
-  <%= link_to "new create", "#", data: { url: maxims_url, category: Settings.maxim.category.to_json.html_safe }, class: "button maxim-link", id: "new-maxims" %>
+  <%= link_to "new create", "#", data: { url: maxims_url, title: "New Remarks!", method: "POST"  }, class: "button maxim-link", id: "new-maxims" %>
 </div>
 
 <div class="text-center pt-2">
@@ -26,7 +26,7 @@
   </thead>
   <tbody>
     <% @maxims.each do |maxim| %>
-      <tr data-link="<%= maxim_url(maxim) %>" data-id="<%= maxim.id %>" class="tr-hover">
+      <tr data-url="<%= maxim_url(maxim) %>" data-id="<%= maxim.id %>" data-method="PUT" data-title="Edit Maxim" class="edit-maxim tr-hover">
         <td class="wrap" name="remark"><%= simple_format maxim.remark %></td>
         <td name="author"><%= maxim.author %></td>
         <td name="source"><%= maxim.source %></td>
@@ -45,63 +45,3 @@
 
 <!-- form -->
 <%= render partial: 'form' %>
-
-<script>
-// edit
-$("tr[data-link]").on("click", function(e) {
-  e.preventDefault();
-  e.stopPropagation();
-
-  const category = <%= Settings.maxim.category.to_json.html_safe %>
-  const url = $(this).data("link")+ ".json"
-  const tds = $(this).find("td")
-
-  // store form HTML markup in a JS variable
-  let formTemplate = $('#form-template > form');
-
-  // input form
-  formTemplate.find("#maxim_category option[value=" + $(this).find("td[name=category]").text() + "]").attr("selected", "selected")
-  formTemplate.find("#maxim_remark").val($(this).find("td[name=remark] p").text())
-  formTemplate.find("#maxim_author").val($(this).find("td[name=author]").text())
-  formTemplate.find("#maxim_source").val($(this).find("td[name=source]").text())
-  formTemplate.find("#maxim_url").val($(this).find("td[name=url]").text())
-
-  swal({
-    title: 'Edit Remarks',
-    html: formTemplate,
-    showCancelButton: true,
-    confirmButtonText: 'OK',
-    preConfirm: () => {
-      const form = $("#swal2-content > form");
-      let body = {
-        category: form.find("#maxim_category option:selected").val(),
-        remark: form.find("#maxim_remark").val(),
-        author: form.find("#maxim_author").val(),
-        source: form.find("#maxim_source").val(),
-        url: form.find("#maxim_url").val(),
-      }
-      return fetch(url, {
-        method: 'PUT',
-        headers: {
-          'content-type': 'application/json',
-        },
-        body: JSON.stringify(body)
-      }).then(response => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          response.json().then(json => {
-            swal.showValidationError(json.errors.join("<br>"));
-          });
-        }
-      })
-    },
-    allowOutsideClick: () => !swal.isLoading()
-  }).then((result) => {
-    if (result.value) {
-      swal({type: 'success', title: 'Update!'})
-    }
-  })
-});
-</script>
-<%= javascript_include_tag 'part/form', 'data-turbolinks-track' => 'reload' %>

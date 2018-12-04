@@ -5,6 +5,7 @@ class RoomMember < ApplicationRecord
   has_many :houses, through: :room_member_houses
   has_many :expenses, dependent: :destroy
   has_many :house_expenditures, dependent: :destroy
+  has_many :house_expenditure_margins, dependent: :destroy
 
   validates :uid, presence: true
   validates :name, presence: true

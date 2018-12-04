@@ -1,30 +1,52 @@
 <div id="house-expenditure-form" class="hidden">
   <% model_class = HouseExpenditure %>
-    <%= form_for @house_expenditure, url: "#", :html => { :class => "form-horizontal maxim" } do |f| %>
+  <% margin_class   = HouseExpenditureMargin %>
+    <%= form_for HouseExpenditure.new, url: "#", :html => { :class => "form-horizontal maxim" } do |f| %>
+    <%= f.hidden_field_tag :house_id, @house.id %>
     <div class="form-group">
-      <div class="col-lg-6 col-xs-6">
-        <%= f.date_field :entry_date, value: Time.now.strftime("%Y-%m-%d"), class: 'form-control' %>
+      <div class="col-lg-6 col-xs-10">
+        <%= f.date_field :entry_date, value: (f.object.entry_date || Time.now.strftime("%Y-%m-%d")), class: 'form-control' %>
       </div>
     </div>
     <div class="form-group">
-      <div class="col-lg-6 col-xs-12">
-        <%= f.collection_select :room_member, @members, :first, :last, { prompt: model_class.human_attribute_name(:room_member) }, { class: 'form-control', rows: 2} %>
+      <div class="col-lg-6 col-xs-10">
+        <%= f.collection_select :room_member, @house.room_members, :id, :name, { prompt: model_class.human_attribute_name(:room_member) }, { class: 'form-control', rows: 2} %>
       </div>
     </div>
     <div class="form-group">
-      <div class="col-lg-6 col-xs-12">
+      <div class="col-lg-6 col-xs-10">
         <%= f.collection_select :category, model_class::CATEGORY.to_a, :first, :last, { prompt: model_class.human_attribute_name(:category) }, { class: "form-control", rows: 2 } %>
       </div>
     </div>
     <div class="form-group">
-      <div class="col-lg-4 col-xs-8">
-        <%= f.number_field :payment, class: 'form-control', placeholder: model_class.human_attribute_name(:payment) %>
+      <div class="col-lg-8 col-xs-10">
+        <%= f.text_field :name, class: 'form-control', placeholder: model_class.human_attribute_name(:name) %>
       </div>
     </div>
     <div class="form-group">
-      <div class="col-lg-8 col-xs-10">
-        <%= f.text_field :name, class: 'form-control', placeholder: model_class.human_attribute_name(:name).concat("(任意)") %>
+      <div class="col-lg-4 col-xs-10">
+        <%= f.number_field :payment, class: 'form-control', placeholder: model_class.human_attribute_name(:payment) %>
       </div>
+    </div>
+    <div class="form-group bb-g">
+      <%= content_tag :label,  "マージン(任意)", class: 'control-label col-lg-4' %>
+    </div>
+    <div id="house_expenditure_margins">
+      <% @house.room_members.each do |member| %>
+      <div class="form-group" id="margin_member_<%= member.id %>">
+        <%= f.fields_for :room_members do |rm| %>
+          <div class="col-lg-4 col-xs-8">
+            <%= rm.label :room_member, member.name, data: { id: "", member: member.id } %>
+          </div>
+          <div class="col-lg-4 col-xs-6">
+            <%= rm.number_field :margin, class: 'form-control', placeholder: margin_class.human_attribute_name(:margin).concat("(%)") %>
+          </div>
+          <div class="col-lg-4 col-xs-6">
+            <%= rm.number_field :fixed, class: 'form-control', placeholder: margin_class.human_attribute_name(:fixed).concat("(円)") %>
+          </div>
+        <% end  %>
+      </div>
+      <% end %>
     </div>
   <% end %>
 </div>

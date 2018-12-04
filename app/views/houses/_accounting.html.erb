@@ -1,30 +1,33 @@
-<%= javascript_include_tag 'part/accounting', 'data-turbolinks-track' => 'reload' %>
-<div class="page-header">
-  <h2><%= t("helpers.titles.accounting") %></h2>
-  <h4><%= t("helpers.attributes.accounting.members") %> : <%= h @accountings.size %></h4>
-  <h4><%= t("helpers.attributes.accounting.fee") %> : <%= m @fee %></h4>
-</div>
-
-<div class="table-responsive" id="accountings_table">
-  <table class="table table-striped table-bordered table-hover">
-    <thead>
-      <tr class="nowrap">
-        <th><%= t("helpers.attributes.accounting.room_member") %></th>
-        <th><%= t("helpers.attributes.accounting.payment") %></th>
-        <th><%= t("helpers.attributes.accounting.amount") %></th>
-        <th><%= t("helpers.attributes.accounting.paid") %></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @accountings.each do |accounting| %>
-        <tr class="nowrap">
-          <td><%= accounting[:room_member] %></td>
-          <td><%= m accounting[:payment] %></td>
-          <td>
-            <strong><%= m accounting[:amount] %></strong> <%= accounting[:message] %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+<div class="accordion accounting" data-accordion>
+  <div data-control>
+    合計額 : <%= content_tag :strong, m(@accountings[:total]) %>
+  </div>
+  <div data-content>
+    <% if @accountings[:bill].present? %>
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr class="nowrap">
+            <th><%= t("helpers.attributes.accounting.room_member") %></th>
+            <th><%= t("helpers.attributes.accounting.payment") %></th>
+            <th><%= t("helpers.attributes.accounting.repayment") %></th>
+            <th><%= t("helpers.attributes.accounting.amount") %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @accountings[:bill].each do |accounting| %>
+            <tr class="nowrap">
+              <td><%= accounting[:room_member] %></td>
+              <td><%= m accounting[:payment] %></td>
+              <td><%= m accounting[:repayment] %></td>
+              <td>
+                <strong><%= m accounting[:amount].abs %></strong> <%= accounting[:amount].negative? ? "支払い" : "受け取り" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <% end %>
+  </div>
 </div>

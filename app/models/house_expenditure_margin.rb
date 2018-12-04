@@ -2,10 +2,6 @@ class HouseExpenditureMargin < ApplicationRecord
   belongs_to :house_expenditure, inverse_of: :house_expenditure_margins
   belongs_to :room_member, inverse_of: :house_expenditure_margins
 
-  validates :margin
-  validates :fixed
-  validates :margin_or_fixed, presence: true
-
   scope :search, ->(params) {
     res = where(house_id: params[:house_id])
 
@@ -29,9 +25,7 @@ class HouseExpenditureMargin < ApplicationRecord
     }.to_h
   }
 
-  private
-
-    def margin_or_fixed
-      margin.presence || fixed.presence
-    end
+  def attr
+    self.attributes.except("created_at", "updated_at")
+  end
 end

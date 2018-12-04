@@ -64,6 +64,14 @@
     text-shadow: 0 2px 0 rgba(black, .1);
   }
 
+  .sub-text {
+    color: darkslateblue;
+    font-size: 30px;
+    font-family: 'Playfair Display', serif;
+    letter-spacing: .1em;
+    text-shadow: 0 1px 0 rgba(black, .1);
+  }
+
   .tr-hover:hover{
     color: white;
     background-color: rgba(80,80,80,0.8);
@@ -77,6 +85,15 @@
     text-shadow: 0 2px 0 rgba(black, .1);
     width: 100%;
     text-align: center;
+  }
+
+  .title-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    letter-spacing: .1em;
+    text-shadow: 0 1px 0 rgba(black, .1);
+    text-align: center;
+    padding-bottom: inherit;
   }
 
   .maxim-tweet {
@@ -224,5 +241,18 @@
       border-color: #dddddd;
       color: black;
     }
+  }
+
+  .expenditure_color {
+    &.food { background-color: rgba(255, 99, 132, 0.2); }
+    &.dining { background-color: rgba(54, 162, 235, 0.2); }
+    &.another { background-color: rgba(75, 192, 192, 0.2); }
+    &.utility { background-color: rgba(255, 206, 86, 0.2); }
+    &.travel { background-color: rgba(153, 102, 255, 0.2); }
+    &.home { background-color: rgba(255, 159, 64, 0.2); }
+  }
+
+  .accounting {
+    background-color: rgba(56, 52, 64, 0.2)
   }
 }

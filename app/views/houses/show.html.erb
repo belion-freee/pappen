@@ -1,18 +1,40 @@
 <!--  header -->
 <div class="page-header" id="house-header">
-  <%= link_to(t("helpers.links.edit"), data: { link: house_url(@house), title: "家計簿編集", method: "PUT" }, id: "edit-house") do %>
-    <h1><%= @house.name %></h1>
+  <%= content_tag(:div, data: { url: house_url(@house), title: "家計簿編集", method: "PUT" }, id: "edit-house", class: "title-text") do %>
+    <%= @house.name %>
   <% end %>
-  <h3><%= simple_format @house.memo %></h3>
-  <ul>
-    <% @house.room_members.each do |room_member| %>
-      <%= content_tag(:li, room_member.name, value: room_member.id, class: "label label-info") %>
-    <% end %>
-  </ul>
+  <div class="text-center sub-text" id="house-memo">
+    <%= simple_format @house.memo %>
+  </div>
+  <div class="text-center">
+    <ul class="pl-0">
+      <% @house.room_members.each do |room_member| %>
+        <%= content_tag(:li, room_member.name, value: room_member.id, class: "label label-info") %>
+      <% end %>
+    </ul>
+  </div>
 </div>
 
-<!-- add button -->
-<%= content_tag(:label, "支出追加", data: { link: house_house_expenditures_url(@house), title: "支出追加", method: "POST" }, id: "new-house-expenditure", class: "btn btn-primary") %>
+<div class="row mb-2">
+  <div class="form-group">
+    <div class="col-lg-3 col-xs-8">
+      <div class="select-wrap select-circle select-circle-arrow">
+        <%= select_tag(:house, options_for_select(date_options, (params["date"] || Time.now.strftime("%Y年%m月"))), data: { url: house_url(@house) }, id: "house_date") %>
+      </div>
+    </div>
+    <div class="col-lg-4 col-xs-4">
+      <%= content_tag(:label, "+", data: { url: house_house_expenditures_url(@house), title: "支出追加", method: "POST" }, id: "new-house-expenditure", class: "btn btn-primary btn-circle btn-lg") %>
+    </div>
+  </div>
+</div>
+
+<!-- chart -->
+<div class="row mb-2">
+<%= content_tag(:canvas, "", data: { title: "項目別グラフ", labels: HouseExpenditure::CATEGORY.values.to_json.html_safe, numbers: HouseExpenditure::CATEGORY.keys.map {|key| @groups[key]&.map(&:payment)&.inject(:+) || 0 }.to_json.html_safe }, id: "pieGraph") %>
+</div>
+
+<!-- accounting -->
+<%= render partial: 'accounting' %>
 
 <!-- expenditures index -->
 <%= render template: 'house_expenditures/index' %>
@@ -24,123 +46,5 @@
 <%= render partial: 'house_expenditures/form' %>
 
 <script>
-function modal(element, form, body) {
-  const title  = element.data("title")
-  const url    = element.data("link") + ".json"
-  const method = element.data("method")
-  swal({
-    title: title,
-    html: form,
-    showCancelButton: true,
-    confirmButtonText: 'OK',
-    preConfirm: () => {
-      return fetch(url, {
-        method: method,
-        headers: {
-          'content-type': 'application/json',
-        },
-        body: JSON.stringify(body($("#swal2-content > form")))
-      }).then(response => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          response.json().then(json => {
-            swal.showValidationMessage(json.errors.join("<br>"));
-          });
-        }
-      })
-    },
-    allowOutsideClick: () => !swal.isLoading()
-  }).then((result) => {
-    if (result.value) {
-      swal({
-        title: '完了したよ!',
-        type: 'success'
-      }).then(function() {
-        location.reload();
-      });
-    }
-  })
-}
-
-// edit house
-$("#edit-house").on("click", function(e) {
-  e.preventDefault();
-  e.stopPropagation();
-
-  // store form HTML markup in a JS variable
-  let form = $('#house-form > form');
-  let header = $('#house-header');
-
-  // input form
-  form.find("#house_name").val(header.find("h1").text())
-  form.find("#house_memo").val(header.find("h3").text())
-
-  let body = function(form) {
-    return {
-      house: {
-       name: form.find("#house_name").val(),
-       room_member_ids: form.find("#house_room_members").val(),
-       memo: form.find("#house_memo").val(),
-      }
-    }
-  }
-
-  modal($(this), form, body);
-});
-
-// new expenditure
-$("#new-house-expenditure").on("click", function(e) {
-  e.preventDefault();
-  e.stopPropagation();
-
-  // store form HTML markup in a JS variable
-  let form = $('#house-expenditure-form > form');
-
-  let body = function(form) {
-    return {
-      house_expenditure: {
-       house_id:   "<%= @house.id %>",
-       room_member_id: form.find("#house_expenditure_room_member option:selected").val(),
-       entry_date: form.find("#house_expenditure_entry_date").val(),
-       category: form.find("#house_expenditure_category option:selected").val(),
-       payment: form.find("#house_expenditure_payment").val(),
-       name: form.find("#house_expenditure_name").val(),
-      }
-    }
-  }
-
-  modal($(this), form, body);
-});
-
-// edit house expenditure
-$(".edit-house-expenditure").on("click", function(e) {
-  e.preventDefault();
-  e.stopPropagation();
-
-  // store form HTML markup in a JS variable
-  let form = $('#house-expenditure-form > form');
-
-  // input form
-  form.find("#house_expenditure_room_member option[value=" + $(this).find("td[name=room_member]").attr("value") + "]").attr("selected", "selected")
-  form.find("#house_expenditure_category option[value=" + $(this).data("category") + "]").attr("selected", "selected")
-  form.find("#house_expenditure_entry_date").val($(this).find("td[name=entry_date]").attr("value"))
-  form.find("#house_expenditure_payment").val($(this).find("td[name=payment]").attr("value"))
-  form.find("#house_expenditure_name").val($(this).find("td[name=name]").text())
-
-  let body = function(form) {
-    return {
-      house_expenditure: {
-       house_id:   "<%= @house.id %>",
-       room_member_id: form.find("#house_expenditure_room_member option:selected").val(),
-       entry_date: form.find("#house_expenditure_entry_date").val(),
-       category: form.find("#house_expenditure_category option:selected").val(),
-       payment: form.find("#house_expenditure_payment").val(),
-       name: form.find("#house_expenditure_name").val(),
-      }
-    }
-  }
-
-  modal($(this), form, body);
-});
+  graph.Pie("pieGraph");
 </script>

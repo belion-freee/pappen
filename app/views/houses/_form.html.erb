@@ -2,19 +2,16 @@
   <% model_class = House %>
     <%= form_for @house, url: "#", :html => { :class => "form-horizontal maxim" } do |f| %>
     <div class="form-group">
-      <%= f.label :name, class: 'control-label col-lg-4' %>
-      <div class="col-lg-4 col-xs-10">
+      <div class="col-lg-6 col-xs-10">
         <%= f.text_field :name, class: 'form-control', placeholder: model_class.human_attribute_name(:name) %>
       </div>
     </div>
     <div class="form-group">
-      <%= f.label :room_members, class: 'control-label col-lg-4' %>
       <div class="col-lg-6 col-xs-12">
         <%= f.collection_select :room_members, @members, :first, :last, { selected: @house.room_member_ids }, { multiple: true, class: 'form-control', rows: 2} %>
       </div>
     </div>
     <div class="form-group">
-      <%= f.label :memo, class: 'control-label col-lg-4' %>
       <div class="col-lg-6 col-xs-12">
         <%= f.text_area :memo, class: 'form-control', rows: 6, placeholder: model_class.human_attribute_name(:memo) %>
       </div>

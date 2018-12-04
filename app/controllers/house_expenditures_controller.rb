@@ -20,7 +20,7 @@ class HouseExpendituresController < ApplicationController
   end
 
   def destroy
-    if Expenditure.find(params[:id]).destroy
+    if HouseExpenditure.find(params[:id]).destroy
       render json: :ok
     else
       render json: { errors: ["delete failed id:#{params[:id]}"] }, status: :bad_request
@@ -35,6 +35,6 @@ class HouseExpendituresController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def permitted_params
-      params.require(:house_expenditure).permit(:house_id, :room_member_id, :entry_date, :category, :payment, :name)
+      params.require(:house_expenditure).permit(:house_id, :room_member_id, :entry_date, :category, :payment, :name, house_expenditure_margins_attributes: [:id, :room_member_id, :margin, :fixed])
     end
 end

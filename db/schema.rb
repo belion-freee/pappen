@@ -12,12 +12,8 @@
 
 ActiveRecord::Schema.define(version: 20181120030000) do
 
-  create_table "download_torrents", force: :cascade do |t|
-    t.string "line_user_id", null: false
-    t.string "hash_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "events", force: :cascade do |t|
     t.string "name", null: false
@@ -50,18 +46,19 @@ ActiveRecord::Schema.define(version: 20181120030000) do
   end
 
   create_table "house_expenditure_margins", force: :cascade do |t|
-    t.integer "house_expenditure_id", null: false
-    t.integer "debtor", null: false
+    t.bigint "house_expenditure_id", null: false
+    t.bigint "room_member_id", null: false
     t.integer "margin"
     t.integer "fixed"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["house_expenditure_id"], name: "index_house_expenditure_margins_on_house_expenditure_id"
+    t.index ["room_member_id"], name: "index_house_expenditure_margins_on_room_member_id"
   end
 
   create_table "house_expenditures", force: :cascade do |t|
-    t.integer "house_id", null: false
-    t.integer "room_member_id", null: false
+    t.string "house_id", null: false
+    t.bigint "room_member_id", null: false
     t.date "entry_date", null: false
     t.string "category", null: false
     t.integer "payment", null: false
@@ -72,7 +69,7 @@ ActiveRecord::Schema.define(version: 20181120030000) do
     t.index ["room_member_id"], name: "index_house_expenditures_on_room_member_id"
   end
 
-  create_table "houses", force: :cascade do |t|
+  create_table "houses", primary_key: "hid", id: :string, force: :cascade do |t|
     t.string "name", null: false
     t.text "memo"
     t.datetime "created_at", null: false
@@ -122,8 +119,8 @@ ActiveRecord::Schema.define(version: 20181120030000) do
   end
 
   create_table "room_member_events", force: :cascade do |t|
-    t.integer "event_id", null: false
-    t.integer "room_member_id", null: false
+    t.bigint "event_id", null: false
+    t.bigint "room_member_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "paid", default: false
@@ -132,8 +129,8 @@ ActiveRecord::Schema.define(version: 20181120030000) do
   end
 
   create_table "room_member_houses", force: :cascade do |t|
-    t.integer "house_id", null: false
-    t.integer "room_member_id", null: false
+    t.string "house_id", null: false
+    t.bigint "room_member_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["house_id"], name: "index_room_member_houses_on_house_id"
@@ -148,15 +145,12 @@ ActiveRecord::Schema.define(version: 20181120030000) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "torrents", force: :cascade do |t|
-    t.string "line_user_id", null: false
-    t.integer "limit", null: false
-    t.boolean "porn", default: false
-    t.string "category"
-    t.string "query"
-    t.string "sort"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
+  add_foreign_key "house_expenditure_margins", "house_expenditures"
+  add_foreign_key "house_expenditure_margins", "room_members"
+  add_foreign_key "house_expenditures", "houses", primary_key: "hid"
+  add_foreign_key "house_expenditures", "room_members"
+  add_foreign_key "room_member_events", "events"
+  add_foreign_key "room_member_events", "room_members"
+  add_foreign_key "room_member_houses", "houses", primary_key: "hid"
+  add_foreign_key "room_member_houses", "room_members"
 end

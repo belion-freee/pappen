@@ -23,6 +23,6 @@ Rails.application.routes.draw do
   post "/expenditures/:line_user_id", to: "expenditures#create", as: :post_expenditure
 
   resources :houses, only: %i[show update] do
-    resources :house_expenditures
+    resources :house_expenditures, only: %i[update create destroy]
   end
 end

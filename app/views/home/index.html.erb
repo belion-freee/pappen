@@ -9,14 +9,14 @@
   </div>
   <div class="row">
     <p class="tweet-text">
-      <a class="sub-title" id="tweet-maxim" href="#">
+      <a class="sub-title" id="tweet-maxim" href="#" data-url="<%= tweet_url %>" data-category='<%= Settings.maxim.category.to_json.html_safe %>'>
         <strong>Tweet Now</strong>
       </a>
     </p>
   </div>
   <div class="row">
     <p class="text-center">
-      <%= link_to "Or new create?", "#", data: { url: maxims_url, category: Settings.maxim.category.to_json.html_safe }, class: "button tweet-link", id: "new-maxims" %>
+      <%= link_to "Or new create?", "#", data: { url: maxims_url, title: "New Remarks!", method: "POST"  }, class: "button tweet-link", id: "new-maxims" %>
     </p>
   </div>
   <div class="row">
@@ -36,44 +36,5 @@
     setTimeout(function(){
       $("a").fadeIn(1500);
     }, 800);
-
-    // tweet
-    $("#tweet-maxim").click(function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-
-      const category = <%= Settings.maxim.category.to_json.html_safe %>
-      const url = "<%= tweet_url %>" + ".json"
-
-      swal({
-        title: 'Choose a category',
-        input: 'select',
-        inputOptions: category,
-        showCancelButton: true,
-        confirmButtonText: 'Tweet',
-        showLoaderOnConfirm: true,
-        preConfirm: (data) => {
-          return fetch(url, {
-            method: 'POST',
-            headers: {
-              'content-type': 'application/json'
-            },
-            body: JSON.stringify({category: data})
-          }).then(response => {
-            if (response.ok) {
-              return response.json()
-            } else {
-              swal.showValidationMessage(`Ooops...Failed<br>Try another one`)
-            }
-          })
-        },
-        allowOutsideClick: () => !swal.isLoading()
-      }).then((result) => {
-        if (result.value) {
-          swal({type: 'success', title: 'Tweeted', text: 'Tweet Success!', footer: '<a href="https://twitter.com/meigensanBot" target="_blank">Go to Twitter</a>'})
-        }
-      })
-    });
   });
 </script>
-<%= javascript_include_tag 'part/form', 'data-turbolinks-track' => 'reload' %>

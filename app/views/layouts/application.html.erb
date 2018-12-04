@@ -4,17 +4,10 @@
     <title>Topuru</title>
     <%= csrf_meta_tags %>
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
-    <%= javascript_include_tag 'application', 'data-turbolinks-track' => 'reload' %>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2"></script>
-    <%= stylesheet_link_tag    "https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css" %>
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => 'reload' %>
-    <%= stylesheet_link_tag    'https://cdn.rawgit.com/maechabin/bootstrap-material-button-color/master/dist/cb-materialbtn.0.5.5.min.css' %>
-    <%= stylesheet_link_tag    "//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" %>
-    <%= stylesheet_link_tag    "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css" %>
-    <%= favicon_link_tag %>
+    <%= javascript_pack_tag 'application' %>
+    <%= stylesheet_pack_tag 'application' %>
   </head>
-  <% home = %w[home maxims].include?(controller_name) %>
+  <% home = %w[home maxims houses].include?(controller_name) %>
   <body class="<%= "tweet-home" if home %>">
     <div class="container">
       <div class="row">
