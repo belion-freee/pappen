@@ -3,6 +3,10 @@
 
 作りは雑だが気にするな。
 
+何か問題や要望があれば[こっち](https://github.com/belion-freee/pappen/issues)に記載してね。日本語でおｋ。
+
+作った人に直接問い合わせる場合は[彼](mailto:belion.freee@gmail.com?subject=問い合わせ&body=以下に要件を記載してください。)にお願いします。
+
 ![dabritbumaahalm](https://user-images.githubusercontent.com/34331230/45134105-bc4a4580-b1d3-11e8-8c81-9f535de68397.jpg)
 
 
@@ -190,6 +194,3 @@
 3. `ぱっぷん 家計簿`とメッセージを送信
 4. ぱっぷんが自動で家計簿の雛形を作ってくれる。
 5. ぱっぷんから返された家計簿のリンクから編集や支出の登録を行う。 ~~書くのがめんどくさいので、~~ 細かい使い方は肌で感じて欲しい。
-
-# Contact
-[Bishan](mailto:belion.freee@gmail.com?subject=問い合わせ&body=以下に要件を記載します。)
