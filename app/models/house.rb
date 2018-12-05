@@ -10,7 +10,7 @@ class House < ApplicationRecord
   after_initialize :identify, if: :new_record?
 
   scope :selected_gid, ->(gid) {
-    joins(:room_members).where(room_members: { gid: gid }).uniq
+    joins(:room_members).where(room_members: { gid: gid }).uniq.first
   }
 
   def room_member_present?
