@@ -13,4 +13,12 @@ module ApplicationHelper
     count = 0 if count.blank?
     "#{count}人"
   end
+
+  def date_options
+    (2018..2020).map {|year|
+      (1..12).map {|month|
+        "#{year}年#{month}月"
+      }
+    }.flatten
+  end
 end

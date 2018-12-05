@@ -1,0 +1,50 @@
+<!--  header -->
+<div class="page-header" id="house-header">
+  <%= content_tag(:div, data: { url: house_url(@house), title: "家計簿編集", method: "PUT" }, id: "edit-house", class: "title-text") do %>
+    <%= @house.name %>
+  <% end %>
+  <div class="text-center sub-text" id="house-memo">
+    <%= simple_format @house.memo %>
+  </div>
+  <div class="text-center">
+    <ul class="pl-0">
+      <% @house.room_members.each do |room_member| %>
+        <%= content_tag(:li, room_member.name, value: room_member.id, class: "label label-info") %>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
+<div class="row mb-2">
+  <div class="form-group">
+    <div class="col-lg-3 col-xs-8">
+      <div class="select-wrap select-circle select-circle-arrow">
+        <%= select_tag(:house, options_for_select(date_options, (params["date"] || Time.now.strftime("%Y年%m月"))), data: { url: house_url(@house) }, id: "house_date") %>
+      </div>
+    </div>
+    <div class="col-lg-4 col-xs-4">
+      <%= content_tag(:label, "+", data: { url: house_house_expenditures_url(@house), title: "支出追加", method: "POST" }, id: "new-house-expenditure", class: "btn btn-primary btn-circle btn-lg") %>
+    </div>
+  </div>
+</div>
+
+<!-- chart -->
+<div class="row mb-2">
+<%= content_tag(:canvas, "", data: { title: "項目別グラフ", labels: HouseExpenditure::CATEGORY.values.to_json.html_safe, numbers: HouseExpenditure::CATEGORY.keys.map {|key| @groups[key]&.map(&:payment)&.inject(:+) || 0 }.to_json.html_safe }, id: "pieGraph") %>
+</div>
+
+<!-- accounting -->
+<%= render partial: 'accounting' %>
+
+<!-- expenditures index -->
+<%= render template: 'house_expenditures/index' %>
+
+<!-- house form -->
+<%= render partial: 'form' %>
+
+<!-- form -->
+<%= render partial: 'house_expenditures/form' %>
+
+<script>
+  graph.Pie("pieGraph");
+</script>

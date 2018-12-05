@@ -1,0 +1,38 @@
+<%- model_class = HouseExpenditure -%>
+<div data-accordion-group>
+  <% model_class::CATEGORY.keys.each do |key| %>
+  <%- expenditures = @groups[key] -%>
+    <div class="accordion expenditure_color <%= key %>" data-accordion>
+        <div data-control>
+          <%= model_class::CATEGORY[key] %>
+          <%= content_tag :strong, m(expenditures&.map(&:payment)&.inject(:+)) %>
+        </div>
+        <div data-content>
+          <% if expenditures %>
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead>
+                <tr class="nowrap">
+                  <th><%= model_class.human_attribute_name(:entry_date) %></th>
+                  <th><%= model_class.human_attribute_name(:room_member) %></th>
+                  <th><%= model_class.human_attribute_name(:payment) %></th>
+                  <th><%= model_class.human_attribute_name(:name) %></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% expenditures.each do |expense| %>
+                  <%= content_tag(:tr, data: {id: expense.id, url: house_house_expenditure_url(@house, expense), title: "支出修正", method: "PUT", category: key, margins: expense.house_expenditure_margins.map(&:attr).to_json.html_safe}, class: "nowrap edit-house-expenditure") do %>
+                    <td name="entry_date" value="<%= expense.entry_date %>"><%= l expense.entry_date %></td>
+                    <td name="room_member" value="<%= expense.room_member_id %>"><%= @members[expense.room_member_id] %></td>
+                    <td name="payment" value="<%= expense.payment %>"><%= m expense.payment %></td>
+                    <td name="name"><%= expense.name %></td>
+                  <% end %>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+          <% end %>
+        </div>
+    </div>
+  <% end %>
+</div>

@@ -128,6 +128,43 @@ module Sns::Line::LineBot
     events.blank? ? new_event : events_carousel(events)
   end
 
+  def house(msg, **opts)
+    gid = opts[:gid]
+
+    return { type: "text", text: "家計簿はグループでしか作れないよ！" } if gid.blank?
+
+    members = RoomMember.where(gid: gid)
+
+    return { type: "text", text: "メンバー登録を先にしてね！" } if members.blank?
+
+    house = House.selected_gid(gid)
+
+    if house.blank?
+      house = House.new(name: "New House!", memo: "This is subtitle!", room_members: members)
+      house.save!
+    end
+
+    {
+      type:     :template,
+      altText:  "家計簿だよ！",
+      template: {
+        type:    :carousel,
+        columns: [
+          {
+            text:    "家計簿",
+            actions: [
+              {
+                type:  :uri,
+                label: house.name,
+                uri:   Settings.account.house.uri.show % house.id,
+              },
+            ],
+          },
+        ],
+      },
+    }
+  end
+
   def expenditure(_, **opts)
     uid = opts[:uid]
 
@@ -238,7 +275,7 @@ module Sns::Line::LineBot
   def help(_, _)
     {
       type: "text",
-      text: "私の使い方を教えるね#{uni(0x10008D)}\n下のリンクから確認してね！\nhttps://github.com/belion-freee/pappen/blob/master/README.md"
+      text: "私の使い方を教えるね#{uni(0x10008D)}\n下のリンクから確認してね！\nhttps://github.com/belion-freee/pappen/blob/master/README.md",
     }
   end
 

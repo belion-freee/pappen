@@ -10,7 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180403045941) do
+ActiveRecord::Schema.define(version: 20181120030000) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "events", force: :cascade do |t|
     t.string "name", null: false
@@ -37,6 +40,37 @@ ActiveRecord::Schema.define(version: 20180403045941) do
     t.integer "event_id"
     t.integer "room_member_id"
     t.integer "payment"
+    t.text "memo"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "house_expenditure_margins", force: :cascade do |t|
+    t.bigint "house_expenditure_id", null: false
+    t.bigint "room_member_id", null: false
+    t.integer "margin"
+    t.integer "fixed"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["house_expenditure_id"], name: "index_house_expenditure_margins_on_house_expenditure_id"
+    t.index ["room_member_id"], name: "index_house_expenditure_margins_on_room_member_id"
+  end
+
+  create_table "house_expenditures", force: :cascade do |t|
+    t.string "house_id", null: false
+    t.bigint "room_member_id", null: false
+    t.date "entry_date", null: false
+    t.string "category", null: false
+    t.integer "payment", null: false
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["house_id"], name: "index_house_expenditures_on_house_id"
+    t.index ["room_member_id"], name: "index_house_expenditures_on_room_member_id"
+  end
+
+  create_table "houses", primary_key: "hid", id: :string, force: :cascade do |t|
+    t.string "name", null: false
     t.text "memo"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -85,13 +119,22 @@ ActiveRecord::Schema.define(version: 20180403045941) do
   end
 
   create_table "room_member_events", force: :cascade do |t|
-    t.integer "event_id", null: false
-    t.integer "room_member_id", null: false
+    t.bigint "event_id", null: false
+    t.bigint "room_member_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "paid", default: false
     t.index ["event_id"], name: "index_room_member_events_on_event_id"
     t.index ["room_member_id"], name: "index_room_member_events_on_room_member_id"
+  end
+
+  create_table "room_member_houses", force: :cascade do |t|
+    t.string "house_id", null: false
+    t.bigint "room_member_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["house_id"], name: "index_room_member_houses_on_house_id"
+    t.index ["room_member_id"], name: "index_room_member_houses_on_room_member_id"
   end
 
   create_table "room_members", force: :cascade do |t|
@@ -102,4 +145,12 @@ ActiveRecord::Schema.define(version: 20180403045941) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "house_expenditure_margins", "house_expenditures"
+  add_foreign_key "house_expenditure_margins", "room_members"
+  add_foreign_key "house_expenditures", "houses", primary_key: "hid"
+  add_foreign_key "house_expenditures", "room_members"
+  add_foreign_key "room_member_events", "events"
+  add_foreign_key "room_member_events", "room_members"
+  add_foreign_key "room_member_houses", "houses", primary_key: "hid"
+  add_foreign_key "room_member_houses", "room_members"
 end

@@ -4,7 +4,7 @@
     <div class="form-group">
       <div class="col-md-4 col-xs-8">
         <div class="cp_ipselect cp_sl01">
-          <%= f.select :category, Settings.maxim.category.invert, prompt: "カテゴリー", class: 'form-control' %>
+          <%= f.collection_select :category, Settings.maxim.category.to_a, :first, :last,{ prompt: "カテゴリー" }, { class: 'form-control select2'} %>
         </div>
       </div>
     </div>

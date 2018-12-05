@@ -69,6 +69,7 @@ ja:
         room_member: 支払者
         payment:     支払額
         fee:         会費(一人当たり)
+        repayment:   返済額
         amount:      差引金額
         paid:        支払済
         members:     参加人数
@@ -87,6 +88,7 @@ ja:
       event:       イベント
       expense:     支払表
       expenditure: 経費申請
+      house:       家計簿
     attributes:
       base: &base
         id: ID
@@ -110,6 +112,12 @@ ja:
         memo:         メモ
         room_members: 参加メンバー
         members:      参加人数
+      house:
+        <<: *base
+        name:         家名
+        memo:         メモ
+        room_members: 家族
+        members:      家族
       expense:
         <<: *base
         name:        支払項目
@@ -125,17 +133,37 @@ ja:
         entry_date: 支払日
         payment:    支出額
         memo:       メモ
-      errors:
-        models:
-          event:
-            attributes:
-              room_members:
-                multiple_group: グループが複数あります
-              room_member_events:
-                invalid: データが不正です
+      house_expenditure:
+        <<: *base
+        room_member: 支払者
+        category:    支出項目
+        entry_date:  支出日
+        payment:     支出額
+        name:        支出名
+      house_expenditure_margin:
+        <<: *base
+        room_member: 支払者
+        margin:      マージン
+        fixed:       固定額
+    errors:
+      models:
+        event:
+          attributes:
+            room_members:
+              multiple_group: グループが複数あります
+            room_member_events:
+              invalid: データが不正です
+        house_expenditure:
+          attributes:
+            house_expenditure_margins:
+              only:       "マージンと固定額はどれか1つを入力してください"
+              margin_sum: "マージンの合計は100%にしてください"
+              fixed_sum:  "固定額の合計は支払額と同じにしてください"
   errors:
-    format: "%{attribute}%{message}"
+    format: "%{message}"
     messages:
-      blank:     を入力してください
-      not_saved: 登録できませんでした
-      invalid:   データが不正です
+      not_saved:             登録できませんでした
+      required:              "%{attribute}を入力してください。"
+      blank:                 "%{attribute}を入力してください。"
+      invalid:               "%{attribute}のデータが不正です"
+      less_than_or_equal_to: "%{attribute}は%{count}以下の値にしてください。"

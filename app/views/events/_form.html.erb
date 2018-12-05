@@ -1,4 +1,3 @@
-<%= javascript_include_tag 'part/form', 'data-turbolinks-track' => 'reload' %>
 <%= form_for @event, :html => { class: "form-horizontal" } do |f| %>
 
   <% if @event.errors.any? %>
@@ -34,13 +33,13 @@
   </div>
   <div class="form-group">
     <%= f.label :start, class: 'control-label col-lg-2' %>
-    <div class="col-lg-2 col-xs-6">
+    <div class="col-lg-2 col-xs-10">
       <%= f.date_field :start, class: 'form-control' %>
     </div>
   </div>
   <div class="form-group">
     <%= f.label :end, class: 'control-label col-lg-2' %>
-    <div class="col-lg-2 col-xs-6">
+    <div class="col-lg-2 col-xs-10">
       <%= f.date_field :end, class: 'form-control' %>
     </div>
   </div>
@@ -48,7 +47,6 @@
     <%= f.label :room_members, class: 'control-label col-lg-2' %>
     <div class="col-lg-6 col-xs-12">
       <%= f.collection_select :room_member_ids, @members, :id, :name, { selected: @event.room_member_ids }, { multiple: true, class: ['form-control', "selectpicker"], rows: 2} %>
-      <%= f.label t("helpers.links.selectall"), class: 'btn btn-info btn-sm', id: 'select_all' %>
     </div>
   </div>
   <div class="form-group">

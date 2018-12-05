@@ -1,4 +1,3 @@
-<%= javascript_include_tag 'part/form', 'data-turbolinks-track' => 'reload' %>
 <%= form_for @expenditure, :html => { class: "form-horizontal" } do |f| %>
   <% if @expenditure.errors.any? %>
     <div id="error_expl" class="panel panel-danger">
@@ -36,7 +35,7 @@
     </div>
     <div class="col-lg-2 col-xs-5">
       <div class="input-group">
-        <%= f.number_field :margin, class: 'form-control', disabled: true, id: "expenditure-margin" %>
+        <%= f.number_field :margin, class: 'form-control', id: "expenditure-margin" %>
         <span class="input-group-addon"><i class="fa fa-percent"></i></span>
       </div>
     </div>
