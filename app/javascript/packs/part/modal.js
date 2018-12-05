@@ -152,23 +152,26 @@ $(() => {
     });
 
     // edit house expenditure
-    let touchTime = 0;
+    var touchInterval = null;
+    var touchTime     = 0;
     $(".edit-house-expenditure").on({
       "touchstart mousedown": (e) => {
         e.preventDefault();
         e.stopPropagation();
 
-        // for long tap
+        // clear timer
         touchTime = 0;
-        setInterval(() => {
+        touchInterval = setInterval(() => {
           touchTime += 100;
+          if (touchTime > 1000) {
+            clearInterval(touchInterval);
+          }
         }, 100)
       },
       "touchend mouseup": (e) => {
         e.preventDefault();
         e.stopPropagation();
-        if (touchTime < 700 ) {
-          // 短いタップでの処理
+        if (touchTime < 700) {
           const target = e.currentTarget
 
           // store form HTML markup in a JS variable
