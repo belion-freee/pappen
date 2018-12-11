@@ -9,7 +9,7 @@
   from { transform: rotate(360deg); }
 }
 
-.tweet-home {
+.home {
   background: lighten(#f0f4c3, 10%);
 
   .wave {
@@ -250,9 +250,12 @@
     &.utility { background-color: rgba(255, 206, 86, 0.2); }
     &.travel { background-color: rgba(153, 102, 255, 0.2); }
     &.home { background-color: rgba(255, 159, 64, 0.2); }
+    &.expense { background-color: rgba(255, 99, 132, 0.2); }
   }
 
   .accounting {
-    background-color: rgba(56, 52, 64, 0.2)
+    background-color: rgba(56, 52, 64, 0.2);
+
+    &.event { background-color: rgba(54, 162, 235, 0.2); }
   }
 }

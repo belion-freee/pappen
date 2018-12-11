@@ -21,25 +21,6 @@ window.$ = window.jQuery = require('jquery');
 window.graph = Graph;
 
 $(() => {
-  // make options of departure IC
-  $("#accountings_table input[name='paid']").change((event) => {
-    $.ajax({
-      type: "POST",
-      url: "/paid",
-      data: {
-        event_id:       $(location).attr('pathname').match(/events\/(.*)/)[1],
-        room_member_id: event.target.value,
-        paid:           event.target.checked,
-      },
-      headers: {
-        "X-CSRF-Token": $("meta[name=csrf-token]").attr("content"),
-      },
-    });
-  });
-
-  // default close
-  $("#panelCollapse").collapse('hide');
-
   // accordion
   $('.accordion').accordion({
     "transitionSpeed": 600

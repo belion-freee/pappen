@@ -6,14 +6,14 @@ Rails.application.routes.draw do
 
   post "/tweet",   to: "home#tweet",   as: :tweet
   post "/line",    to: "home#line",    as: :line
-  post "/paid",    to: "events#paid",  as: :paid
+
+  # Deprecated
+  # post "/paid",    to: "events#paid",  as: :paid
 
   # it is for debug
   get "/debug", to: "home#debug", as: :debug
 
   resources :maxims, except: %i[new edit show]
-  resources :events
-  resources :expenses
 
   # expenditure
   resources :expenditures, only: [:edit, :update, :destroy]
@@ -21,6 +21,10 @@ Rails.application.routes.draw do
   get "/expenditures/:line_user_id", to: "expenditures#index", as: :expenditures
   get "/expenditure/new/:line_user_id", to: "expenditures#new", as: :new_expenditure
   post "/expenditures/:line_user_id", to: "expenditures#create", as: :post_expenditure
+
+  resources :events, only: %i[show update] do
+    resources :expenses, only: %i[update create destroy]
+  end
 
   resources :houses, only: %i[show update] do
     resources :house_expenditures, only: %i[update create destroy]

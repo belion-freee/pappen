@@ -7,8 +7,7 @@
     <%= javascript_pack_tag 'application' %>
     <%= stylesheet_pack_tag 'application' %>
   </head>
-  <% home = %w[home maxims houses].include?(controller_name) %>
-  <body class="<%= "tweet-home" if home %>">
+  <body class="home">
     <div class="container">
       <div class="row">
         <%= yield %>

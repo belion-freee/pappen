@@ -1,68 +1,35 @@
-<%= form_for @event, :html => { class: "form-horizontal" } do |f| %>
-
-  <% if @event.errors.any? %>
-    <div id="error_expl" class="panel panel-danger">
-      <div class="panel-heading">
-        <h3 class="panel-title"><%= pluralize(@event.errors.count, "error") %> prohibited this event from being saved:</h3>
+<div id="event-form" class="hidden">
+  <% model_class = Event %>
+    <%= form_for @event, url: "#", :html => { :class => "form-horizontal" } do |f| %>
+    <div class="form-group">
+      <div class="col-lg-6 col-xs-10">
+        <%= f.text_field :name, class: 'form-control', placeholder: model_class.human_attribute_name(:name) %>
       </div>
-      <div class="panel-body">
-        <ul>
-        <% @event.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-        </ul>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-6 col-xs-10">
+        <%= f.collection_select :room_members, @members, :first, :last, { selected: @event.room_member_ids }, { multiple: true, class: 'form-control'} %>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-6 col-xs-10">
+        <%= f.text_field :place, class: 'form-control', placeholder: model_class.human_attribute_name(:place) %>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-6 col-xs-10">
+        <%= f.date_field :start, class: 'form-control', placeholder: model_class.human_attribute_name(:start) %>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-6 col-xs-10">
+        <%= f.date_field :end, class: 'form-control', placeholder: model_class.human_attribute_name(:end) %>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-8 col-xs-12">
+        <%= f.text_area :memo, class: 'form-control', rows: 4, placeholder: model_class.human_attribute_name(:memo) %>
       </div>
     </div>
   <% end %>
-
-  <% if @rmid.present? %>
-    <%= hidden_field_tag :rmid, @rmid %>
-  <% end %>
-
-  <div class="form-group">
-    <%= f.label :name, class: 'control-label col-lg-2' %>
-    <div class="col-lg-4 col-xs-10">
-      <%= f.text_field :name, class: 'form-control' %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :place, class: 'control-label col-lg-2' %>
-    <div class="col-lg-4 col-xs-10">
-      <%= f.text_field :place, class: 'form-control' %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :start, class: 'control-label col-lg-2' %>
-    <div class="col-lg-2 col-xs-10">
-      <%= f.date_field :start, class: 'form-control' %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :end, class: 'control-label col-lg-2' %>
-    <div class="col-lg-2 col-xs-10">
-      <%= f.date_field :end, class: 'form-control' %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :room_members, class: 'control-label col-lg-2' %>
-    <div class="col-lg-6 col-xs-12">
-      <%= f.collection_select :room_member_ids, @members, :id, :name, { selected: @event.room_member_ids }, { multiple: true, class: ['form-control', "selectpicker"], rows: 2} %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :memo, class: 'control-label col-lg-2' %>
-    <div class="col-lg-6 col-xs-12">
-      <%= f.text_area :memo, class: 'form-control', rows: 6 %>
-    </div>
-  </div>
-
-  <div class="form-group nowrap">
-    <div class="col-lg-offset-2 col-lg-4 col-xs-10">
-      <%= f.submit t("helpers.links.#{action}"), class: 'btn btn-primary' %>
-      <% if action == :edit %>
-        <%= link_to t("helpers.links.cancel"), event_path(@event), class: 'btn btn-warning' %>
-      <% end %>
-    </div>
-  </div>
-
-<% end %>
+</div>

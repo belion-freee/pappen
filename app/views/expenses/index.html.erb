@@ -1,39 +1,32 @@
 <%- model_class = Expense -%>
-<div class="page-header">
-  <h2><%= t("helpers.titles.expense_index") %></h2>
-  <h4><%= model_class.human_attribute_name(:total) %> : <%= m @total %></h4>
-</div>
-
-<div class="table-responsive">
-  <table class="table table-striped table-bordered table-hover">
-    <thead>
-      <tr class="nowrap">
-        <th><%= model_class.human_attribute_name(:name) %></th>
-        <th><%= model_class.human_attribute_name(:room_member) %></th>
-        <th><%= model_class.human_attribute_name(:memo) %></th>
-        <th><%= model_class.human_attribute_name(:payment) %></th>
-        <th><%= t("helpers.actions") %></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @expenses.each do |expense| %>
-        <tr class="nowrap">
-          <td><%= expense.name %></td>
-          <td><%= RoomMember.find(expense.room_member_id).name %></td>
-          <td><%= simple_format expense.memo %></td>
-          <td><%= m expense.payment %></td>
-          <td>
-            <%= link_to t("helpers.links.edit"), edit_expense_path(expense), class: 'btn btn-success' %>
-            <%= link_to t("helpers.links.destroy"),
-                        expense_path(expense),
-                        method: :delete,
-                        data: { confirm: t("helpers.links.confirm") },
-                        class: 'btn btn-danger' %>
-          </td>
-        </tr>
+<div class="accordion expenditure_color expense" data-accordion>
+    <div data-control>
+      合計額 : <%= content_tag :strong, m(@total) %>
+    </div>
+    <div data-content>
+      <% if @expenses.present? %>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+          <thead>
+            <tr class="nowrap">
+              <th><%= model_class.human_attribute_name(:room_member) %></th>
+              <th><%= model_class.human_attribute_name(:name) %></th>
+              <th><%= model_class.human_attribute_name(:payment) %></th>
+              <th><%= model_class.human_attribute_name(:memo) %></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @expenses.each do |expense| %>
+              <%= content_tag(:tr, data: {id: expense.id, url: event_expense_url(@event, expense), title: "支出修正", method: "PUT"}, class: "nowrap edit-expense") do %>
+                <td name="room_member" value="<%= expense.room_member_id %>"><%= @members[expense.room_member_id] %></td>
+                <td name="name"><%= expense.name %></td>
+                <td name="payment" value="<%= expense.payment %>"><%= m expense.payment %></td>
+                <td name="memo"><%= simple_format expense.memo %></td>
+              <% end %>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
       <% end %>
-    </tbody>
-  </table>
+    </div>
 </div>
-
-<%= link_to t("helpers.links.new"), new_expense_path(event_id: params[:id]), class: 'btn btn-primary' %>
