@@ -1,57 +1,31 @@
-<%= form_for @expenditure, :html => { class: "form-horizontal" } do |f| %>
-  <% if @expenditure.errors.any? %>
-    <div id="error_expl" class="panel panel-danger">
-      <div class="panel-heading">
-        <h3 class="panel-title"><%= pluralize(@expenditure.errors.count, "error") %> prohibited this expenditure from being saved:</h3>
+<div id="expenditure-form" class="hidden">
+  <% model_class = Expenditure %>
+    <%= form_for Expenditure.new, url: "#", :html => { :class => "form-horizontal" } do |f| %>
+    <%= f.hidden_field_tag :line_user_id, @line_user.id %>
+    <div class="form-group">
+      <div class="col-lg-6 col-xs-10">
+        <%= f.date_field :entry_date, value: (f.object.entry_date || Time.now.strftime("%Y-%m-%d")), class: 'form-control' %>
       </div>
-      <div class="panel-body">
-        <ul>
-        <% @expenditure.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-        </ul>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-8 col-xs-10">
+        <%= f.collection_select :category, Expenditure::ITEM, :itself, :itself, { prompt: model_class.human_attribute_name(:category) }, { class: "form-control" } %>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-8 col-xs-7">
+        <%= f.number_field :payment, class: 'form-control', placeholder: model_class.human_attribute_name(:payment) %>
+      </div>
+      <div class="col-lg-4 col-xs-5">
+        <div class="input-group">
+          <%= f.number_field :margin, class: 'form-control', id: "expenditure_margin", placeholder: "%" %>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-8 col-xs-10">
+        <%= f.text_area :memo, class: 'form-control', placeholder: model_class.human_attribute_name(:memo), rows: 3 %>
       </div>
     </div>
   <% end %>
-
-  <%= f.hidden_field :line_user_id, value: @expenditure.line_user_id %>
-
-  <div class="form-group">
-    <%= f.label :entry_date, class: 'control-label col-lg-2' %>
-    <div class="col-lg-2 col-xs-6">
-      <%= f.date_field :entry_date, class: 'form-control' %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :category, class: 'control-label col-lg-2' %>
-    <div class="col-lg-2 col-xs-8">
-      <%= f.collection_select :category, Expenditure::ITEM, :itself, :itself, {}, { class: "form-control selectpicker" } %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :payment, class: 'control-label col-lg-2' %>
-    <div class="col-lg-2 col-xs-7">
-        <%= f.number_field :payment, class: 'form-control' %>
-    </div>
-    <div class="col-lg-2 col-xs-5">
-      <div class="input-group">
-        <%= f.number_field :margin, class: 'form-control', id: "expenditure-margin" %>
-        <span class="input-group-addon"><i class="fa fa-percent"></i></span>
-      </div>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :memo, class: 'control-label col-lg-2' %>
-    <div class="col-lg-6 col-xs-12">
-      <%= f.text_area :memo, class: 'form-control'%>
-    </div>
-  </div>
-
-  <div class="form-group nowrap">
-    <div class="col-lg-offset-2 col-lg-4 col-xs-6">
-      <%= f.submit t("helpers.links.#{action}"), class: 'btn btn-primary' %>
-      <%= link_to t("helpers.links.cancel"), expenditures_path(line_user_id: @expenditure.line_user_id), class: 'btn btn-warning' %>
-    </div>
-  </div>
-
-<% end %>
+</div>
