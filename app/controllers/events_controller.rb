@@ -3,7 +3,7 @@ class EventsController < ApplicationController
 
   def show
     @members = RoomMember.names(@event.room_members.first.gid)
-    @expenses = @event.expenses
+    @expenses = @event.expenses.order(:id)
     @total = @expenses.map(&:payment).inject(:+) || 0
     @fee, @accountings = Expense.accounting(@expenses, @event.room_members)
   end

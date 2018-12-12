@@ -16,7 +16,7 @@
 </div>
 
 <div class="table-responsive">
-<table class="table table-bordered">
+<table class="table table-bordered table-striped table-hover">
   <thead>
     <tr>
       <th><%= model_class.human_attribute_name(:remark) %></th>
@@ -26,7 +26,7 @@
   </thead>
   <tbody>
     <% @maxims.each do |maxim| %>
-      <tr data-url="<%= maxim_url(maxim) %>" data-id="<%= maxim.id %>" data-method="PUT" data-title="Edit Maxim" class="edit-maxim tr-hover">
+      <tr data-url="<%= maxim_url(maxim) %>" data-id="<%= maxim.id %>" data-method="PUT" data-title="Edit Maxim" class="edit-maxim">
         <td class="wrap" name="remark"><%= simple_format maxim.remark %></td>
         <td name="author"><%= maxim.author %></td>
         <td name="source"><%= maxim.source %></td>
