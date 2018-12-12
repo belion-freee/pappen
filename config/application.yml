@@ -15,17 +15,11 @@ defaults: &defaults
       weather:
         uri: http://weather.livedoor.com/forecast/webservice/json/v1
     topuru:
-      uri:
-        create:   https://pappen.herokuapp.com/events/new?rmid=%s
-        show:     https://pappen.herokuapp.com/events/%s
-        expenses: https://pappen.herokuapp.com/expenses/new?event_id=%s
+      uri: https://pappen.herokuapp.com/events/%s
     expenditure:
-      uri:
-        create: https://pappen.herokuapp.com/expenditure/new/%s
-        index:  https://pappen.herokuapp.com/expenditures/%s
+      uri: https://pappen.herokuapp.com/line_users/%s/expenditures
     house:
-      uri:
-        show: https://pappen.herokuapp.com/houses/%s
+      uri: https://pappen.herokuapp.com/houses/%s
     a3rt:
       uri:
         talk: https://api.a3rt.recruit-tech.co.jp/talk/v1/smalltalk

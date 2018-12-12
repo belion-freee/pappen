@@ -96,36 +96,38 @@ module Sns::Line::LineBot
 
     return { type: "text", text: "イベントはグループでしか作れないよ！" } if gid.blank?
 
-    member_id = RoomMember.where(gid: gid).first.try(:id)
+    members = RoomMember.where(gid: gid)
 
-    return { type: "text", text: "メンバー登録を先にしてね！" } if member_id.blank?
-
-    new_event = {
-      type:     "template",
-      altText:  "イベントを作る？",
-      template: {
-        type:    "confirm",
-        text:    "イベントを新しく作る？",
-        actions: [
-          {
-            type:  "uri",
-            label: "はい!",
-            uri:   Settings.account.topuru.uri.create % member_id,
-          },
-          {
-            type:  "message",
-            label: "いいえ!",
-            text:  "OK！",
-          },
-        ],
-      },
-    }
-
-    return new_event if msg.include?("作成")
+    return { type: "text", text: "メンバー登録を先にしてね！" } if members.blank?
 
     events = Event.selected_gid(gid)
 
-    events.blank? ? new_event : events_carousel(events)
+    if events.blank? || msg.include?("作成")
+      event = Event.new(name: "イベント(#{Time.new})", room_members: members)
+      event.save!
+
+      {
+        type:     :template,
+        altText:  "イベントだよ！",
+        template: {
+          type:    :carousel,
+          columns: [
+            {
+              text:    "イベント",
+              actions: [
+                {
+                  type:  :uri,
+                  label: event.name,
+                  uri:   Settings.account.topuru.uri % event.id,
+                },
+              ],
+            },
+          ],
+        },
+      }
+    else
+      events_carousel(events)
+    end
   end
 
   def house(msg, **opts)
@@ -156,7 +158,7 @@ module Sns::Line::LineBot
               {
                 type:  :uri,
                 label: house.name,
-                uri:   Settings.account.house.uri.show % house.id,
+                uri:   Settings.account.house.uri % house.id,
               },
             ],
           },
@@ -183,13 +185,8 @@ module Sns::Line::LineBot
         actions: [
           {
             type:  "uri",
-            label: "経費申請",
-            uri:   Settings.account.expenditure.uri.create % id,
-          },
-          {
-            type:  "uri",
             label: "収支確認",
-            uri:   Settings.account.expenditure.uri.index % id,
+            uri:   Settings.account.expenditure.uri % id,
           },
         ],
       },
@@ -294,12 +291,7 @@ module Sns::Line::LineBot
                          {
                            type:  :uri,
                            label: "詳細",
-                           uri:   Settings.account.topuru.uri.show % ev.id,
-                         },
-                         {
-                           type:  :uri,
-                           label: "支出を追加",
-                           uri:   Settings.account.topuru.uri.expenses % ev.id,
+                           uri:   Settings.account.topuru.uri % ev.id,
                          },
                          {
                            type:  :postback,
