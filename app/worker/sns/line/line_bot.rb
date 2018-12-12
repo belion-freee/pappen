@@ -180,13 +180,17 @@ module Sns::Line::LineBot
       type:     :template,
       altText:  "経費申請だよ！",
       template: {
-        type:    "confirm",
-        text:    "経費申請の項目だよ",
-        actions: [
+        type:    :carousel,
+        columns: [
           {
-            type:  "uri",
-            label: "収支確認",
-            uri:   Settings.account.expenditure.uri % id,
+            text:    "経費申請の項目だよ",
+            actions: [
+              {
+                type:  :uri,
+                label: "収支確認",
+                uri:   Settings.account.expenditure.uri % id,
+              },
+            ],
           },
         ],
       },
