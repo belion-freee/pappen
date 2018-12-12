@@ -1,5 +1,5 @@
 class ExpendituresController < ApplicationController
-  before_action :line_user_id?, only: [:index, :new, :edit, :destroy]
+  before_action :set_expenditure, only: [:update, :destroy]
 
   def index
     records = Expenditure.search(params)
@@ -9,47 +9,35 @@ class ExpendituresController < ApplicationController
     @summary = records.summary
   end
 
-  def new
-    @expenditure = Expenditure.new(line_user_id: params[:line_user_id], entry_date: Time.zone.today)
-  end
-
-  def edit
-    @expenditure = Expenditure.find(params[:id])
-  end
-
   def create
     @expenditure = Expenditure.new(permitted_params)
-    respond_to do |format|
-      if @expenditure.save
-        format.html { redirect_to expenditures_url(line_user_id: @expenditure.line_user_id) }
-      else
-        format.html { render :new }
-      end
+    if @expenditure.save
+      render json: :ok
+    else
+      render json: { errors: @expenditure.errors.full_messages }, status: :bad_request
     end
   end
 
   def update
-    expenditure = Expenditure.find(params[:id])
-    respond_to do |format|
-      if expenditure.update(permitted_params)
-        format.html { redirect_to expenditures_url(line_user_id: expenditure.line_user_id) }
-      else
-        format.html { render :edit }
-      end
+    if @expenditure.update(permitted_params)
+      render json: :ok
+    else
+      render json: { errors: @expenditure.errors.full_messages }, status: :bad_request
     end
   end
 
   def destroy
-    Expenditure.find(params[:id]).destroy
-    respond_to do |format|
-      format.html { redirect_to expenditures_url(line_user_id: params[:line_user_id]) }
+    if @expenditure.destroy
+      render json: :ok
+    else
+      render json: { errors: ["delete failed id:#{params[:id]}"] }, status: :bad_request
     end
   end
 
   private
 
-    def line_user_id?
-      head :bad_request if params[:line_user_id].blank?
+    def set_expenditure
+      @expenditure = Expenditure.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

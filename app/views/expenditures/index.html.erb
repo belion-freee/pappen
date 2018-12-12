@@ -2,19 +2,31 @@
 
 <!--  title header  -->
 <div class="page-header">
-  <h2><%= t("helpers.titles.expenditures") %></h2>
-  <h4><%= model_class.human_attribute_name(:line_user) %> : <%= @line_user.name %></h4>
+  <div class="title-text mb-2">
+    <%= t("helpers.titles.expenditures") %>
+  </div>
+  <div class="text-center sub-text">
+    <p><%= model_class.human_attribute_name(:line_user) %> : <%= @line_user.name %></p>
+  </div>
 </div>
 
 <!--  search function  -->
-<%= render partial: 'search', locals: { line_user: @line_user, expenditure: @expenditures }  %>
+<%= render partial: 'search' %>
 
-<!--  search function  -->
-<%= render partial: 'summary', locals: { expenditure: @expenditures }  %>
+<%= render partial: 'form' %>
 
 <!--  insert button  -->
-<div class="text-left">
-  <%= link_to t("helpers.links.new"), new_expenditure_path(line_user_id: @line_user.id), class: 'btn btn-primary' %>
+<div class="row mb-2">
+  <div class="form-group text-center">
+    <div class="col-lg-12 col-xs-12">
+      <%= content_tag(:label, "+", data: { url: line_user_expenditures_url(@line_user), title: "経費追加", method: "POST" }, id: "new-expenditure", class: "btn btn-primary btn-circle btn-lg") %>
+    </div>
+  </div>
+</div>
+
+<!-- chart -->
+<div class="row">
+<%= content_tag(:canvas, "", data: { title: "総支出額 #{m @summary.values.inject(:+)}", labels: Expenditure::ITEM.to_json.html_safe, numbers: Expenditure::ITEM.map {|key| @summary[key] || 0 }.to_json.html_safe }, id: "pieGraph") %>
 </div>
 
 <!-- pagination -->
@@ -31,25 +43,16 @@
         <th><%= model_class.human_attribute_name(:category) %></th>
         <th><%= model_class.human_attribute_name(:payment) %></th>
         <th><%= model_class.human_attribute_name(:memo) %></th>
-        <th><%= t("helpers.actions") %></th>
       </tr>
     </thead>
     <tbody>
       <% @expenditures.each do |expenditure| %>
-        <tr class="nowrap">
-          <td><%= l expenditure.entry_date %></td>
-          <td><%= expenditure.category %></td>
-          <td><%= m expenditure.payment %></td>
-          <td><%= simple_format expenditure.memo %></td>
-          <td>
-            <%= link_to t("helpers.links.edit"), edit_expenditure_path(id: expenditure.id, line_user_id: expenditure.line_user_id), class: 'btn btn-success' %>
-            <%= link_to t("helpers.links.destroy"),
-                        expenditure_path(id: expenditure.id, line_user_id: expenditure.line_user_id),
-                        method: :delete,
-                        data: { confirm: t("helpers.links.confirm") },
-                        class: 'btn btn-danger' %>
-          </td>
-        </tr>
+        <%= content_tag(:tr, data: {id: expenditure.id, url: line_user_expenditure_url(@line_user, expenditure), title: "経費修正", method: "PUT"}, class: "nowrap edit-expenditure") do %>
+          <td name="entry_date" value="<%= expenditure.entry_date %>"><%= l expenditure.entry_date %></td>
+          <td name="category"><%= expenditure.category %></td>
+          <td name="payment" value="<%= expenditure.payment %>"><%= m expenditure.payment %></td>
+          <td name="memo"><%= simple_format expenditure.memo %></td>
+        <% end %>
       <% end %>
     </tbody>
   </table>
@@ -59,3 +62,7 @@
 <div class="text-center">
   <%= paginate @expenditures %>
 </div>
+
+<script>
+  graph.PieExpenditure("pieGraph");
+</script>

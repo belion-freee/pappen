@@ -21,7 +21,7 @@
               <td><%= m accounting[:payment] %></td>
               <td><%= m accounting[:repayment] %></td>
               <td>
-                <strong><%= m accounting[:amount].abs %></strong> <%= accounting[:amount].negative? ? "支払い" : "受け取り" %>
+                <strong><%= m accounting[:amount].abs %></strong> <%= accounting[:amount].negative? ? "支払い" : "受取り" %>
               </td>
             </tr>
           <% end %>

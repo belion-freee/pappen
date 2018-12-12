@@ -120,7 +120,38 @@ $(() => {
       swalFrom(e.currentTarget.dataset, form, body);
     });
 
-    // new expenditure
+    // edit event
+    $("#edit-event").on("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      // store form HTML markup in a JS variable
+      let form = $('#event-form > form');
+
+      // input form
+      form.find("#event_name").val(e.currentTarget.innerText)
+      form.find("#event_place").val($("#event-place").attr("value"))
+      form.find("#event_start").val($("#event-start").attr("value"))
+      form.find("#event_end").val($("#event-end").attr("value"))
+      form.find("#event_memo").val($("#event-memo p").text())
+
+      let body = (form) => {
+        return {
+          event: {
+           name: form.find("#event_name").val(),
+           place: form.find("#event_place").val(),
+           start: form.find("#event_start").val(),
+           end: form.find("#event_end").val(),
+           room_member_ids: form.find("#event_room_members").val(),
+           memo: form.find("#event_memo").val(),
+          }
+        }
+      }
+
+      swalFrom(e.currentTarget.dataset, form, body);
+    });
+
+    // new house expenditure
     $("#new-house-expenditure").on("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
@@ -149,6 +180,47 @@ $(() => {
       }
 
       swalFrom(e.currentTarget.dataset, $('#house-expenditure-form > form'), body);
+    });
+
+    // new event expense
+    $("#new-expense").on("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      let body = (form) => {
+        return {
+          expense: {
+           event_id:   form.find("#event_id").val(),
+           room_member_id: form.find("#expense_room_member option:selected").val(),
+           name: form.find("#expense_name option:selected").val(),
+           payment: form.find("#expense_payment").val(),
+           memo: form.find("#expense_memo").val(),
+          }
+        }
+      }
+
+      swalFrom(e.currentTarget.dataset, $('#expense-form > form'), body);
+    });
+
+    // new expenditure
+    $("#new-expenditure").on("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      let body = (form) => {
+        return {
+          expenditure: {
+           line_user_id:   form.find("#line_user_id").val(),
+           entry_date: form.find("#expenditure_entry_date").val(),
+           category: form.find("#expenditure_category option:selected").val(),
+           payment: form.find("#expenditure_payment").val(),
+           margin: form.find("#expenditure_margin").val(),
+           memo: form.find("#expenditure_memo").val(),
+          }
+        }
+      }
+
+      swalFrom(e.currentTarget.dataset, $('#expenditure-form > form'), body);
     });
 
     // edit house expenditure
@@ -227,6 +299,102 @@ $(() => {
       }
     });
 
+    $(".edit-expense").on({
+      "touchstart mousedown": (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // clear timer
+        touchTime = 0;
+        touchInterval = setInterval(() => {
+          touchTime += 100;
+          if (touchTime > 1000) {
+            clearInterval(touchInterval);
+          }
+        }, 100)
+      },
+      "touchend mouseup": (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (touchTime < 700) {
+          const target = e.currentTarget
+
+          // store form HTML markup in a JS variable
+          let form = $('#expense-form > form');
+
+          // input form
+          form.find("#expense_room_member option[value=" + target.querySelector("td[name=room_member]").getAttribute("value") + "]").attr("selected", "selected")
+          form.find("#expense_name option[value=" + target.querySelector("td[name=name]").innerText + "]").attr("selected", "selected")
+          form.find("#expense_payment").val(target.querySelector("td[name=payment]").getAttribute("value"))
+          form.find("#expense_memo").val(target.querySelector("td[name=memo] p").textContent)
+
+          let body = (form) => {
+            return {
+              expense: {
+               event_id:   form.find("#event_id").val(),
+               room_member_id: form.find("#expense_room_member option:selected").val(),
+               name: form.find("#expense_name option:selected").val(),
+               payment: form.find("#expense_payment").val(),
+               memo: form.find("#expense_memo").val(),
+              }
+            }
+          }
+
+          swalFrom(target.dataset, form, body);
+        } else {
+          swalDelete(e.currentTarget.dataset)
+        }
+      }
+    });
+
+    $(".edit-expenditure").on({
+      "touchstart mousedown": (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // clear timer
+        touchTime = 0;
+        touchInterval = setInterval(() => {
+          touchTime += 100;
+          if (touchTime > 1000) {
+            clearInterval(touchInterval);
+          }
+        }, 100)
+      },
+      "touchend mouseup": (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (touchTime < 700) {
+          const target = e.currentTarget
+
+          // store form HTML markup in a JS variable
+          let form = $('#expenditure-form > form');
+
+          // input form
+          form.find("#expenditure_category option[value=" + target.querySelector("td[name=category]").innerText + "]").attr("selected", "selected")
+          form.find("#expenditure_payment").val(target.querySelector("td[name=payment]").getAttribute("value"))
+          form.find("#expenditure_memo").val(target.querySelector("td[name=memo] p").textContent)
+
+          let body = (form) => {
+            return {
+              expenditure: {
+               line_user_id:   form.find("#line_user_id").val(),
+               entry_date: form.find("#expenditure_entry_date").val(),
+               category: form.find("#expenditure_category option:selected").val(),
+               payment: form.find("#expenditure_payment").val(),
+               margin: form.find("#expenditure_margin").val(),
+               memo: form.find("#expenditure_memo").val(),
+              }
+            }
+          }
+
+          swalFrom(target.dataset, form, body);
+        } else {
+          swalDelete(e.currentTarget.dataset)
+        }
+      }
+    });
+
     function swalFrom(data, form, body, resOpts = {}) {
       swal({
         type: 'info',
@@ -293,7 +461,11 @@ $(() => {
               'content-type': 'application/json',
             }
           }).then(() => {
-            location.reload();
+            swal(
+              { type: 'success', title: '削除したよ!'}
+            ).then(() => {
+              location.reload();
+            });
           });
         }
       }, (dismiss) => {})

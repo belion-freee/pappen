@@ -40,9 +40,9 @@ ActiveRecord::Schema.define(version: 20181120030000) do
     t.integer "event_id"
     t.integer "room_member_id"
     t.integer "payment"
-    t.text "memo"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "memo"
   end
 
   create_table "house_expenditure_margins", force: :cascade do |t|

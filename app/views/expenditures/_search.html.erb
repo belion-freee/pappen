@@ -1,15 +1,10 @@
 <!--検索窓 -->
-<div class="panel panel-info">
-  <div class="panel-heading">
-    <h3 class="panel-title">
-      <a href="#panelCollapse" data-toggle="collapse">
-        <%= t("helpers.links.search") %>
-      </a>
-    </h3>
-  </div>
-  <div class="panel-body">
-    <div id="panelCollapse" class="collapse">
-      <%= form_tag expenditures_path(line_user_id: @line_user.id), method: :get, class: "form-horizontal" do %>
+<div class="accordion expenditure_color search mb-2" data-accordion>
+    <div data-control>
+      <%= t("helpers.links.search") %>
+    </div>
+    <div data-content>
+      <%= form_tag line_user_expenditures_path(@line_user), method: :get, class: "form-horizontal" do %>
         <div class="form-group">
           <%= label_tag :from_date, t("helpers.search.from_date"), class: 'control-label col-lg-2' %>
           <div class="col-lg-2 col-xs-8">
@@ -25,7 +20,7 @@
         <div class="form-group">
           <%= label_tag :category, t("helpers.search.category"), class: 'control-label col-lg-2' %>
           <div class="col-lg-2 col-xs-8">
-            <%= collection_select :category, :name, Expenditure::ITEM, :itself, :itself, { include_blank: true }, { class: "form-control selectpicker" } %>
+            <%= collection_select :category, :name, Expenditure::ITEM, :itself, :itself, { prompt: "経費科目" }, { class: "form-control" } %>
           </div>
         </div>
 
@@ -36,5 +31,4 @@
         </div>
       <% end %>
     </div>
-  </div>
 </div>

@@ -1,50 +1,26 @@
-<%= form_for @expense, :html => { class: "form-horizontal" } do |f| %>
-<%= f.hidden_field :event_id, value: @event.id %>
-  <% if @expense.errors.any? %>
-    <div id="error_expl" class="panel panel-danger">
-      <div class="panel-heading">
-        <h3 class="panel-title"><%= pluralize(@expense.errors.count, "error") %> prohibited this expense from being saved:</h3>
+<div id="expense-form" class="hidden">
+  <% model_class = Expense %>
+    <%= form_for Expense.new, url: "#", :html => { :class => "form-horizontal maxim" } do |f| %>
+    <%= f.hidden_field_tag :event_id, @event.id %>
+    <div class="form-group">
+      <div class="col-lg-8 col-xs-10">
+        <%= f.collection_select :name, Expense::ITEM, :itself, :itself, { prompt: model_class.human_attribute_name(:name) }, { class: "form-control" } %>
       </div>
-      <div class="panel-body">
-        <ul>
-        <% @expense.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-        </ul>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-8 col-xs-10">
+        <%= f.collection_select :room_member, @event.room_members, :id, :name, { prompt: model_class.human_attribute_name(:room_member) }, { class: 'form-control', rows: 2} %>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-8 col-xs-10">
+        <%= f.number_field :payment, class: 'form-control', placeholder: model_class.human_attribute_name(:payment) %>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-8 col-xs-12">
+        <%= f.text_area :memo, class: 'form-control', placeholder: model_class.human_attribute_name(:memo), rows: 3 %>
       </div>
     </div>
   <% end %>
-
-  <div class="form-group">
-    <%= f.label :name, class: 'control-label col-lg-2' %>
-    <div class="col-lg-2 col-xs-8">
-      <%= f.collection_select :name, Expense::ITEM, :itself, :itself, {}, { class: "form-control selectpicker" } %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :room_member, class: 'control-label col-lg-2' %>
-    <div class="col-lg-2 col-xs-8">
-      <%= f.collection_select :room_member_id, @event.room_members, :id, :name, {}, { class: "form-control selectpicker" } %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :payment, class: 'control-label col-lg-2' %>
-    <div class="col-lg-2 col-xs-8">
-      <%= f.number_field :payment, class: 'form-control' %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :memo, class: 'control-label col-lg-2' %>
-    <div class="col-lg-6 col-xs-12">
-      <%= f.text_area :memo, class: 'form-control'%>
-    </div>
-  </div>
-
-  <div class="form-group nowrap">
-    <div class="col-lg-offset-2 col-lg-4 col-xs-6">
-      <%= f.submit t("helpers.links.#{action}"), class: 'btn btn-primary' %>
-      <%= link_to t("helpers.links.cancel"), event_path(@event), class: 'btn btn-warning' %>
-    </div>
-  </div>
-
-<% end %>
+</div>
