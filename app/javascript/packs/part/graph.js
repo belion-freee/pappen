@@ -1,7 +1,7 @@
 import 'chart.js';
 
 const addChart = (ctx, data, backgroundColor, borderColor) => {
-  ctx.canvas.height = 360;
+  ctx.canvas.height = 450;
   new Chart(ctx, {
       type: 'pie',
       data: {
