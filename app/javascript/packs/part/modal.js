@@ -226,13 +226,12 @@ $(() => {
     // edit house expenditure
     var touchInterval = null;
     var touchTime     = 0;
+    var isTouch       = false;
     $(".edit-house-expenditure").on({
-      "touchstart mousedown": (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-
+      "touchstart": (e) => {
         // clear timer
         touchTime = 0;
+        isTouch = true;
         touchInterval = setInterval(() => {
           touchTime += 100;
           if (touchTime > 1000) {
@@ -240,72 +239,75 @@ $(() => {
           }
         }, 100)
       },
-      "touchend mouseup": (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        if (touchTime < 700) {
-          const target = e.currentTarget
+      "touchmove": (e) => {
+        isTouch = false;
+      },
+      "touchend": (e) => {
+        if (isTouch) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (touchTime < 700) {
+            const target = e.currentTarget
 
-          // store form HTML markup in a JS variable
-          let form = $('#house-expenditure-form > form');
+            // store form HTML markup in a JS variable
+            let form = $('#house-expenditure-form > form');
 
-          // input form
-          form.find("#house_expenditure_room_member option[value=" + target.querySelector("td[name=room_member]").attributes.value.value + "]").attr("selected", "selected")
-          form.find("#house_expenditure_category option[value=" + target.dataset.category + "]").attr("selected", "selected")
-          form.find("#house_expenditure_entry_date").val(target.querySelector("td[name=entry_date]").attributes.value.value)
-          form.find("#house_expenditure_payment").val(target.querySelector("td[name=payment]").attributes.value.value)
-          form.find("#house_expenditure_name").val(target.querySelector("td[name=name]").textContent)
+            // input form
+            form.find("#house_expenditure_room_member option[value=" + target.querySelector("td[name=room_member]").attributes.value.value + "]").attr("selected", "selected")
+            form.find("#house_expenditure_category option[value=" + target.dataset.category + "]").attr("selected", "selected")
+            form.find("#house_expenditure_entry_date").val(target.querySelector("td[name=entry_date]").attributes.value.value)
+            form.find("#house_expenditure_payment").val(target.querySelector("td[name=payment]").attributes.value.value)
+            form.find("#house_expenditure_name").val(target.querySelector("td[name=name]").textContent)
 
-          // input margins
-          const margins = JSON.parse(target.dataset.margins)
-          if (margins.length) {
-            $.each(margins, (_, margin) => {
-              let marginForm = form.find(`#margin_member_${margin.room_member_id}`)
-              marginForm.find("label[for=house_expenditure_room_members_room_member]")[0].dataset.id = margin.id
-              marginForm.find("#house_expenditure_room_members_margin").val(margin.margin)
-              marginForm.find("#house_expenditure_room_members_fixed").val(margin.fixed)
-            });
-          }
+            // input margins
+            const margins = JSON.parse(target.dataset.margins)
+            if (margins.length) {
+              $.each(margins, (_, margin) => {
+                let marginForm = form.find(`#margin_member_${margin.room_member_id}`)
+                marginForm.find("label[for=house_expenditure_room_members_room_member]")[0].dataset.id = margin.id
+                marginForm.find("#house_expenditure_room_members_margin").val(margin.margin)
+                marginForm.find("#house_expenditure_room_members_fixed").val(margin.fixed)
+              });
+            }
 
-          let body = (form) => {
-            return {
-              house_expenditure: {
-               house_id:   form.find("#house_id").val(),
-               room_member_id: form.find("#house_expenditure_room_member option:selected").val(),
-               entry_date: form.find("#house_expenditure_entry_date").val(),
-               category: form.find("#house_expenditure_category option:selected").val(),
-               payment: form.find("#house_expenditure_payment").val(),
-               name: form.find("#house_expenditure_name").val(),
-               house_expenditure_margins_attributes: $.map(form.find("#house_expenditure_margins .form-group"), (hem, _) => {
-                 const margin = hem.querySelector("#house_expenditure_room_members_margin").value
-                 const fixed  = hem.querySelector("#house_expenditure_room_members_fixed").value
-                 if ((margin == "") && (fixed == "")) { return null }
-                 const data = hem.querySelector("label[for=house_expenditure_room_members_room_member]").dataset
-                 return {
-                   id: data.id,
-                   room_member_id: data.member,
-                   margin: margin,
-                   fixed: fixed
-                 }
-               }),
+            let body = (form) => {
+              return {
+                house_expenditure: {
+                 house_id:   form.find("#house_id").val(),
+                 room_member_id: form.find("#house_expenditure_room_member option:selected").val(),
+                 entry_date: form.find("#house_expenditure_entry_date").val(),
+                 category: form.find("#house_expenditure_category option:selected").val(),
+                 payment: form.find("#house_expenditure_payment").val(),
+                 name: form.find("#house_expenditure_name").val(),
+                 house_expenditure_margins_attributes: $.map(form.find("#house_expenditure_margins .form-group"), (hem, _) => {
+                   const margin = hem.querySelector("#house_expenditure_room_members_margin").value
+                   const fixed  = hem.querySelector("#house_expenditure_room_members_fixed").value
+                   if ((margin == "") && (fixed == "")) { return null }
+                   const data = hem.querySelector("label[for=house_expenditure_room_members_room_member]").dataset
+                   return {
+                     id: data.id,
+                     room_member_id: data.member,
+                     margin: margin,
+                     fixed: fixed
+                   }
+                 }),
+                }
               }
             }
-          }
 
-          swalFrom(target.dataset, form, body);
-        } else {
-          swalDelete(e.currentTarget.dataset)
+            swalFrom(target.dataset, form, body);
+          } else {
+            swalDelete(e.currentTarget.dataset)
+          }
         }
       }
     });
 
     $(".edit-expense").on({
-      "touchstart mousedown": (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-
+      "touchstart": (e) => {
         // clear timer
         touchTime = 0;
+        isTouch = true;
         touchInterval = setInterval(() => {
           touchTime += 100;
           if (touchTime > 1000) {
@@ -313,47 +315,51 @@ $(() => {
           }
         }, 100)
       },
-      "touchend mouseup": (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        if (touchTime < 700) {
-          const target = e.currentTarget
+      "touchmove": (e) => {
+        isTouch = false;
+      },
+      "touchend": (e) => {
+        if (isTouch) {
+          e.preventDefault();
+          e.stopPropagation();
 
-          // store form HTML markup in a JS variable
-          let form = $('#expense-form > form');
+          if (touchTime < 700) {
+            const target = e.currentTarget
 
-          // input form
-          form.find("#expense_room_member option[value=" + target.querySelector("td[name=room_member]").getAttribute("value") + "]").attr("selected", "selected")
-          form.find("#expense_name option[value=" + target.querySelector("td[name=name]").innerText + "]").attr("selected", "selected")
-          form.find("#expense_payment").val(target.querySelector("td[name=payment]").getAttribute("value"))
-          form.find("#expense_memo").val(target.querySelector("td[name=memo] p").textContent)
+            // store form HTML markup in a JS variable
+            let form = $('#expense-form > form');
 
-          let body = (form) => {
-            return {
-              expense: {
-               event_id:   form.find("#event_id").val(),
-               room_member_id: form.find("#expense_room_member option:selected").val(),
-               name: form.find("#expense_name option:selected").val(),
-               payment: form.find("#expense_payment").val(),
-               memo: form.find("#expense_memo").val(),
+            // input form
+            form.find("#expense_room_member option[value=" + target.querySelector("td[name=room_member]").getAttribute("value") + "]").attr("selected", "selected")
+            form.find("#expense_name option[value=" + target.querySelector("td[name=name]").innerText + "]").attr("selected", "selected")
+            form.find("#expense_payment").val(target.querySelector("td[name=payment]").getAttribute("value"))
+            form.find("#expense_memo").val(target.querySelector("td[name=memo] p").textContent)
+
+            let body = (form) => {
+              return {
+                expense: {
+                 event_id:   form.find("#event_id").val(),
+                 room_member_id: form.find("#expense_room_member option:selected").val(),
+                 name: form.find("#expense_name option:selected").val(),
+                 payment: form.find("#expense_payment").val(),
+                 memo: form.find("#expense_memo").val(),
+                }
               }
             }
-          }
 
-          swalFrom(target.dataset, form, body);
-        } else {
-          swalDelete(e.currentTarget.dataset)
+            swalFrom(target.dataset, form, body);
+          } else {
+            swalDelete(e.currentTarget.dataset)
+          }
         }
       }
     });
 
     $(".edit-expenditure").on({
-      "touchstart mousedown": (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-
+      "touchstart": (e) => {
         // clear timer
         touchTime = 0;
+        isTouch = true;
         touchInterval = setInterval(() => {
           touchTime += 100;
           if (touchTime > 1000) {
@@ -361,36 +367,41 @@ $(() => {
           }
         }, 100)
       },
-      "touchend mouseup": (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        if (touchTime < 700) {
-          const target = e.currentTarget
+      "touchmove": (e) => {
+        isTouch = false;
+      },
+      "touchend": (e) => {
+        if (isTouch) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (touchTime < 700) {
+            const target = e.currentTarget
 
-          // store form HTML markup in a JS variable
-          let form = $('#expenditure-form > form');
+            // store form HTML markup in a JS variable
+            let form = $('#expenditure-form > form');
 
-          // input form
-          form.find("#expenditure_category option[value=" + target.querySelector("td[name=category]").innerText + "]").attr("selected", "selected")
-          form.find("#expenditure_payment").val(target.querySelector("td[name=payment]").getAttribute("value"))
-          form.find("#expenditure_memo").val(target.querySelector("td[name=memo] p").textContent)
+            // input form
+            form.find("#expenditure_category option[value=" + target.querySelector("td[name=category]").innerText + "]").attr("selected", "selected")
+            form.find("#expenditure_payment").val(target.querySelector("td[name=payment]").getAttribute("value"))
+            form.find("#expenditure_memo").val(target.querySelector("td[name=memo] p").textContent)
 
-          let body = (form) => {
-            return {
-              expenditure: {
-               line_user_id:   form.find("#line_user_id").val(),
-               entry_date: form.find("#expenditure_entry_date").val(),
-               category: form.find("#expenditure_category option:selected").val(),
-               payment: form.find("#expenditure_payment").val(),
-               margin: form.find("#expenditure_margin").val(),
-               memo: form.find("#expenditure_memo").val(),
+            let body = (form) => {
+              return {
+                expenditure: {
+                 line_user_id:   form.find("#line_user_id").val(),
+                 entry_date: form.find("#expenditure_entry_date").val(),
+                 category: form.find("#expenditure_category option:selected").val(),
+                 payment: form.find("#expenditure_payment").val(),
+                 margin: form.find("#expenditure_margin").val(),
+                 memo: form.find("#expenditure_memo").val(),
+                }
               }
             }
-          }
 
-          swalFrom(target.dataset, form, body);
-        } else {
-          swalDelete(e.currentTarget.dataset)
+            swalFrom(target.dataset, form, body);
+          } else {
+            swalDelete(e.currentTarget.dataset)
+          }
         }
       }
     });
