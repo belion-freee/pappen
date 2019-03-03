@@ -382,6 +382,7 @@ $(() => {
 
             // input form
             form.find("#expenditure_category option[value=" + target.querySelector("td[name=category]").innerText + "]").attr("selected", "selected")
+            form.find("#expenditure_entry_date").val(target.querySelector("td[name=entry_date]").attributes.value.value)
             form.find("#expenditure_payment").val(target.querySelector("td[name=payment]").getAttribute("value"))
             form.find("#expenditure_memo").val(target.querySelector("td[name=memo] p").textContent)
 
