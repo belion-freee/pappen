@@ -13,6 +13,10 @@ class HouseExpenditure < ApplicationRecord
   has_many :house_expenditure_margins, dependent: :destroy
   accepts_nested_attributes_for :house_expenditure_margins
 
+  # TODO: only create.
+  # Because it's no way to resolve which house expenditure has related to expenditure.
+  after_create :sync_expenditure, if: -> { category != "food" }
+
   validates :house_id,       presence: true
   validates :room_member_id, presence: true
   validates :entry_date,   presence: true
@@ -62,5 +66,55 @@ class HouseExpenditure < ApplicationRecord
       return errors.add(:house_expenditure_margins, :only) unless [margin_sum, fixed_sum].one?(&:zero?)
       return errors.add(:house_expenditure_margins, :margin_sum) unless margin_sum.zero? || margin_sum == 100
       return errors.add(:house_expenditure_margins, :fixed_sum) unless fixed_sum.zero? || fixed_sum == self.payment
+    end
+
+    def sync_expenditure
+      # TODO: It is better to add sync flg to house
+      uids = self.house.room_members.map(&:uid)
+      LineUser.where(uid: uids).each {|user|
+        next if user.expenditures.blank?
+
+        # set expenditure data
+        case self.category.to_sym
+        when :dining
+          expenditure_category = self.payment > 5000 ? "接待交際費" : "会議費"
+          expenditure_payment  = self.payment
+        when :another
+          expenditure_category = convert_sync_category || "雑費"
+          expenditure_payment  = self.payment
+        when :utility
+          expenditure_category = "水道光熱費"
+          expenditure_payment  = (self.payment * 0.5).round
+        when :travel
+          expenditure_category = convert_sync_category || "旅費交通費"
+          expenditure_payment  = self.payment
+        when :home
+          expenditure_category = "地代家賃"
+          expenditure_payment  = (self.payment * 0.7).round
+        else
+          raise "Unknown category"
+        end
+
+        Expenditure.create(
+          line_user_id: user.id,
+          entry_date:   self.entry_date,
+          category:     expenditure_category,
+          payment:      expenditure_payment,
+          memo:         self.name
+        )
+      }
+    end
+
+    def convert_sync_category
+      return nil unless self.name
+      if self.name.match?(/航空|チケット|新幹線/)
+        "研究開発費"
+      elsif self.name.match?(/映画/)
+        "新聞図書費"
+      elsif self.name.match?(/購入/)
+        "消耗品費"
+      else
+        nil
+      end
     end
 end
