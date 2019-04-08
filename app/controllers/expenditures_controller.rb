@@ -2,6 +2,7 @@ class ExpendituresController < ApplicationController
   before_action :set_expenditure, only: [:update, :destroy]
 
   def index
+    params[:from_date] = Time.now.beginning_of_year unless params.try(:[], :from_date)
     records = Expenditure.search(params)
 
     @line_user = LineUser.find(params[:line_user_id])
