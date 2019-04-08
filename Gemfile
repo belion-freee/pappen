@@ -53,6 +53,9 @@ group :development, :test do
   gem "pry-byebug"
   gem "pry-doc"
   gem "pry-rails"
+
+  # @see https://github.com/deivid-rodriguez/byebug/issues/289
+  gem "rb-readline"
 end
 
 group :development do
