@@ -6,7 +6,7 @@
 作った人に直接問い合わせる場合は[彼](mailto:belion.freee@gmail.com?subject=問い合わせ&body=以下に要件を記載してください。)にお願いします。
 
 ![dabritbumaahalm](https://user-images.githubusercontent.com/34331230/45134105-bc4a4580-b1d3-11e8-8c81-9f535de68397.jpg)
-hoge
+
 
 # Services
 
