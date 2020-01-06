@@ -103,7 +103,7 @@ module Sns::Line::LineBot
     events = Event.selected_gid(gid)
 
     if events.blank? || msg.include?("作成")
-      event = Event.new(name: "イベント(#{Time.new})", room_members: members)
+      event = Event.new(name: dummy_name, room_members: members)
       event.save!
 
       {
@@ -142,7 +142,7 @@ module Sns::Line::LineBot
     house = House.selected_gid(gid)
 
     if house.blank?
-      house = House.new(name: "New House!", memo: "This is subtitle!", room_members: members)
+      house = House.new(name: dummy_name, memo: "This is subtitle!", room_members: members)
       house.save!
     end
 
@@ -307,5 +307,9 @@ module Sns::Line::LineBot
                    },
         },
       }
+    end
+
+    def dummy_name
+      "dummy#{Time.new.strftime("%Y%m%d%H%M%S")}"
     end
 end

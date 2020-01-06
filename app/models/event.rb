@@ -3,7 +3,7 @@ class Event < ApplicationRecord
   has_many :room_members, through: :room_member_events
   has_many :expenses, dependent: :destroy
 
-  validates :name, presence: true, uniqueness: true
+  validates :name, presence: true, uniqueness: true, length: { maximum: 20 }
   validate :room_member_present?
   validate :group_uniq?
 
