@@ -7,12 +7,16 @@
   <div class="text-center sub-text" id="event-place" value="<%= @event.place %>">
     <p><%= model_class.human_attribute_name(:place) %> : <%= @event.place %></p>
   </div>
+  <% if @event.start.present? %>
   <div class="text-center sub-text" id="event-start" value="<%= @event.start.strftime("%Y-%m-%d") %>">
     <p><%= model_class.human_attribute_name(:start) %> : <%= l @event.start %></p>
   </div>
+  <% end  %>
+  <% if @event.end.present? %>
   <div class="text-center sub-text" id="event-end" value="<%= @event.end.strftime("%Y-%m-%d") %>">
     <p><%= model_class.human_attribute_name(:end) %> : <%= l @event.end %></p>
   </div>
+  <% end %>
   <div class="text-center sub-text mb-2" id="event-memo">
     <%= simple_format @event.memo %>
   </div>
