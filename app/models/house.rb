@@ -3,7 +3,7 @@ class House < ApplicationRecord
   has_many :room_members, through: :room_member_houses
   has_many :house_expenditures, dependent: :destroy
 
-  validates :name, presence: true, uniqueness: true
+  validates :name, presence: true, uniqueness: true, length: { maximum: 20 }
   validate :room_member_present?
   validate :group_uniq?
 

@@ -167,3 +167,4 @@ ja:
       blank:                 "%{attribute}を入力してください。"
       invalid:               "%{attribute}のデータが不正です"
       less_than_or_equal_to: "%{attribute}は%{count}以下の値にしてください。"
+      too_long:              "%{attribute}は長すぎます。"
