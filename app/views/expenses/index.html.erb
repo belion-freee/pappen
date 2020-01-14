@@ -21,9 +21,10 @@
               <%= content_tag(:tr, data: {id: expense.id, url: event_expense_url(@event, expense), title: "支出修正", method: "PUT"}, class: "nowrap edit-expense") do %>
                 <td name="room_member" value="<%= expense.room_member_id %>"><%= @members[expense.room_member_id] %></td>
                 <td name="name"><%= expense.name %></td>
-                <td name="payment" value="<%= expense.payment %>"><%= m expense.payment %></td>
+                <td name="payment" value="<%= expense.payment %>"><%= mc(expense) %></td>
                 <td name="memo"><%= simple_format expense.memo %></td>
                 <td name="exempt_members" value="<%= expense.exempts.map(&:id).join(",") %>"><%= expense.exempts.map(&:name).join(", ") %></td>
+                <td name="currency" value="<%= expense.currency %>" hidden></td>
               <% end %>
             <% end %>
           </tbody>

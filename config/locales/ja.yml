@@ -112,6 +112,7 @@ ja:
         memo:         メモ
         room_members: 参加メンバー
         members:      参加人数
+        currency:     通貨
       house:
         <<: *base
         name:         家名
@@ -127,6 +128,7 @@ ja:
         event:       イベント
         memo:        メモ
         exempts:     除外メンバー
+        currency:    通貨
       expenditure:
         <<: *base
         line_user:  事業主

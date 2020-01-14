@@ -4,6 +4,11 @@ module ApplicationHelper
     "¥ #{money.to_s(:delimited)}"
   end
 
+  def mc(r)
+    money = (r.payment || 0)
+    "¥ #{money.to_s(:delimited)}(#{r.currency})"
+  end
+
   def l(date)
     return "日付未定" if date.blank?
     date.strftime("%Y年%m月%d日")
@@ -20,5 +25,9 @@ module ApplicationHelper
         "#{year}年#{month}月"
       }
     }.flatten
+  end
+
+  def currency(row)
+    "#{Settings.currency[row.currency]}(#{row.currency})"
   end
 end

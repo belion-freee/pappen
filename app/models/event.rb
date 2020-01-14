@@ -4,10 +4,13 @@ class Event < ApplicationRecord
   has_many :expenses, dependent: :destroy
 
   validates :name, presence: true, uniqueness: true, length: { maximum: 20 }
+  validates :currency, presence: true
   validate :room_member_present?
   validate :group_uniq?
 
   after_initialize :identify, if: :new_record?
+
+  before_validation :default_currency
 
   scope :selected_gid, ->(gid) {
     joins(:room_members).where(room_members: { gid: gid }).uniq
@@ -25,5 +28,9 @@ class Event < ApplicationRecord
 
   def identify(num = 16)
     self.eid ||= SecureRandom.hex(num)
+  end
+
+  def default_currency
+    self.currency ||= "JPY"
   end
 end

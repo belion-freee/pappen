@@ -25,6 +25,8 @@ defaults: &defaults
         talk: https://api.a3rt.recruit-tech.co.jp/talk/v1/smalltalk
     gogogs:
       uri: https://gogo.gs/%s
+    exchangerates:
+      uri: https://api.exchangeratesapi.io/latest
   maxim:
     category:
       movie: 映画
@@ -82,6 +84,76 @@ defaults: &defaults
     - 宮崎県
     - 鹿児島県
     - 沖縄県
+
+  currency:
+    JPY: "日本円"
+    USD: "USドル"
+    EUR: "ユーロ"
+    HKD: "香港ドル"
+    CNY: "人民元"
+    KRW: "韓国ウォン"
+    THB: "タイ・バーツ"
+    AUD: "オーストラリア・ドル"
+    CAD: "カナダ・ドル"
+    CHF: "スイス・フラン"
+    DKK: "デンマーク・クローネ"
+    GBP: "UKポンド"
+    NOK: "ノルウェー・クローネ"
+    NZD: "ニュージーランド・ドル"
+    SEK: "スウェーデン・クローネ"
+    SGD: "シンガポール・ドル"
+    XPF: "タヒチ・フラン"
+    ZAR: "南アフリカ共和国・ランド"
+    AED: "UAE・ディルハム"
+    BBD: "バルバドス・ドル"
+    BDT: "バングラディッシュ・タカ"
+    BGN: "ブルガリア・レフ"
+    BHD: "バーレーン・ディナール"
+    BMD: "バミューダ・ドル"
+    BND: "ブルネイ・リンギット"
+    BRL: "ブラジル・レアル"
+    BSD: "バハマ・ドル"
+    CZK: "チェコ・コルナ"
+    EGP: "エジプト・ポンド"
+    ETB: "エチオピア・ビル"
+    FJD: "フィジー・ドル"
+    HRK: "クロアチア・クナ"
+    HUF: "ハンガリー・フォリント"
+    IDR: "インドネシア・ルピア"
+    ILS: "イスラエル・新シケル"
+    INR: "インド・ルピー"
+    JMD: "ジャマイカ・ドル"
+    JOD: "ヨルダン・ディナール"
+    KWD: "クウェート・ディナール"
+    LBP: "レバノン・ポンド"
+    LKR: "スリランカ・ルピー"
+    MAD: "モロッコ・ディルハム"
+    MUR: "モーリシャス・ルピー"
+    MWK: "マラウイ・クワチャ"
+    MYR: "マレーシア・リンギット"
+    NAD: "ナミビア・ドル"
+    NGN: "ナイジェリア・ナリア"
+    NPR: "ネパール・ルピー"
+    OMR: "オマーン・リアル"
+    PGK: "パプワニューギニア・キナ"
+    PHP: "フィリピン・ペソ"
+    PLN: "ポーランド・ズウォティ"
+    QAR: "カタール・リアル"
+    RON: "ルーマニア・レウ"
+    SAR: "サウディ・リヤル"
+    SBD: "ソロモン諸島・ドル"
+    TND: "チュニジア・ディナール"
+    TOP: "トンガ王国・パ・アンガ"
+    TRY: "トルコ・リラ"
+    TTD: "トリニダード・トバゴ・ドル"
+    TWD: "台湾ドル"
+    VND: "ベトナム・ドン"
+    VUV: "バヌアツ共和国・バツ"
+    WST: "サモア・ドル"
+    XAF: "中央アフリカ・フラン"
+    XCD: "東カリブ・ドル"
+    XOF: "ギニアビサウ・フラン"
+    ZMW: "ザンビア・クワチャ"
 
 development:
   <<: *defaults
