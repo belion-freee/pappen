@@ -126,6 +126,7 @@ ja:
         room_member: 支払者
         event:       イベント
         memo:        メモ
+        exempts:     除外メンバー
       expenditure:
         <<: *base
         line_user:  事業主

@@ -188,6 +188,10 @@ $(() => {
       e.stopPropagation();
 
       let body = (form) => {
+        let exempt_member_ids = []
+        form.find("#expense_exempts option:selected").each(function(i, r) {
+          exempt_member_ids.push(r.value);
+        })
         return {
           expense: {
            event_id:   form.find("#event_id").val(),
@@ -195,6 +199,7 @@ $(() => {
            name: form.find("#expense_name option:selected").val(),
            payment: form.find("#expense_payment").val(),
            memo: form.find("#expense_memo").val(),
+           exempt_ids: exempt_member_ids,
           }
         }
       }
@@ -334,8 +339,18 @@ $(() => {
             form.find("#expense_name option[value=" + target.querySelector("td[name=name]").innerText + "]").attr("selected", "selected")
             form.find("#expense_payment").val(target.querySelector("td[name=payment]").getAttribute("value"))
             form.find("#expense_memo").val(target.querySelector("td[name=memo] p").textContent)
+            exempt_member_ids = target.querySelector("td[name=exempt_members]").getAttribute("value")
+            if (exempt_member_ids) {
+              $.each(exempt_member_ids.split(","), function(i, r) {
+                form.find("#expense_exempts option[value=" + r + "]").attr("selected", "selected")
+              })
+            }
 
             let body = (form) => {
+              let exempt_member_ids = []
+              form.find("#expense_exempts option:selected").each(function(i, r) {
+                exempt_member_ids.push(r.value);
+              })
               return {
                 expense: {
                  event_id:   form.find("#event_id").val(),
@@ -343,6 +358,7 @@ $(() => {
                  name: form.find("#expense_name option:selected").val(),
                  payment: form.find("#expense_payment").val(),
                  memo: form.find("#expense_memo").val(),
+                 exempt_ids: exempt_member_ids,
                 }
               }
             }

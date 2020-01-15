@@ -1,7 +1,7 @@
 <%- model_class = Expense -%>
 <div class="accordion expenditure_color expense" data-accordion>
     <div data-control>
-      合計額 : <%= content_tag :strong, m(@total) %>
+      支出総額 : <%= content_tag :strong, m(@total) %>
     </div>
     <div data-content>
       <% if @expenses.present? %>
@@ -22,6 +22,7 @@
                 <td name="name"><%= expense.name %></td>
                 <td name="payment" value="<%= expense.payment %>"><%= m expense.payment %></td>
                 <td name="memo"><%= simple_format expense.memo %></td>
+                <td name="exempt_members" value="<%= expense.exempts.map(&:id).join(",") %>" hidden></td>
               <% end %>
             <% end %>
           </tbody>

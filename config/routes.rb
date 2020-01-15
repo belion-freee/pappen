@@ -15,6 +15,7 @@ Rails.application.routes.draw do
 
   resources :events, only: %i[show update] do
     resources :expenses, only: %i[create update destroy]
+    get :gas, on: :collection
   end
 
   resources :houses, only: %i[show update] do

@@ -44,6 +44,8 @@ gem "ffi", ">= 1.9.24"
 gem "loofah", ">= 2.2.3"
 gem "rubyzip", ">= 1.2.2"
 
+gem "mechanize"
+
 group :development, :test do
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
   gem "capybara", "~> 2.13"

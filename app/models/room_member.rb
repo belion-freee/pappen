@@ -6,6 +6,8 @@ class RoomMember < ApplicationRecord
   has_many :expenses, dependent: :destroy
   has_many :house_expenditures, dependent: :destroy
   has_many :house_expenditure_margins, dependent: :destroy
+  has_many :exempt_expenses, through: :exempt_members
+  has_many :exempt_members, { inverse_of: :room_member, dependent: :destroy }
 
   validates :uid, presence: true
   validates :name, presence: true

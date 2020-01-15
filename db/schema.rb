@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181120030000) do
+ActiveRecord::Schema.define(version: 20191120030000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,15 @@ ActiveRecord::Schema.define(version: 20181120030000) do
     t.text "memo"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "exempt_members", force: :cascade do |t|
+    t.bigint "expense_id", null: false
+    t.bigint "room_member_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["expense_id"], name: "index_exempt_members_on_expense_id"
+    t.index ["room_member_id"], name: "index_exempt_members_on_room_member_id"
   end
 
   create_table "expenditures", force: :cascade do |t|
@@ -145,6 +154,8 @@ ActiveRecord::Schema.define(version: 20181120030000) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "exempt_members", "expenses"
+  add_foreign_key "exempt_members", "room_members"
   add_foreign_key "house_expenditure_margins", "house_expenditures"
   add_foreign_key "house_expenditure_margins", "room_members"
   add_foreign_key "house_expenditures", "houses", primary_key: "hid"
