@@ -48,7 +48,7 @@ class EventsController < ApplicationController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_event
-      @event = Event.includes(:room_members).includes(:expenses).find(params[:id])
+      @event = Event.includes(:room_members).includes(expenses: [:exempts, :room_member]).find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

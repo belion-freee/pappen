@@ -10,6 +10,7 @@
           <tr class="nowrap">
             <th><%= t("helpers.attributes.accounting.room_member") %></th>
             <th><%= t("helpers.attributes.accounting.payment") %></th>
+            <th><%= t("helpers.attributes.accounting.fee") %></th>
             <th><%= t("helpers.attributes.accounting.amount") %></th>
           </tr>
         </thead>
@@ -18,6 +19,7 @@
           <tr class="nowrap">
             <td><%= accounting[:room_member] %></td>
             <td><%= m accounting[:payment] %></td>
+            <td><%= m accounting[:fee] %></td>
             <td><strong><%= m accounting[:amount] %></strong> <%= accounting[:paid] ? "支払い" : "受取り" %></td>
           </tr>
           <% end %>

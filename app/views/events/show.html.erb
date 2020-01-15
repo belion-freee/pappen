@@ -4,9 +4,11 @@
   <%= content_tag(:div, data: { url: event_url(@event), title: "イベント編集", method: "PUT" }, id: "edit-event", class: "title-text mb-2") do %>
     <%= @event.name %>
   <% end %>
+  <% if @event.place.present? %>
   <div class="text-center sub-text" id="event-place" value="<%= @event.place %>">
     <p><%= model_class.human_attribute_name(:place) %> : <%= @event.place %></p>
   </div>
+  <% end  %>
   <% if @event.start.present? %>
   <div class="text-center sub-text" id="event-start" value="<%= @event.start.strftime("%Y-%m-%d") %>">
     <p><%= model_class.human_attribute_name(:start) %> : <%= l @event.start %></p>

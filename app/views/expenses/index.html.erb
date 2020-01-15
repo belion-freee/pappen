@@ -13,6 +13,7 @@
               <th><%= model_class.human_attribute_name(:name) %></th>
               <th><%= model_class.human_attribute_name(:payment) %></th>
               <th><%= model_class.human_attribute_name(:memo) %></th>
+              <th><%= model_class.human_attribute_name(:exempts) %></th>
             </tr>
           </thead>
           <tbody>
@@ -22,7 +23,7 @@
                 <td name="name"><%= expense.name %></td>
                 <td name="payment" value="<%= expense.payment %>"><%= m expense.payment %></td>
                 <td name="memo"><%= simple_format expense.memo %></td>
-                <td name="exempt_members" value="<%= expense.exempts.map(&:id).join(",") %>" hidden></td>
+                <td name="exempt_members" value="<%= expense.exempts.map(&:id).join(",") %>"><%= expense.exempts.map(&:name).join(", ") %></td>
               <% end %>
             <% end %>
           </tbody>

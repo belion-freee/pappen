@@ -32,6 +32,7 @@ class Expense < ApplicationRecord
         id:          user.id,
         room_member: name,
         payment:     member_payment[user.id][:payment],
+        fee:         member_payment[user.id][:fee],
         amount:      amount.abs,
         paid:        amount.negative?,
       }
