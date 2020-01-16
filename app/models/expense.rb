@@ -2,7 +2,7 @@ class Expense < ApplicationRecord
   ITEM = %w[食費 レンタル代 宿泊料金 移動費 利用料金 雑費].freeze
 
   belongs_to :room_member, inverse_of: :expenses
-  belongs_to :event,       inverse_of: :expenses
+  belongs_to :event,       inverse_of: :expenses, primary_key: :eid
   has_many :exempt_members, { inverse_of: :expense, dependent: :destroy }
   has_many :exempts, through: :exempt_members, source: :room_member
 
