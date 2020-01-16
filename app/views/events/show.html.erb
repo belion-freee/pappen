@@ -4,9 +4,11 @@
   <%= content_tag(:div, data: { url: event_url(@event), title: "イベント編集", method: "PUT" }, id: "edit-event", class: "title-text mb-2") do %>
     <%= @event.name %>
   <% end %>
+  <% if @event.place.present? %>
   <div class="text-center sub-text" id="event-place" value="<%= @event.place %>">
     <p><%= model_class.human_attribute_name(:place) %> : <%= @event.place %></p>
   </div>
+  <% end  %>
   <% if @event.start.present? %>
   <div class="text-center sub-text" id="event-start" value="<%= @event.start.strftime("%Y-%m-%d") %>">
     <p><%= model_class.human_attribute_name(:start) %> : <%= l @event.start %></p>
@@ -35,6 +37,42 @@
       <%= content_tag(:label, "+", data: { url: event_expenses_url(@event), title: "支出追加", method: "POST" }, id: "new-expense", class: "btn btn-primary btn-circle btn-lg") %>
     </div>
   </div>
+</div>
+
+<!-- gas -->
+<div class="accordion expenditure_color search mb-2" data-accordion>
+    <div data-control>
+      <b>ガス料金計算</b><p>走行距離、燃費、都道府県を選択すれば自動で計算されます</p>
+    </div>
+    <div data-content>
+      <%= form_tag gas_events_path, method: :get, class: "form-horizontal" do %>
+        <div class="form-group">
+          <%= label_tag :from_date, "走行距離(km)", class: 'control-label col-lg-2' %>
+          <div class="col-lg-2 col-xs-8">
+            <input id="running_km" type="number" name="km" class="form-control">
+          </div>
+        </div>
+        <div class="form-group">
+          <%= label_tag :from_date, "燃費", class: 'control-label col-lg-2' %>
+          <div class="col-lg-2 col-xs-8">
+            <input id="gas_mileage" type="number" name="gm" class="form-control">
+          </div>
+        </div>
+        <div class="form-group">
+          <%= label_tag :prefectures, "都道府県", class: 'control-label col-lg-2' %>
+          <div class="col-lg-2 col-xs-8">
+            <%= collection_select :prefectures, :name, Settings.prefectures.map.with_index {|r, i| [i + 1, r]}, :first, :last, { prompt: "選択して計算" }, { class: "form-control" } %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-lg-2">ガソリン料金</label>
+          <div class="col-lg-2 col-xs-8">
+            <label id="gas_price"></label>
+          </div>
+        </div>
+      <% end %>
+    </div>
 </div>
 
 <!-- chart -->

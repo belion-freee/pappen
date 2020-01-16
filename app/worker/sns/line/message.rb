@@ -11,14 +11,20 @@ class Sns::Line::Message < Sns::Line::Base
     event_title:           %w[イベントタイトル],
     expenditure:           %w[経費申請],
     expenditure_confirm:   %w[収支確認],
+    leave:                 %w[もう大丈夫だよ],
     help:                  %w[ヘルプ],
   }.freeze
 
   # POSTBACK = %i[user_register export_event].freeze
 
   def callback
-    # exclude in cases other than group and text
-    return if source["type"] == "group" && !reqest_msg["text"].try(:include?, BOT_NAME)
+    if %w(group room).include?(source["type"].to_s)
+      # auto register room member
+      auto_register_user_to_pappen(source["userId"], group_id, source["type"])
+
+      # exclude without text BOT_NAME
+      return if !reqest_msg["text"].try(:include?, BOT_NAME)
+    end
 
     @reqest_msg["text"].try(:slice!, BOT_NAME)
 
@@ -55,7 +61,7 @@ class Sns::Line::Message < Sns::Line::Base
       if method_name.present?
         # remove REQUEST_DISTRIBUTOR
         msg.delete_at(0)
-        send(method_name.keys.first, msg, uid: source["userId"], gid: source.try(:[], "groupId"))
+        send(method_name.keys.first, msg, uid: source["userId"], gid: group_id, type: source["type"])
       else
         chat(msg, uid: source["userId"])
       end
@@ -95,7 +101,7 @@ class Sns::Line::Message < Sns::Line::Base
 
       case data.first.try(:to_sym)
       when :user_register
-        name = source["groupId"].blank? ? register_line_user(source["userId"]) : register_user_to_pappen(source["userId"], source["groupId"])
+        name = group_id.blank? ? register_line_user(source["userId"]) : register_user_to_pappen(source["userId"], group_id, source["type"])
         { type: "text", text: "#{name} をユーザ登録したよ#{uni(0x100079)}" }
       when :room_members
         event = Event.find(data[1])
@@ -111,4 +117,10 @@ class Sns::Line::Message < Sns::Line::Base
         raise "it is unkown postback #{data.first}"
       end
     end
+
+    private
+
+      def group_id
+        source["groupId"] || source["roomId"]
+      end
 end

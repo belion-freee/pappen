@@ -280,6 +280,16 @@ module Sns::Line::LineBot
     }
   end
 
+  def leave(_, **opts)
+    reply = {
+      type: "text",
+      text: "お仕えできて光栄でした\nノブレス・オブリージュ 今後も救世主たらんことを",
+    }
+    reply_message([reply])
+
+    leave_bot(opts[:gid], opts[:type])
+  end
+
   private
 
     def events_carousel(events)

@@ -45,9 +45,9 @@ class Sns::Line::Base
       raise_error?(msg, client.reply_message(reply_token, msg))
     end
 
-    def register_user_to_pappen(uid, gid)
+    def register_user_to_pappen(uid, gid, type)
       return if gid.blank? || uid.blank?
-      res = get_group_user_profile(gid, uid)
+      res = (type.to_s == "room") ? get_room_member_profile(gid, uid) : get_group_member_profile(gid, uid)
       name = res["displayName"]
       rm = RoomMember.where(uid: uid, gid: gid).last
       if rm.blank?
@@ -56,6 +56,25 @@ class Sns::Line::Base
         rm.update(name: name)
       end
       name
+    end
+
+    def auto_register_user_to_pappen(uid, gid, type)
+      return if gid.blank? || uid.blank?
+
+      rm = RoomMember.where(uid: uid, gid: gid).last
+      if rm.blank?
+        res = (type.to_s == "room") ? get_room_member_profile(gid, uid) : get_group_member_profile(gid, uid)
+        name = res["displayName"]
+        RoomMember.create(uid: uid, gid: gid, name: name)
+      end
+    end
+
+    def leave_bot(gid, type)
+      if type == "group"
+        client.leave_group(gid)
+      else
+        client.leave_room(gid)
+      end
     end
 
     def register_line_user(uid)
@@ -80,9 +99,16 @@ class Sns::Line::Base
       JSON.parse(res.body)
     end
 
-    def get_group_user_profile(gid, uid)
+    def get_group_member_profile(gid, uid)
       # pappen could use function get group member profile
       res = client.get_group_member_profile(gid, uid)
+      raise_error?(uid, res)
+      JSON.parse(res.body)
+    end
+
+    def get_room_member_profile(gid, uid)
+      # pappen could use function get room member profile
+      res = client.get_room_member_profile(gid, uid)
       raise_error?(uid, res)
       JSON.parse(res.body)
     end

@@ -5,7 +5,7 @@ class EventsController < ApplicationController
     @members = RoomMember.names(@event.room_members.first.gid)
     @expenses = @event.expenses.order(:id)
     @total = @expenses.map(&:payment).inject(:+) || 0
-    @fee, @accountings = Expense.accounting(@expenses, @event.room_members)
+    @accountings = Expense.summary(@event)
   end
 
   def create
@@ -33,11 +33,22 @@ class EventsController < ApplicationController
     rme.update(paid: params[:paid]) if rme.present?
   end
 
+  # TODO: Mechanizeを取り扱うModuleを作る
+  def gas
+    target = Mechanize.new.get(Settings.account.gogogs.uri % params[:prefectures]).search(".pref-price-panel div").find {|div|
+      # 文字列だと通らないのでバイトサイズで比較
+      div.at("label")&.inner_text&.bytesize == 15
+    }
+    raise "target is null. May be gogo.gs site DOM had been changed!" if target.blank?
+    cost = target.at(".price")&.inner_text.to_f * (params[:km].to_i.div(params[:gm].to_f))
+    render json: { cost: cost.round }, status: :ok
+  end
+
   private
 
     # Use callbacks to share common setup or constraints between actions.
     def set_event
-      @event = Event.includes(:room_members).includes(:expenses).find(params[:id])
+      @event = Event.includes(:room_members).includes(expenses: [:exempts, :room_member]).find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
