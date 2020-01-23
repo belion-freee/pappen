@@ -23,7 +23,7 @@ class HousesController < ApplicationController
   private
 
     def target_date
-      params[:date] =~ /^(\d{4})年(\d{1,2})月/ ? Time.new($1, $2, 1) : Time.now.beginning_of_month
+      params[:date].present? ? Time.new(params[:date][0..3], params[:date][4..5]) : Time.now.beginning_of_month
     end
 
     # Use callbacks to share common setup or constraints between actions.
