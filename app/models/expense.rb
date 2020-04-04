@@ -8,11 +8,16 @@ class Expense < ApplicationRecord
 
   validates :name,           presence: true
   validates :payment,        presence: true
+  validates :currency,       presence: true
+
+  before_validation :default_currency
 
   scope :summary, ->(event) {
     records = includes(:exempts, :room_member).where(event: event).to_a
     members = event.room_members
     return [] if records.blank?
+
+    rates = records.any? {|r| r.currency != "JPY" } ? Rate::Currency.latest : { "JPY" => 1 }
 
     member_payment = {}
     records.each {|r|
@@ -20,8 +25,8 @@ class Expense < ApplicationRecord
       members.each {|m|
         member_payment[m.id] ||= { payment: 0, fee: 0 }
         payment = (m.id == r.room_member_id) ? r.payment : 0
-        member_payment[m.id][:payment] += payment
-        member_payment[m.id][:fee]     += payment_members.include?(m) ? r.payment.div(payment_members.count) : 0
+        member_payment[m.id][:payment] += (payment * rates[r.currency])
+        member_payment[m.id][:fee]     += payment_members.include?(m) ? (r.payment * rates[r.currency]).div(payment_members.count) : 0
       }
     }
 
@@ -31,11 +36,17 @@ class Expense < ApplicationRecord
       {
         id:          user.id,
         room_member: name,
-        payment:     member_payment[user.id][:payment],
-        fee:         member_payment[user.id][:fee],
-        amount:      amount.abs,
+        payment:     member_payment[user.id][:payment].round,
+        fee:         member_payment[user.id][:fee].round,
+        amount:      amount.round.abs,
         paid:        amount.negative?,
       }
     }
   }
+
+  private
+
+    def default_currency
+      self.currency ||= self.event.currency || "JPY"
+    end
 end

@@ -130,19 +130,14 @@ $(() => {
 
       // input form
       form.find("#event_name").val(e.currentTarget.innerText)
-      form.find("#event_place").val($("#event-place").attr("value"))
-      form.find("#event_start").val($("#event-start").attr("value"))
-      form.find("#event_end").val($("#event-end").attr("value"))
       form.find("#event_memo").val($("#event-memo p").text())
 
       let body = (form) => {
         return {
           event: {
            name: form.find("#event_name").val(),
-           place: form.find("#event_place").val(),
-           start: form.find("#event_start").val(),
-           end: form.find("#event_end").val(),
            room_member_ids: form.find("#event_room_members").val(),
+           currency: form.find("#event_currency option:selected").val(),
            memo: form.find("#event_memo").val(),
           }
         }
@@ -199,6 +194,7 @@ $(() => {
            name: form.find("#expense_name option:selected").val(),
            payment: form.find("#expense_payment").val(),
            memo: form.find("#expense_memo").val(),
+           currency: form.find("#expense_currency option:selected").val(),
            exempt_ids: exempt_member_ids,
           }
         }
@@ -339,6 +335,7 @@ $(() => {
             form.find("#expense_name option[value=" + target.querySelector("td[name=name]").innerText + "]").attr("selected", "selected")
             form.find("#expense_payment").val(target.querySelector("td[name=payment]").getAttribute("value"))
             form.find("#expense_memo").val(target.querySelector("td[name=memo] p").textContent)
+            form.find("#expense_currency option[value=" + target.querySelector("td[name=currency]").getAttribute("value") + "]").attr("selected", "selected")
             exempt_member_ids = target.querySelector("td[name=exempt_members]").getAttribute("value")
             if (exempt_member_ids) {
               $.each(exempt_member_ids.split(","), function(i, r) {
@@ -358,6 +355,7 @@ $(() => {
                  name: form.find("#expense_name option:selected").val(),
                  payment: form.find("#expense_payment").val(),
                  memo: form.find("#expense_memo").val(),
+                 currency: form.find("#expense_currency option:selected").val(),
                  exempt_ids: exempt_member_ids,
                 }
               }

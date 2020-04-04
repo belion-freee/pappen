@@ -18,8 +18,8 @@
 <div class="row mb-2">
   <div class="form-group">
     <div class="col-lg-3 col-xs-8">
-      <div class="select-wrap select-circle select-circle-arrow">
-        <%= select_tag(:house, options_for_select(date_options, (params["date"] || Time.now.strftime("%Y年%m月"))), data: { url: house_url(@house) }, id: "house_date") %>
+      <div class="cp_ipselect cp_sl05">
+        <%= select_tag(:house, options_for_select(date_options, selected: (params["date"] || Time.now.strftime("%Y%m"))), data: { url: house_url(@house) }, id: "house_date") %>
       </div>
     </div>
     <div class="col-lg-4 col-xs-4">

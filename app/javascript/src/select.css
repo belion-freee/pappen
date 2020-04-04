@@ -1,121 +1,46 @@
-@font-face{font-family:"IonIcons";src:url("//code.ionicframework.com/ionicons/2.0.1/fonts/ionicons.eot?v=2.0.1");src:url("//code.ionicframework.com/ionicons/2.0.1/fonts/ionicons.eot?v=2.0.1#iefix") format("embedded-opentype"),url("//code.ionicframework.com/ionicons/2.0.1/fonts/ionicons.ttf?v=2.0.1") format("truetype"),url("//code.ionicframework.com/ionicons/2.0.1/fonts/ionicons.woff?v=2.0.1") format("woff"),url("//code.ionicframework.com/ionicons/2.0.1/fonts/ionicons.svg?v=2.0.1#Ionicons") 
-
-format("svg");font-weight:normal;font-style:normal}
-.pt20{
-  padding-top: 20px;
+.cp_ipselect {
+	overflow: hidden;
+	width: 90%;
+	margin: 1em auto;
+	text-align: center;
 }
-.select-wrap {
-    position: relative;
+.cp_ipselect select {
+	width: 100%;
+	padding-right: 1em;
+	cursor: pointer;
+	text-indent: 0.01px;
+	text-overflow: ellipsis;
+	border: none;
+	outline: none;
+	background: transparent;
+	background-image: none;
+	box-shadow: none;
+	-webkit-appearance: none;
+	appearance: none;
 }
-.select-wrap:before {
-    z-index: 1;
-    position: absolute;
-    right: 15px;
-    top: -40px;
-    content: "\f123";
-    font-family: "IonIcons";
-    line-height: 50px;
-    color: #fff;
-    pointer-events: none;
-    opacity: 0;
-    -webkit-transition: all 600ms cubic-bezier(1, 0, 0, 1);
-    -moz-transition: all 600ms cubic-bezier(1, 0, 0, 1);
-    -o-transition: all 600ms cubic-bezier(1, 0, 0, 1);
-    transition: all 600ms cubic-bezier(1, 0, 0, 1);
-    -webkit-transition-timing-function: cubic-bezier(1, 0, 0, 1);
-    -moz-transition-timing-function: cubic-bezier(1, 0, 0, 1);
-    -o-transition-timing-function: cubic-bezier(1, 0, 0, 1);
-    transition-timing-function: cubic-bezier(1, 0, 0, 1);
+.cp_ipselect select::-ms-expand {
+    display: none;
 }
-select{
-    outline:none;
-    -moz-appearance: none;
-    text-indent: 0.01px;
-    text-overflow: '';
-    background: none transparent;
-    vertical-align: middle;
-    font-size: inherit;
-    color: inherit;
-    -webkit-appearance: button;
-    -moz-appearance: button;
-    appearance: button;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
+.cp_ipselect.cp_sl05 {
+	position: relative;
+	border-radius: 2px;
+  border-radius: 50px;
+	background: #da3c41;
 }
-select option{
-  background-color: #fff;
-  color: #333;
-  padding: 0;
+.cp_ipselect.cp_sl05::before {
+	position: absolute;
+	top: 0.8em;
+	right: 0.8em;
+	width: 0;
+	height: 0;
+	padding: 0;
+	content: '';
+	border-left: 6px solid transparent;
+	border-right: 6px solid transparent;
+	border-top: 6px solid #ffffff;
+	pointer-events: none;
 }
-select::-ms-expand {
-  display: none;
-}
-
-.select-wrap.select-circle > select{
-    width:50px;
-    height: 50px;
-    border-radius:25px;
-    margin: 0 auto;
-    display: block;
-    padding: 8px 0 8px 19px;
-    letter-spacing: 2em;
-    border:1px solid #db1f46;
-    color:#fff;
-    background: #db1f46;
-    overflow: hidden;
-    -webkit-transition: all 400ms cubic-bezier(1, 0, 0, 1);
-    -moz-transition: all 400ms cubic-bezier(1, 0, 0, 1);
-    -o-transition: all 400ms cubic-bezier(1, 0, 0, 1);
-    transition: all 400ms cubic-bezier(1, 0, 0, 1);
-    -webkit-transition-timing-function: cubic-bezier(1, 0, 0, 1);
-    -moz-transition-timing-function: cubic-bezier(1, 0, 0, 1);
-    -o-transition-timing-function: cubic-bezier(1, 0, 0, 1);
-    transition-timing-function: cubic-bezier(1, 0, 0, 1);
-}
-@-moz-document url-prefix() {
-  .select-wrap.select-circle > select{
-    padding-left: 16px;
-  }
-}
-.select-wrap.select-circle:hover{
-  width: 100%;
-}
-.select-wrap.select-circle:hover > select,.select-wrap.select-circle > select:hover{
-    width: 100%;
-    border-radius: 25px;
-    box-shadow: 0 0 6px rgba(0,0,0,0.3);
-    letter-spacing: 0;
-    padding: 8px 19px;
-}
-.select-wrap.select-circle:hover:before{
-    opacity: 1;
-    top: 0;
-}
-
-.select-wrap.select-circle > select:-moz-focusring {
-  color: transparent;
-  text-shadow: 0 0 0 #fff;
-}
-
-
-.select-wrap.select-circle-arrow > select{
-   color:#db1f46;
-}
-.select-wrap.select-circle-arrow:before{
-   color:#fff;
-   opacity: 1;
-   text-align: center;
-   width: 100%;
-   top: 0;
-   right: 0;
-}
-.select-wrap.select-circle-arrow:hover > select,.select-wrap.select-circle-arrow > select:hover{
-  color: #fff;
-}
-.select-wrap.select-circle:hover:before{
-    opacity: 1;
-    top: 0;
-    right: 15px;
-    width: 20px;
+.cp_ipselect.cp_sl05 select {
+	padding: 8px 38px 8px 8px;
+	color: #ffffff;
 }

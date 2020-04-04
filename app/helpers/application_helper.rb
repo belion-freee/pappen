@@ -4,6 +4,11 @@ module ApplicationHelper
     "¥ #{money.to_s(:delimited)}"
   end
 
+  def mc(r)
+    money = (r.payment || 0)
+    "¥ #{money.to_s(:delimited)}(#{r.currency})"
+  end
+
   def l(date)
     return "日付未定" if date.blank?
     date.strftime("%Y年%m月%d日")
@@ -15,10 +20,14 @@ module ApplicationHelper
   end
 
   def date_options
-    (2018..2020).map {|year|
+    (2019..2021).map {|year|
       (1..12).map {|month|
-        "#{year}年#{month}月"
-      }
-    }.flatten
+        [format("%02d年%02d月", year, month), format("%02d%02d", year, month)]
+      }.to_h
+    }.inject(:merge)
+  end
+
+  def currency(row)
+    "#{Settings.currency[row.currency]}(#{row.currency})"
   end
 end
