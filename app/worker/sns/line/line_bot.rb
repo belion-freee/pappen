@@ -103,28 +103,33 @@ module Sns::Line::LineBot
     events = Event.selected_gid(gid)
 
     if events.blank? || msg.include?("作成")
-      event = Event.new(name: dummy_name, room_members: members)
-      event.save!
+      event_name = (msg.size > 1) ? msg[1] : dummy_name
+      event = Event.new(name: event_name, room_members: members)
 
-      {
-        type:     :template,
-        altText:  "イベントだよ！",
-        template: {
-          type:    :carousel,
-          columns: [
-            {
-              text:    "イベント",
-              actions: [
-                {
-                  type:  :uri,
-                  label: event.name,
-                  uri:   Settings.account.topuru.uri % event.id,
-                },
-              ],
-            },
-          ],
-        },
-      }
+      if event.save
+        {
+          type:     :template,
+          altText:  "イベントだよ！",
+          template: {
+            type:    :carousel,
+            columns: [
+              {
+                text:    "イベント",
+                actions: [
+                  {
+                    type:  :uri,
+                    label: event.name,
+                    uri:   Settings.account.topuru.uri % event.id,
+                  },
+                ],
+              },
+            ],
+          },
+        }
+      else
+        { type: "text", text: event.errors.full_messages.unshift("登録に失敗しました。").join("\n") }
+      end
+
     else
       events_carousel(events)
     end
