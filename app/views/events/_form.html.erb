@@ -14,24 +14,6 @@
       </div>
     </div>
     <div class="form-group">
-      <%= label_tag :from_date, model_class.human_attribute_name(:place), class: 'control-label col-lg-2 text-left' %>
-      <div class="col-lg-6 col-xs-10">
-        <%= f.text_field :place, class: 'form-control' %>
-      </div>
-    </div>
-    <div class="form-group">
-      <%= label_tag :from_date, model_class.human_attribute_name(:start), class: 'control-label col-lg-2 text-left' %>
-      <div class="col-lg-6 col-xs-10">
-        <%= f.date_field :start, class: 'form-control' %>
-      </div>
-    </div>
-    <div class="form-group">
-      <%= label_tag :from_date, model_class.human_attribute_name(:end), class: 'control-label col-lg-2 text-left' %>
-      <div class="col-lg-6 col-xs-10">
-        <%= f.date_field :end, class: 'form-control' %>
-      </div>
-    </div>
-    <div class="form-group">
       <%= label_tag :from_date, model_class.human_attribute_name(:memo), class: 'control-label col-lg-2 text-left' %>
       <div class="col-lg-8 col-xs-12">
         <%= f.text_area :memo, class: 'form-control', rows: 3, placeholder: model_class.human_attribute_name(:memo) %>

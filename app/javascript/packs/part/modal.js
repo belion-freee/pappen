@@ -130,18 +130,12 @@ $(() => {
 
       // input form
       form.find("#event_name").val(e.currentTarget.innerText)
-      form.find("#event_place").val($("#event-place").attr("value"))
-      form.find("#event_start").val($("#event-start").attr("value"))
-      form.find("#event_end").val($("#event-end").attr("value"))
       form.find("#event_memo").val($("#event-memo p").text())
 
       let body = (form) => {
         return {
           event: {
            name: form.find("#event_name").val(),
-           place: form.find("#event_place").val(),
-           start: form.find("#event_start").val(),
-           end: form.find("#event_end").val(),
            room_member_ids: form.find("#event_room_members").val(),
            memo: form.find("#event_memo").val(),
           }
