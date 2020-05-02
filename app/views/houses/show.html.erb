@@ -30,6 +30,11 @@
 
 <!-- chart -->
 <div class="row mb-2">
+<%= content_tag(:canvas, "", data: { title: "月別グラフ", labels: @monthly_summary.keys.map {|r| r.strftime("%Y/%m") }.to_json.html_safe, numbers: @monthly_summary.values.to_json.html_safe }, id: "lineGraph") %>
+</div>
+
+<!-- chart -->
+<div class="row mb-2">
 <%= content_tag(:canvas, "", data: { title: "項目別グラフ", labels: HouseExpenditure::CATEGORY.values.to_json.html_safe, numbers: HouseExpenditure::CATEGORY.keys.map {|key| @groups[key]&.map(&:payment)&.inject(:+) || 0 }.to_json.html_safe }, id: "pieGraph") %>
 </div>
 
@@ -47,4 +52,5 @@
 
 <script>
   graph.Pie("pieGraph");
+  graph.Line("lineGraph");
 </script>

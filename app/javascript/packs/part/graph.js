@@ -91,5 +91,43 @@ export default {
         'rgba(0, 255, 0, 0.8)'
       ]
     )
-  }
+  },
+
+  Line(id) {
+    const element = document.getElementById(id);
+    const ctx = element.getContext('2d');
+    const data = element.dataset;
+
+    ctx.canvas.height = 250;
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: JSON.parse(data.labels),
+            datasets: [{
+                data: JSON.parse(data.numbers),
+                backgroundColor: "rgb(255, 99, 132)",
+                borderColor: "rgb(255, 99, 132)",
+                fill: false
+            }],
+        },
+        options: {
+          responsive: true,
+          title: {
+            display: true,
+            text: data.title
+          },
+          legend: {
+            display: false
+          },
+          tooltips: {
+            callbacks: {
+              label: (tooltipItem) => {
+                return tooltipItem.yLabel;
+              }
+            }
+          }
+        }
+    });
+  },
 }

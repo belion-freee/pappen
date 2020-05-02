@@ -4,6 +4,7 @@ class HousesController < ApplicationController
   def show
     @members = RoomMember.names(@house.room_members.first.gid)
     @house_expenditures = HouseExpenditure.search(@house.id, target_date)
+    @monthly_summary = HouseExpenditure.monthly_summary(@house.id)
     @groups = @house_expenditures.group_by(&:category)
     accounting = HouseExpenditure.accounting(@house_expenditures, @house.room_members)
     @accountings = {
