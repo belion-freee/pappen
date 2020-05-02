@@ -28,35 +28,43 @@ class HouseExpenditure < ApplicationRecord
     includes(:house_expenditure_margins).where(house_id: id, entry_date: date..date.end_of_month).order(entry_date: :desc)
   }
 
-  scope :accounting, ->(records, members) {
-    return [] if records.blank?
-    count = members.count
-    payments = records.group_by(&:room_member_id)
-    members.order(:id).map {|user|
-      payment = payments[user.id]&.map(&:payment)&.inject(:+) || 0
-      repayment = records.map {|r|
-        if r.house_expenditure_margins.present?
-          hem = r.house_expenditure_margins.find {|f| f.room_member_id == user.id }
-          hem.margin.nil? ? hem.fixed : (r.payment * (hem.margin.to_f / 100)).round
-        else
-          (r.payment.to_f / count).round
-        end
+  class << self
+    def accounting(records, members)
+      return [] if records.blank?
+      count = members.count
+      payments = records.group_by(&:room_member_id)
+      members.order(:id).map {|user|
+        payment = payments[user.id]&.map(&:payment)&.inject(:+) || 0
+        repayment = records.map {|r|
+          if r.house_expenditure_margins.present?
+            hem = r.house_expenditure_margins.find {|f| f.room_member_id == user.id }
+            hem.margin.nil? ? hem.fixed : (r.payment * (hem.margin.to_f / 100)).round
+          else
+            (r.payment.to_f / count).round
+          end
+        }
+        repayment = repayment.map(&:to_i).inject(:+)
+        {
+          room_member: user.name,
+          payment:     payment,
+          repayment:   repayment,
+          amount:      (payment - repayment),
+        }
       }
-      repayment = repayment.map(&:to_i).inject(:+)
-      {
-        room_member: user.name,
-        payment:     payment,
-        repayment:   repayment,
-        amount:      (payment - repayment),
-      }
-    }
-  }
+    end
 
-  scope :summary, -> {
-    all.group_by(&:category).map {|category, arr|
-      [category, arr.map(&:payment).inject(:+)]
-    }.to_h
-  }
+    def summary
+      all.group_by(&:category).map {|category, arr|
+        [category, arr.map(&:payment).inject(:+)]
+      }.to_h
+    end
+
+    def monthly_summary(house_id, period = nil)
+      period ||= Time.now.ago(6.month).beginning_of_month..Time.now.end_of_month
+      column = "date_trunc('month', entry_date)::date"
+      where(house_id: house_id, entry_date: period).group(column).order(column).sum(:payment)
+    end
+  end
 
   private
 
