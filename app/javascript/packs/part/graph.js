@@ -121,12 +121,18 @@ export default {
             display: false
           },
           tooltips: {
+            mode: 'index',
+            intersect: false,
             callbacks: {
               label: (tooltipItem) => {
                 return tooltipItem.yLabel;
               }
             }
-          }
+          },
+          hover: {
+            mode: 'nearest',
+            intersect: true
+          },
         }
     });
   },
