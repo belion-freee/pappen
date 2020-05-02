@@ -59,8 +59,8 @@ class HouseExpenditure < ApplicationRecord
       }.to_h
     end
 
-    def monthly_summary(house_id, period = nil)
-      period ||= Time.now.ago(6.month).beginning_of_month..Time.now.end_of_month
+    def monthly_summary(house_id, date = Time.now)
+      period = date.ago(6.month).beginning_of_month..date.end_of_month
       column = "date_trunc('month', entry_date)::date"
       where(house_id: house_id, entry_date: period).group(column).order(column).sum(:payment)
     end
