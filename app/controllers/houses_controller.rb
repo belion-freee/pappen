@@ -1,5 +1,7 @@
 class HousesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_house, only: %i[show update]
+  before_action :member?, only: %i[show update]
 
   def show
     @members = RoomMember.names(@house.room_members.first.gid)
@@ -35,5 +37,11 @@ class HousesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def permitted_params
       params.require(:house).permit(:name, :memo, room_member_ids: [])
+    end
+
+    def member?
+      room_members = House.find_by(hid: params[:id])&.room_members || []
+      members = RoomMember.where(uid: current_user.line_user&.uid)
+      head :unauthorized if (room_members & members).blank?
     end
 end

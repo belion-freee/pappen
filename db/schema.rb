@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191120030001) do
+ActiveRecord::Schema.define(version: 20210201045941) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,12 +18,10 @@ ActiveRecord::Schema.define(version: 20191120030001) do
   create_table "events", primary_key: "eid", id: :string, force: :cascade do |t|
     t.bigserial "id", null: false
     t.string "name", null: false
-    t.string "place"
-    t.datetime "start"
-    t.datetime "end"
     t.text "memo"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "currency", default: "JPY"
   end
 
   create_table "exempt_members", force: :cascade do |t|
@@ -53,6 +51,7 @@ ActiveRecord::Schema.define(version: 20191120030001) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "memo"
+    t.string "currency", default: "JPY"
   end
 
   create_table "house_expenditure_margins", force: :cascade do |t|
@@ -116,6 +115,7 @@ ActiveRecord::Schema.define(version: 20191120030001) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
   end
 
   create_table "maxims", force: :cascade do |t|
@@ -153,6 +153,18 @@ ActiveRecord::Schema.define(version: 20191120030001) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "exempt_members", "expenses"

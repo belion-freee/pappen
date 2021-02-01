@@ -1,6 +1,7 @@
 class LineUser < ApplicationRecord
   self.primary_key = "code"
 
+  belongs_to :user, optional: true
   has_many :expenditures, dependent: :destroy
 
   validates :uid,   presence: true
