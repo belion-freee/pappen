@@ -1,9 +1,6 @@
 class Sns::Line::Message < Sns::Line::Base
   # if you add method to LineBotModules, you need to add new set to this hash.
   REQUEST_DISTRIBUTOR = {
-    google_books:          %w[本 書籍 ブック],
-    livedoor_weather:      %w[天気 天候 ウェザー],
-    google_place:          %w[地図 所在地 施設 マップ],
     topuru:                %w[トプル イベント],
     house:                 %w[家計簿],
     user_register_confirm: %w[ユーザー登録],

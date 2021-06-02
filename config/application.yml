@@ -5,15 +5,7 @@ defaults: &defaults
     success: '200'
   account:
     line:
-      bot_name: ぱっぷん
-    google:
-      uri:
-        book_search:  https://www.googleapis.com/books/v1/volumes
-        place_search: https://maps.googleapis.com/maps/api/place/nearbysearch/json
-        youtube_search: https://www.googleapis.com/youtube/v3/search
-    livedoor:
-      weather:
-        uri: http://weather.livedoor.com/forecast/webservice/json/v1
+      bot_name: ルル
     topuru:
       uri: https://pappen.herokuapp.com/events/%s
     expenditure:
@@ -25,14 +17,6 @@ defaults: &defaults
         talk: https://api.a3rt.recruit-tech.co.jp/talk/v1/smalltalk
     gogogs:
       uri: https://gogo.gs/%s
-  maxim:
-    category:
-      movie: 映画
-      anime: 漫画・アニメ
-      novel: 小説
-      hero:  偉人
-      joke:  迷言
-      other: その他
 
   prefectures:
     - 北海道

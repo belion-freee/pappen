@@ -89,18 +89,13 @@
     padding-bottom: inherit;
   }
 
-  .maxim-tweet {
+  .home-title {
     color: white;
     position: absolute;
     line-height: 200px;
   }
 
-  .maxim-index {
-    color: gray;
-    letter-spacing: .2em;
-  }
-
-  .tweet-link {
+  .help-link {
     position: absolute;
     right: 0;
     left: 0;
@@ -114,35 +109,12 @@
     font-weight: 150;
   }
 
-  .maxim-link {
-    font-size: 20px;
-    font-family: 'Playfair Display', serif;
-    color: gray;
-    text-shadow: 0 2px 0 rgba(black, .1);
-    font-size: 25px;
-    font-weight: 300;
-  }
-
   .pt-2 {
     padding-top: 20px;
     padding-bottom: 20px;
   }
 
-  .tweet-index-link {
-    position: absolute;
-    right: 0;
-    left: 0;
-    text-align: center;
-    top: 350px;
-    font-size: 20px;
-    font-family: 'Playfair Display', serif;
-    color: white;
-    text-shadow: 0 2px 0 rgba(black, .1);
-    font-size: 20px;
-    font-weight: 150;
-  }
-
-  .tweet-text {
+  .home-text {
     position: absolute;
     right: 0;
     left: 0;
