@@ -17,6 +17,9 @@ defaults: &defaults
         talk: https://api.a3rt.recruit-tech.co.jp/talk/v1/smalltalk
     gogogs:
       uri: https://gogo.gs/%s
+    chaplus:
+      uri:
+        chat: https://www.chaplus.jp/v1/chat
 
   prefectures:
     - 北海道

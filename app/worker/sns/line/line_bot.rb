@@ -6,7 +6,7 @@ module Sns::Line::LineBot
 
     {
       type: "text",
-      text: A3rt::Base.new.talk(text),
+      text: Chaplus::Base.new.chat(text),
     }
   end
 
