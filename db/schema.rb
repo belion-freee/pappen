@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210201045941) do
+ActiveRecord::Schema.define(version: 20210601045941) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,7 +21,6 @@ ActiveRecord::Schema.define(version: 20210201045941) do
     t.text "memo"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "currency", default: "JPY"
   end
 
   create_table "exempt_members", force: :cascade do |t|
@@ -48,10 +47,9 @@ ActiveRecord::Schema.define(version: 20210201045941) do
     t.string "event_id"
     t.integer "room_member_id"
     t.integer "payment"
+    t.text "memo"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "memo"
-    t.string "currency", default: "JPY"
   end
 
   create_table "house_expenditure_margins", force: :cascade do |t|
@@ -103,12 +101,6 @@ ActiveRecord::Schema.define(version: 20210201045941) do
     t.index ["uid"], name: "index_last_location_infos_on_uid", unique: true
   end
 
-  create_table "last_maxim_infos", force: :cascade do |t|
-    t.integer "maxim_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "line_users", force: :cascade do |t|
     t.string "code", null: false
     t.string "uid", null: false
@@ -116,16 +108,6 @@ ActiveRecord::Schema.define(version: 20210201045941) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
-  end
-
-  create_table "maxims", force: :cascade do |t|
-    t.string "category"
-    t.string "remark"
-    t.string "author"
-    t.string "source"
-    t.string "url"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "room_member_events", force: :cascade do |t|

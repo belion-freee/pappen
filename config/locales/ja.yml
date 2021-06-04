@@ -1,11 +1,4 @@
 ja:
-  maxims:
-    index:
-      title: "All Remarks"
-    new:
-      title: "Make Remarks!"
-    edit:
-      title: "Do you wana Edit?"
   views:
     pagination:
       first:    '<<'
@@ -42,14 +35,12 @@ ja:
       root:      "ホーム"
       new:       "新規作成"
       create:    "作成"
-      new-maxim: "名言を追加しますか？"
       edit:      "編集"
       show:      "詳細"
       back:      "戻る"
       destroy:   "削除"
       cancel:    "キャンセル"
       confirm:   "本当によろしいですか?"
-      tweet:     "ツイート！"
       selectall: "全て選択"
       search:    検索
       summary:   合計額
@@ -63,7 +54,6 @@ ja:
       expense_index: 出費表
       accounting:    会計表
       expenditures:  確定申告支出表
-      maxims:        名言一覧
     attributes:
       accounting:
         room_member: 支払者
@@ -83,7 +73,6 @@ ja:
           display_entries: " %{entry_name} <b>%{first}&nbsp;-&nbsp;%{last}</b> までを表示中　全体で <b>%{total}</b> 件"
   activerecord:
     models:
-      maxims:      名言
       room_member: ルームメンバー
       event:       イベント
       expense:     支払表
@@ -94,12 +83,6 @@ ja:
         id: ID
         created_at: 作成時刻
         updated_at: 更新時刻
-      maxim:
-        <<: *base
-        category: カテゴリー
-        remark:   セリフ
-        author:   発言者
-        source:   出典
       room_member:
         <<: *base
         name: ユーザー名

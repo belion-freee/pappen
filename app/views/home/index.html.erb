@@ -3,28 +3,19 @@
 <div class='wave three'></div>
 <div class="content">
   <div class="row">
-    <h1 class="maxim-tweet">Topuru</h1>
+    <h1 class="home-title">Ruru</h1>
   </div>
   <div class="row">
-    <p class="tweet-text">
-      <a class="sub-title" id="tweet-maxim" href="#" data-url="<%= tweet_url %>" data-category='<%= Settings.maxim.category.to_json.html_safe %>'>
-        <strong>Tweet Now</strong>
-      </a>
+    <p class="home-text">
+      <%= link_to "LINE Bot", "https://page.line.me/?accountId=kbr5443s&openerPlatform=native&openerKey=talkroom%3Aheader#mst_challenge=dcfkvBhC8rVSJOQE6pqo4i-TbOtcv4gImKvvI0VNObw", class: "sub-title" %>
     </p>
   </div>
   <div class="row">
     <p class="text-center">
-      <%= link_to "Or new create?", "#", data: { url: maxims_url, title: "New Remarks!", method: "POST"  }, class: "button tweet-link", id: "new-maxims" %>
-    </p>
-  </div>
-  <div class="row">
-    <p class="text-center">
-      <a class="button tweet-index-link" href="maxims">Show remarks</a>
+      <%= link_to "使い方", "https://github.com/belion-freee/pappen", class: "button help-link" %>
     </p>
   </div>
 </div>
-
-<%= render partial: 'maxims/form' %>
 
 <script>
   $(function () {
