@@ -13,6 +13,7 @@ import 'src/application.scss';
 import './part/modal';
 import 'jq-accordion/dist/js/jquery.accordion';
 import Graph from './part/graph';
+import tippy from 'tippy.js';
 
 // To reference images, add <%= asset_pack_path 'images/hoge.png' %> to View files
 require.context('img', true, /\.(png|jpg|jpeg|svg)$/);
@@ -21,6 +22,11 @@ window.$ = window.jQuery = require('jquery');
 window.graph = Graph;
 
 $(function () {
+  // ツールチップ初期化
+  tippy("[data-tippy-content]", {
+    allowHTML: true
+  });
+
   // accordion
   $('.accordion').accordion({
     "transitionSpeed": 600
