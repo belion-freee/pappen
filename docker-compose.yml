@@ -6,6 +6,8 @@ services:
       - "5432:5432"
     volumes:
       - data:/var/lib/postgresql/data:cached
+    environment:
+      POSTGRES_PASSWORD: postgres
   chrome:
     image: selenium/standalone-chrome
     ports:
