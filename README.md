@@ -1,7 +1,7 @@
 # Projects
 なんとなく自分で使ってみたいツールを趣味で作ってる。作りは雑だが気にするな。
 
-[アプリのホームページ](http://pappen.herokuapp.com/)
+[アプリのホームページ](https://pappen.herokuapp.com/)
 
 何か問題や要望があれば[こっち](https://github.com/belion-freee/pappen/issues)に記載してね。日本語でおｋ。
 
@@ -16,7 +16,7 @@
 
 年収だけじゃなくて、課税所得額や社会保障費を入力できる。
 
-http://pappen.herokuapp.com/hurusato
+https://pappen.herokuapp.com/hurusato
 
 ## ルル
 色々なことができるLineBot。以下に機能を列挙していく。
