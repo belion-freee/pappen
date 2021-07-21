@@ -1,14 +1,22 @@
 # Projects
 なんとなく自分で使ってみたいツールを趣味で作ってる。作りは雑だが気にするな。
 
+[アプリのホームページ](https://pappen.herokuapp.com/)
+
 何か問題や要望があれば[こっち](https://github.com/belion-freee/pappen/issues)に記載してね。日本語でおｋ。
 
 作った人に直接問い合わせる場合は[彼](mailto:belion.freee@gmail.com?subject=問い合わせ&body=以下に要件を記載してください。)にお願いします。
 
 ![dabritbumaahalm](https://user-images.githubusercontent.com/34331230/45134105-bc4a4580-b1d3-11e8-8c81-9f535de68397.jpg)
 
-
 # Services
+
+## ふるさと納言
+ふるさと納税の寄付金限度額をちょっと詳しく調べられるシミュレーション。
+
+年収だけじゃなくて、課税所得額や社会保障費を入力できる。
+
+https://pappen.herokuapp.com/hurusato
 
 ## ルル
 色々なことができるLineBot。以下に機能を列挙していく。
@@ -18,14 +26,7 @@
 ***
 
 ### 友達追加
-1. 以下の画像をダウンロード
-2. Lineアプリを起動
-3. 友達追加ボタンを押す
-4. QRコードから追加するボタンを押す
-5. 右下のライブラリを選択する
-6. ライブラリからダウンロードしたQRコードを指定
-
-![jgyghkrhim](https://user-images.githubusercontent.com/34331230/45133814-3679ca80-b1d2-11e8-8766-d8d4b77ddf6d.png)
+お使いのデバイスにLINEをインストールしていれば、[こちら](https://page.line.me/?accountId=kbr5443s&openerPlatform=native&openerKey=talkroom%3Aheader#mst_challenge=dcfkvBhC8rVSJOQE6pqo4i-TbOtcv4gImKvvI0VNObw)から友達追加できます。
 
 ***
 

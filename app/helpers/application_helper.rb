@@ -21,4 +21,9 @@ module ApplicationHelper
       }.to_h
     }.inject(:merge)
   end
+
+  def tooltip_tag(content)
+    return if content.blank?
+    image_pack_tag "img/help.svg", width: 16, height: 16, data: { "tippy-content" => content }, style: "display: inline-block"
+  end
 end

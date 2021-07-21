@@ -1,0 +1,53 @@
+<h2>ふるさと納言</h2>
+<div class="row mb-2">
+  <h5>ふるさと納税の寄付金限度額を計算することができます。</h5>
+  <h5><strong>給与所得額か課税所得額のどちらか  </strong>を入力して送信ボタンを押してください。</h5>
+  <h5>画面下に結果が表示されます。</h5>
+  <h5>計算式は<%= link_to "総務省のページ", "https://www.soumu.go.jp/main_sosiki/jichi_zeisei/czaisei/czaisei_seido/furusato/mechanism/deduction.html", target: "_blank" %>でご確認ください。</h5>
+</div>
+<div class="row">
+  <%= form_for :hurusato, url: maximum_hurusato_index_path, remote: true, method: :get, html: {class: "form-horizontal"} do |f| %>
+  <div class="form-group input-group-sm">
+    <div>
+      <%= content_tag :label, "給与所得額(年収)", class: :h5, style: "display: inline-block" %>
+      <%= tooltip_tag("控除を差し引く前の額面での年収です。給与明細などから確認してください。") %>
+    </div>
+    <div class="col-lg-3 col-xs-10">
+      <%= f.number_field :annual_income, class: 'form-control', placeholder: "3,000,000円" %>
+    </div>
+  </div>
+  <div class="form-group input-group-sm">
+    <div>
+      <%= content_tag :label, "課税標準額", class: :h5, style: "display: inline-block" %>
+      <%= tooltip_tag("所得額から経費や社会保障費などを除いた額です。住民税の支払い通知書などから確認してください。") %>
+    </div>
+    <span data-tippy-content="Tooltip" class="tooltip">Text</span>
+    <div class="col-lg-3 col-xs-10">
+      <%= f.number_field :taxable_income, class: 'form-control', placeholder: "2,000,000円" %>
+    </div>
+  </div>
+  <div class="form-group input-group-sm">
+    <div>
+      <%= content_tag :label, "住民税の税率(任意)", class: :h5, style: "display: inline-block" %>
+      <%= tooltip_tag("市民税と県民税を合算した税率です。お住まいの自治体のホームページなどで確認してください。<br>殆どの自治体で10%で設定されているので、デフォルトでは10%で設定しています。") %>
+    </div>
+    <div class="col-lg-3 col-xs-10">
+      <%= f.number_field :municipal_tax, class: 'form-control', placeholder: "10.00%", step: 0.01 %>
+    </div>
+  </div>
+  <div class="form-group input-group-sm">
+    <div>
+      <%= content_tag :label, "社会保障費(任意)", class: :h5, style: "display: inline-block" %>
+      <%= tooltip_tag("年金や健康保険料を合算した額です。給与明細などから確認してください。<br>半分は会社が負担していることに注意してください。<br>デフォルトでは年収の15%で設定しています。") %>
+    </div>
+    <div class="col-lg-3 col-xs-10">
+      <%= f.number_field :social_security_expenses, class: 'form-control', placeholder: "450,000円" %>
+    </div>
+  </div>
+  <div class="form-group input-group-sm">
+    <%= f.submit "送信", class: "btn btn-sm btn-primary" %>
+  </div>
+  <% end %>
+
+  <%= render partial: "maximum" %>
+</div>

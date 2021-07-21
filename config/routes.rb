@@ -7,6 +7,10 @@ Rails.application.routes.draw do
   get "/alive", to: "alive#index", as: :alive # for health check
   get "/debug", to: "home#debug", as: :debug  # for debug
 
+  resources :hurusato, only: %i[index] do
+    get :maximum, on: :collection
+  end
+
   resources :line_users, only: %i[] do
     resources :expenditures, only: %i[index create update destroy]
   end

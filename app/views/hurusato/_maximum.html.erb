@@ -1,0 +1,10 @@
+<div id="hurusato_maximum">
+  <% if @maximum %>
+    <h5>あなたのふるさと納税の寄付金限度額は</h5>
+    <h5><strong><%= m(@maximum) %></strong>です。</h5>
+  <% end %>
+  <% if @error %>
+    <h5>エラーになりました。</h5>
+    <h6>エラーメッセージ : <%= @error %></h6>
+  <% end %>
+</div>
