@@ -12,7 +12,9 @@ class Sns::Line::Base
       config.channel_token  = env(:line_channel_token)
     end
 
-    raise "シグネチャが不正です" unless client.validate_signature(request.raw_post, request.headers["X-Line-Signature"])
+    unless Rails.env.development?
+      raise "シグネチャが不正です" unless client.validate_signature(request.raw_post, request.headers["X-Line-Signature"])
+    end
 
     @reply_token = content["replyToken"]
     @reqest_msg  = content["message"]

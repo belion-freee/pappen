@@ -8,6 +8,7 @@ class Sns::Line::Message < Sns::Line::Base
     event_title:           %w[イベントタイトル],
     expenditure:           %w[経費申請],
     expenditure_confirm:   %w[収支確認],
+    hurusato:              %w[ふるさと納税 寄付金],
     leave:                 %w[もう大丈夫だよ],
     help:                  %w[ヘルプ],
   }.freeze

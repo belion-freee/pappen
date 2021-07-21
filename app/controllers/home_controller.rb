@@ -12,8 +12,19 @@ class HomeController < ApplicationController
   end
 
   def debug
-    reply = { title: "this is debug" }
     # TODO: describe debug code you wanna trace
+    content = {
+      replyToken: :reply_token,
+      message: {
+        text: "ふるさと納税",
+        type: :text,
+      },
+      source: {
+        type: :user
+      },
+    }.deep_stringify_keys
+    res = Sns::Line::Message.new(request, content).callback
+    reply = { data: res }
     render json: reply
   end
 end

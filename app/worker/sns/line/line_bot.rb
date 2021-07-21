@@ -198,6 +198,13 @@ module Sns::Line::LineBot
     leave_bot(opts[:gid], opts[:type])
   end
 
+  def hurusato(_, _)
+    {
+      type: "text",
+      text: "リンクからふるさと納税の寄付金限度額が確認できるよ#{uni(0x10008D)}\nhttp://pappen.herokuapp.com/hurusato",
+    }
+  end
+
   private
 
     def events_carousel(events)
