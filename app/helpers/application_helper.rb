@@ -15,7 +15,7 @@ module ApplicationHelper
   end
 
   def date_options
-    (2019..2021).map {|year|
+    (2019..2023).map {|year|
       (1..12).map {|month|
         [format("%02d年%02d月", year, month), format("%02d%02d", year, month)]
       }.to_h
