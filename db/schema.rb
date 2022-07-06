@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210601045941) do
+ActiveRecord::Schema.define(version: 20220707020000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,16 @@ ActiveRecord::Schema.define(version: 20210601045941) do
     t.text "memo"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "house_bills", force: :cascade do |t|
+    t.string "house_id", null: false
+    t.date "entry_date", null: false
+    t.boolean "done", default: false, null: false
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["house_id"], name: "index_house_bills_on_house_id"
   end
 
   create_table "house_expenditure_margins", force: :cascade do |t|
@@ -152,6 +162,7 @@ ActiveRecord::Schema.define(version: 20210601045941) do
   add_foreign_key "exempt_members", "expenses"
   add_foreign_key "exempt_members", "room_members"
   add_foreign_key "expenses", "events", primary_key: "eid"
+  add_foreign_key "house_bills", "houses", primary_key: "hid"
   add_foreign_key "house_expenditure_margins", "house_expenditures"
   add_foreign_key "house_expenditure_margins", "room_members"
   add_foreign_key "house_expenditures", "houses", primary_key: "hid"

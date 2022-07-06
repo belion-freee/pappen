@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   end
 
   resources :houses, only: %i[show update] do
+    post :bill
     resources :house_expenditures, only: %i[update create destroy]
   end
 end

@@ -64,4 +64,26 @@ $(function () {
       window.alert('正しい結果を得られませんでした');
     });
   });
+
+  $("#house_bill_done").on("change", function (e) {
+    // store form HTML markup in a JS variable
+    var checkbox = $(e.currentTarget);
+    var checked = checkbox.prop("checked");
+    var path = checkbox.data("path");
+    var date = $("#house_date").find("option:selected").prop("value");
+
+    $.ajax(path, {
+      type: 'post',
+      data: { done: checked, date: date },
+      dataType: 'json'
+    }).done(function (data) {
+      if (data.done) {
+        window.alert('精算しました。');
+      } else {
+        window.alert('未精算にしました。');
+      }
+    }).fail(function () {
+      window.alert('処理に失敗しました。');
+    });
+  });
 });
