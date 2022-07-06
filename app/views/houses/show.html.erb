@@ -39,6 +39,16 @@
 </div>
 
 <!-- accounting -->
+<div class="row mb-2">
+  <div class="form-group">
+    <div class="col-lg-3 col-xs-8">
+      <%= check_box 'house_bill', 'done', { checked: !!@house_bill&.done, data: { path: house_bill_path(@house) } }, true, false %>
+      <%= content_tag(:strong, "精算済み") %>
+    </div>
+  </div>
+</div>
+
+<!-- accounting -->
 <%= render partial: 'accounting' %>
 
 <!-- expenditures index -->

@@ -13,6 +13,7 @@ class HousesController < ApplicationController
       total: @house_expenditures.map(&:payment).inject(:+),
       bill:  accounting,
     }
+    @house_bill = @house.house_bills.find_or_create_by(entry_date: target_date)
   end
 
   def update
@@ -21,6 +22,12 @@ class HousesController < ApplicationController
     else
       render json: { errors: @house.errors.full_messages }, status: :bad_request
     end
+  end
+
+  def bill
+    blog = HouseBill.find_by(house_id: params[:house_id], entry_date: target_date)
+    blog.update!(done: ActiveRecord::Type::Boolean.new.cast(params[:done]), user_id: current_user.id)
+    render json: { done: blog.done }
   end
 
   private
