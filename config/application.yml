@@ -7,11 +7,11 @@ defaults: &defaults
     line:
       bot_name: ルル
     topuru:
-      uri: https://pappen.herokuapp.com/events/%s
+      uri: https://pappen.onrender.com/events/%s
     expenditure:
-      uri: https://pappen.herokuapp.com/line_users/%s/expenditures
+      uri: https://pappen.onrender.com/line_users/%s/expenditures
     house:
-      uri: https://pappen.herokuapp.com/houses/%s
+      uri: https://pappen.onrender.com/houses/%s
     a3rt:
       uri:
         talk: https://api.a3rt.recruit-tech.co.jp/talk/v1/smalltalk
