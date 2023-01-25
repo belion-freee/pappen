@@ -4,10 +4,21 @@ module Sns::Line::LineBot
   def chat(msg, **opts)
     text = msg.try(:first) || "hello"
 
-    {
-      type: "text",
-      text: Chaplus::Base.new.chat(text),
-    }
+    res = Chatgpt::Base.new.chat(text)
+
+    if res.is_a?(Array)
+      res.map {|message|
+        {
+          type: "text",
+          text: message,
+        }
+      }
+    else
+      {
+        type: "text",
+        text: "処理できませんでした",
+      }
+    end
   end
 
   def topuru(msg, **opts)

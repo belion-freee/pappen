@@ -20,6 +20,9 @@ defaults: &defaults
     chaplus:
       uri:
         chat: https://www.chaplus.jp/v1/chat
+    chatgpt:
+      uri:
+        talk: https://api.openai.com/v1/completions
 
   prefectures:
     - 北海道
