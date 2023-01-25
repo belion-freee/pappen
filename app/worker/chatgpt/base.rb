@@ -11,8 +11,7 @@ class Chatgpt::Base
     body = {
       model: "text-davinci-003",
       prompt: word,
-      max_tokens: 7,
-      temperature: 0
+      max_tokens: 4000
     }
 
     uri = URI.parse(@uri)
