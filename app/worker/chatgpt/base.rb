@@ -35,7 +35,7 @@ class Chatgpt::Base
     res = JSON.parse(response.body)
 
     if res["error"].blank?
-      res["choices"].map {|choice| choice["text"] }
+      res["choices"].map {|choice| choice["text"].gsub(/^\n\n/, "") }
     else
       ["Error : #{res["error"]["message"]}"]
     end
